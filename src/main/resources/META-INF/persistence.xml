@@ -7,7 +7,9 @@
   <persistence-unit name="purpleproject_PU" transaction-type="JTA">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <jta-data-source>java:app/jdbc/jsfshowcase</jta-data-source>
-    <exclude-unlisted-classes/>
+    <class>edu.wctc.distjava.purpleproject.domain.Department</class>
+    <class>edu.wctc.distjava.purpleproject.domain.Employee</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
       <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>

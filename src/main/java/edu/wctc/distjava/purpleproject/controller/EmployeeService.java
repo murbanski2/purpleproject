@@ -3,6 +3,7 @@ package edu.wctc.distjava.purpleproject.controller;
 import edu.wctc.distjava.purpleproject.domain.Employee;
 import edu.wctc.distjava.purpleproject.domain.EmployeeEAO;
 import java.util.*;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
@@ -30,6 +31,9 @@ import javax.inject.Named;
 public class EmployeeService {
     @EJB
     private EmployeeEAO empEAO;
+    
+    // Don't need this unless using @PostConstruct to cache
+//    private List<Employee> employeeList;
 
     /**
      * Creates a new instance of EmployeeService
@@ -37,8 +41,23 @@ public class EmployeeService {
     public EmployeeService() {
     }
     
+    // Don't need this unless we want to cache
+//    @PostConstruct
+//    private void initEmployeeList() {
+//        employeeList = empEAO.findAll();
+//    }
+    
     /**
-     * Delegate to the employeeEAO to get the data.
+     * Delegate to the employeeEAO to get the data. Notice that we have
+     * a getter method and no matching property. Technically the property
+     * isn't needed if all we want to do is get the list each method access.
+     * But in the JSF view page, we reference the property. JSF automatically
+     * looks for the matching getter method.
+     * 
+     * However, if we wanted to pre-fetch the employee list (assuming it
+     * wouldn't change often) we could create a property and fill it from
+     * within a separate method annotated with @PostConstruct (see above).
+     * 
      * @return list of entity objects or empty list of non found.
      */
     public List<Employee> getEmployeeList() {

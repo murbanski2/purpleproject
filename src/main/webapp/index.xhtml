@@ -24,8 +24,9 @@
 
         <title>Home</title>
 
-        <!-- h:outputStylesheet name="default.css" library="css" / -->
-        <!-- link rel="SHORTCUT ICON" href="/blueproject/favicon.ico"/ -->
+        <h:outputStylesheet name="default.css" library="css" />
+        <h:outputStylesheet name="cssLayout.css" library="css" />
+        <link rel="SHORTCUT ICON" href="/purpleproject/favicon.ico"/>
     </h:head>
     <h:body>
         <h:form id="form1">
@@ -38,19 +39,19 @@
                     <f:facet name="header">
                         <h:outputText value="Last Name" />
                     </f:facet>
-                    <h:outputText value="#{emp.lastName}" />
+                    <h:outputText value="#{emp.lastname}" />
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="First Name" />
                     </f:facet>
-                    <h:outputText value="#{emp.firstName}"/>
+                    <h:outputText value="#{emp.firstname}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Hire Date" />
                     </f:facet>
-                    <h:outputText value="#{emp.hireDate}">
+                    <h:outputText value="#{emp.hiredate}">
                         <f:convertDateTime pattern="MM-dd-yy" />
                     </h:outputText>
                 </h:column>
