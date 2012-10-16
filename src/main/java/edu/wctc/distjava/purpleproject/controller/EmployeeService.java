@@ -19,9 +19,16 @@ import javax.inject.Named;
  * fulfills that role. This is a personal choice, but an appropriate one.
  * 
  * Finally, notice the @EJB annotation. This is one way to inject an 
- * Enterprise Java Bean (EJB). However, CDI also allows the use of the
- * @Inject annotation instead. I like to use @EJB for EJBs and @Inject for
- * other POJOs. (Only CDI allows injection of POJOs.)
+ * Enterprise Java Bean (EJB). However, it requires a java application server
+ * that is a full-stack server like Glassfish. This won't work on servers 
+ * that are just servlet containers or those that don't support EJBs. Another
+ * way to inject objects is to use CDI via the @Inject annotation. Again, you
+ * need a jee6 certified server that supports CDI. I like to use @EJB for EJBs 
+ * and @Inject for other POJOs. (Only CDI allows injection of POJOs.) Were we
+ * to use Spring, we would have all of these capabilities without needing a
+ * JEE 6 certified server -- one of the big advantages of using Spring. And
+ * yet if youd do use Spring on a certified server, Spring is smart of enough
+ * to defer to the server for resource management.
  * 
  * @author     Jim Lombardo
  * @version    1.00
@@ -32,7 +39,8 @@ public class EmployeeService {
     @EJB
     private EmployeeEAO empEAO;
     
-    // Don't need this unless using @PostConstruct to cache
+    // Don't need this unless using @PostConstruct to cache, or if we 
+    // want to call the setter method below.
 //    private List<Employee> employeeList;
 
     /**
@@ -63,4 +71,12 @@ public class EmployeeService {
     public List<Employee> getEmployeeList() {
         return empEAO.findAll();
     }
+
+    // Currently not needed
+//    public void setEmployeeList(List<Employee> employeeList) {
+//        this.employeeList = employeeList;
+//    }
+
+
+    
 }

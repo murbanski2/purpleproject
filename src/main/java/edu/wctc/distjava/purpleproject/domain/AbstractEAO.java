@@ -4,8 +4,15 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
- *
- * @author jlombardo
+ * This class is the general contract for all EAO (Entity Access Objects --
+ * essential a type of DAO) implementations. Put only common methods and
+ * properties in this class.
+ * <P>
+ * Note the use of generics which makes this useable with many different
+ * entity classes.
+ * 
+ * @author  Jim Lombardo
+ * @version 1.00
  */
 public abstract class AbstractEAO<T> {
     private Class<T> entityClass;
