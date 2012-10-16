@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!--
+    ABOUT THIS PROJECT:
+
+    
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:sec="http://www.springframework.org/security/facelets/tags"
+      xmlns:p="http://primefaces.org/ui"      
+      >
+    <h:head>
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+        <meta name="Keywords" content="JSF WCTC JAVA"/>
+        <meta name="Description" content="A basic JSF v2 home page without a template"/>
+        <meta name="Robots" content="index,follow"/>
+
+        <title>Home</title>
+
+        <!-- h:outputStylesheet name="default.css" library="css" / -->
+        <!-- link rel="SHORTCUT ICON" href="/blueproject/favicon.ico"/ -->
+    </h:head>
+    <h:body>
+        <h:form id="form1">
+            <h:dataTable id="empTable" rows="10" value="#{employeeSrv.employeeList}"
+                         var="emp" rowClasses="list-row-odd, list-row-even" width="60%">
+                <f:facet name="header">
+                    Standard JSF dataTable with row styling
+                </f:facet>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Last Name" />
+                    </f:facet>
+                    <h:outputText value="#{emp.lastName}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="First Name" />
+                    </f:facet>
+                    <h:outputText value="#{emp.firstName}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Hire Date" />
+                    </f:facet>
+                    <h:outputText value="#{emp.hireDate}">
+                        <f:convertDateTime pattern="MM-dd-yy" />
+                    </h:outputText>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </h:body>
+
+</html>
+
