@@ -1,8 +1,10 @@
 package edu.wctc.distjava.purpleproject.domain;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  * This class is a Stateless EJB. We need an EJB because we want the methods
@@ -36,7 +38,7 @@ public class EmployeeEAO extends AbstractEAO<Employee> {
     private EntityManager em;
 
     @Override
-    protected EntityManager getEntityManager() {
+    public EntityManager getEntityManager() {
         return em;
     }
 
@@ -44,4 +46,28 @@ public class EmployeeEAO extends AbstractEAO<Employee> {
         super(Employee.class);
     }
 
+    /**
+     * This method delegates is a 'Projection Query" which
+     * means that you get back a List of Object[] instead of an entity. This
+     * is a useful optimization technique because you get back only the raw
+     * data you want instead of entity objects. Also good for joins where
+     * you don't want to deal with Lazy Loading issues.
+     * 
+     * @return - Object[] for each record 
+     */
+    public List getNamesHireDate() {
+        return em.createQuery(
+                            "SELECT e.lastname, e.firstname, e.hiredate " +
+                            "FROM Employee e")
+                    .getResultList();
+    }
+    
+    // Same as above but self-documenting. The choice of style is
+    // a matter of personal preference.
+//    public List<Object[]> getNamesHireDate() {
+//        TypedQuery<Object[]> query = em.createQuery(
+//                            "SELECT e.lastname, e.firstname, e.hiredate " +
+//                            "FROM Employee e", Object[].class);
+//        return query.getResultList();
+//    }
 }

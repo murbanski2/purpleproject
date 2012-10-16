@@ -30,7 +30,7 @@
     </h:head>
     <h:body>
         <h:form id="form1">
-            <h:dataTable id="empTable" rows="10" value="#{employeeSrv.employeeList}"
+            <h:dataTable id="empTable" rows="10" value="#{employeeSrv.namesHireDate}"
                          var="emp" rowClasses="list-row-odd, list-row-even" width="60%">
                 <f:facet name="header">
                     Standard JSF dataTable with row styling
@@ -39,19 +39,19 @@
                     <f:facet name="header">
                         <h:outputText value="Last Name" />
                     </f:facet>
-                    <h:outputText value="#{emp.lastname}" />
+                    <h:outputText value="#{emp[0]}" />
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="First Name" />
                     </f:facet>
-                    <h:outputText value="#{emp.firstname}"/>
+                    <h:outputText value="#{emp[1]}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Hire Date" />
                     </f:facet>
-                    <h:outputText value="#{emp.hiredate}">
+                    <h:outputText value="#{emp[2]}">
                         <f:convertDateTime pattern="MM-dd-yy" />
                     </h:outputText>
                 </h:column>

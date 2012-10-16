@@ -71,12 +71,57 @@ public class EmployeeService {
     public List<Employee> getEmployeeList() {
         return empEAO.findAll();
     }
+    
+    /**
+     * This method delegates to empEAO to produce a 'Projection Query" which
+     * means that you get back a List of Object[] instead of an entity. This
+     * is a useful optimization technique because you get back only the raw
+     * data you want instead of entity objects.
+     * 
+     * @return - Object[] for each record 
+     */
+    public List getNamesHireDate() {
+        return empEAO.getNamesHireDate();
+    }
 
     // Currently not needed
 //    public void setEmployeeList(List<Employee> employeeList) {
 //        this.employeeList = employeeList;
 //    }
 
+    public Employee findById(Integer id) {
+        return empEAO.find(id);
+    }
 
+    public void saveNew(Employee employee) {
+        empEAO.create(employee);
+    }
     
+    public void update(Employee employee) {
+        empEAO.edit(employee);
+    }
+    
+    public void remove(Employee employee) {
+        empEAO.remove(employee);
+    }
+    
+    /**
+     * This method is useful for paging in a data table
+     * 
+     * @param startRecNo - first record in set
+     * @param endRecNo - last record in set. If you need 10 records per
+     * page just add 10-1 to startRecNo.
+     * @return a subset of the the records in the table.
+     */
+    public List<Employee> findRange(int startRecNo, int endRecNo) {
+        return empEAO.findRange(startRecNo, endRecNo);
+    }
+    
+    /**
+     * Gets the total record count for the table.
+     * @return the total record count for the table
+     */
+    public int getRecCount() {
+        return empEAO.getCount();
+    }
 }
