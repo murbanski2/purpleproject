@@ -55,6 +55,10 @@ public class Employee implements Serializable {
     private Date hiredate;
     @Column(name = "version")
     private Integer version;
+    /*
+     * Note that the default fetch strategy for ManyToOne in JPA is:
+     * javax.persistence.FetchType.EAGER
+     */
     @JoinColumn(name = "dept_id", referencedColumnName = "dept_id")
     @ManyToOne
     private Department deptId;

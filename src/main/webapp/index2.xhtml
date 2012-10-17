@@ -3,12 +3,9 @@
 
 <!--
     ABOUT THIS PAGE:
-       This page uses data resulting from a JPA 'Projection Query' which
-       does not return a List of entities, but rather returns a list of
-       Object[] which is one array containing raw data per record. In the
-       index2 page we do the same presentation but use a normal entity
-       query. Compare the two.
-    
+       This page uses data resulting from a JPA 'Entity query' which
+       returns a List of entities. See index.xhtml for an example that
+       returns a 'projection query'.
 -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -34,7 +31,7 @@
     </h:head>
     <h:body>
         <h:form id="form1">
-            <h:dataTable id="empTable" rows="10" value="#{employeeSrv.namesHireDate}"
+            <h:dataTable id="empTable" rows="10" value="#{employeeSrv.employeeList}"
                          var="emp" rowClasses="list-row-odd, list-row-even" width="60%">
                 <f:facet name="header">
                     Employee List From JPA Projection Query
@@ -43,36 +40,39 @@
                     <f:facet name="header">
                         <h:outputText value="ID" />
                     </f:facet>
-                    <h:outputText value="#{emp[0]}" />
+                    <h:outputText value="#{emp.id}" />
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Last Name" />
                     </f:facet>
-                    <h:outputText value="#{emp[1]}" />
+                    <h:outputText value="#{emp.lastname}" />
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="First Name" />
                     </f:facet>
-                    <h:outputText value="#{emp[2]}"/>
+                    <h:outputText value="#{emp.firstname}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Hire Date" />
                     </f:facet>
-                    <h:outputText value="#{emp[3]}">
+                    <h:outputText value="#{emp.hiredate}">
                         <f:convertDateTime pattern="MM-dd-yy" />
                     </h:outputText>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="Action" />
+                        <h:outputText value="Department" />
                     </f:facet>
-                    <h:commandButton id="cmdDelete" value="Delete" action="#{employeeSrv.removeWithAudit(emp[0])}"/>
+                    <h:outputText value="#{emp.deptId.deptName}">
+                        <f:convertDateTime pattern="MM-dd-yy" />
+                    </h:outputText>
                 </h:column>
             </h:dataTable>
-            <h:commandButton id="cmdNextPage" value="Next Page" action="index2"/>
+            <h:commandButton id="cmdPrevPage" value="Previous Page" action="index"/>
+            <h:commandButton id="cmdNextPage" value="Next Page" action="index3"/>
         </h:form>
     </h:body>
 

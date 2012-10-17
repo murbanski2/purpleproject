@@ -1,5 +1,7 @@
 package edu.wctc.distjava.purpleproject.controller;
 
+import edu.wctc.distjava.purpleproject.domain.Department;
+import edu.wctc.distjava.purpleproject.domain.DepartmentEAO;
 import edu.wctc.distjava.purpleproject.domain.Employee;
 import edu.wctc.distjava.purpleproject.domain.EmployeeEAO;
 import java.util.*;
@@ -40,7 +42,8 @@ import javax.inject.Named;
 public class EmployeeService {
     @Inject
     private EmployeeEAO empEAO;
-    
+    @Inject
+    private DepartmentEAO deptEAO;    
     // Don't need this unless using @PostConstruct to cache, or if we 
     // want to call the setter method below.
 //    private List<Employee> employeeList;
@@ -72,6 +75,10 @@ public class EmployeeService {
      */
     public List<Employee> getEmployeeList() {
         return empEAO.findAll();
+    }
+    
+    public List<Department> getDepartmentList() {
+        return deptEAO.findAll();
     }
     
     /**
