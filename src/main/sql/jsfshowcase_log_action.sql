@@ -18,27 +18,28 @@ USE `jsfshowcase`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `department`
+-- Table structure for table `log_action`
 --
 
-DROP TABLE IF EXISTS `department`;
+DROP TABLE IF EXISTS `log_action`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `department` (
-  `dept_id` int(11) NOT NULL AUTO_INCREMENT,
-  `dept_name` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`dept_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+CREATE TABLE `log_action` (
+  `log_id` int(11) NOT NULL AUTO_INCREMENT,
+  `rec_id` varchar(32) DEFAULT NULL,
+  `action` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`log_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `department`
+-- Dumping data for table `log_action`
 --
 
-LOCK TABLES `department` WRITE;
-/*!40000 ALTER TABLE `department` DISABLE KEYS */;
-INSERT INTO `department` VALUES (1,'Advertising'),(2,'Marketing'),(3,'Manufacturing'),(4,'Inventory'),(5,'Research and Development'),(6,'Shipping'),(7,'Accounting'),(8,'Payroll');
-/*!40000 ALTER TABLE `department` ENABLE KEYS */;
+LOCK TABLES `log_action` WRITE;
+/*!40000 ALTER TABLE `log_action` DISABLE KEYS */;
+INSERT INTO `log_action` VALUES (1,'6','Employee deleted.');
+/*!40000 ALTER TABLE `log_action` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

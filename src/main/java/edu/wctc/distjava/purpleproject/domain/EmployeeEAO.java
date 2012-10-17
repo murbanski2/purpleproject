@@ -1,7 +1,10 @@
 package edu.wctc.distjava.purpleproject.domain;
 
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -33,14 +36,13 @@ import javax.persistence.TypedQuery;
  * @version 1.00
  */
 @Stateless
+@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 public class EmployeeEAO extends AbstractEAO<Employee> {
     @PersistenceContext(unitName = "purpleproject_PU")
-    private EntityManager em;
-
-    @Override
-    public EntityManager getEntityManager() {
-        return em;
-    }
+    private EntityManager em; // never refer to this!!! (see below)
+    
+    @EJB
+    AuditServiceBean audit;
 
     public EmployeeEAO() {
         super(Employee.class);
@@ -56,8 +58,8 @@ public class EmployeeEAO extends AbstractEAO<Employee> {
      * @return - Object[] for each record 
      */
     public List getNamesHireDate() {
-        return em.createQuery(
-                            "SELECT e.lastname, e.firstname, e.hiredate " +
+        return getEntityManager().createQuery(
+                            "SELECT e.id, e.lastname, e.firstname, e.hiredate " +
                             "FROM Employee e")
                     .getResultList();
     }
@@ -66,8 +68,43 @@ public class EmployeeEAO extends AbstractEAO<Employee> {
     // a matter of personal preference.
 //    public List<Object[]> getNamesHireDate() {
 //        TypedQuery<Object[]> query = em.createQuery(
-//                            "SELECT e.lastname, e.firstname, e.hiredate " +
+//                            "SELECT e.id, e.lastname, e.firstname, e.hiredate " +
 //                            "FROM Employee e", Object[].class);
 //        return query.getResultList();
 //    }
+    
+    /**
+     * This method deletes an Employee. But we've also added code to
+     * demonstrate a two-step transaction where if either step fails the
+     * entire transaction fails. 
+     * <P>
+     * You can see this work by uncommenting one of the lines below
+     * with the exception, which will cause an artificial failure. Try
+     * removing an Employee and then notice it remains in the database 
+     * because Glassfish (via JTA in the EJB container) rolled back the
+     * changes automatically. If you uncomment only the second exception,
+     * both operations (remove and logTrancaction) will be rolled back.
+     * 
+     * @param employee - the entity to be deleted.
+     */  
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void deleteWithAudit(Integer id) throws Exception {
+        Employee e = getEntityManager().find(Employee.class, id);
+        getEntityManager().remove(e);
+//        if(true) throw new IllegalArgumentException("Artificial to demo rollback");
+        audit.logTransaction(id, Employee.class, "Employee deleted.");
+//        if(true) throw new IllegalArgumentException("Artificial to demo rollback");        
+    }
+
+    /**
+     * Always use this in your code -- never reference the 'em' property 
+     * because JPA EntityManagers are loaded on demand.
+     * 
+     * @return an on demand object
+     */
+    @Override
+    public EntityManager getEntityManager() {
+        return em;
+    }
+    
 }

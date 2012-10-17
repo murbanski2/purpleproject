@@ -3,9 +3,11 @@ package edu.wctc.distjava.purpleproject.controller;
 import edu.wctc.distjava.purpleproject.domain.Employee;
 import edu.wctc.distjava.purpleproject.domain.EmployeeEAO;
 import java.util.*;
-import javax.annotation.PostConstruct;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -36,7 +38,7 @@ import javax.inject.Named;
 @Named(value = "employeeSrv")
 @RequestScoped
 public class EmployeeService {
-    @EJB
+    @Inject
     private EmployeeEAO empEAO;
     
     // Don't need this unless using @PostConstruct to cache, or if we 
@@ -101,7 +103,23 @@ public class EmployeeService {
         empEAO.edit(employee);
     }
     
-    public void remove(Employee employee) {
+    /**
+     * Demonstrate two-step transaction and possible rollback by using
+     * EJB.
+     * 
+     * @param id - primary key of entity
+     * @return destination page or null to stay on same page
+     */
+    public String removeWithAudit(String id) {
+        try {
+            empEAO.deleteWithAudit(new Integer(id));
+        } catch (Exception ex) {
+            Logger.getLogger(EmployeeService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public void remove(Employee employee) throws Exception {
         empEAO.remove(employee);
     }
     

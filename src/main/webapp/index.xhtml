@@ -33,27 +33,39 @@
             <h:dataTable id="empTable" rows="10" value="#{employeeSrv.namesHireDate}"
                          var="emp" rowClasses="list-row-odd, list-row-even" width="60%">
                 <f:facet name="header">
-                    Standard JSF dataTable with row styling
+                    Employee List From JPA Projection Query
                 </f:facet>
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="Last Name" />
+                        <h:outputText value="ID" />
                     </f:facet>
                     <h:outputText value="#{emp[0]}" />
                 </h:column>
                 <h:column>
                     <f:facet name="header">
+                        <h:outputText value="Last Name" />
+                    </f:facet>
+                    <h:outputText value="#{emp[1]}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
                         <h:outputText value="First Name" />
                     </f:facet>
-                    <h:outputText value="#{emp[1]}"/>
+                    <h:outputText value="#{emp[2]}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Hire Date" />
                     </f:facet>
-                    <h:outputText value="#{emp[2]}">
+                    <h:outputText value="#{emp[3]}">
                         <f:convertDateTime pattern="MM-dd-yy" />
                     </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Action" />
+                    </f:facet>
+                    <h:commandButton id="cmdDelete" value="Delete" action="#{employeeSrv.removeWithAudit(emp[0])}"/>
                 </h:column>
             </h:dataTable>
         </h:form>
