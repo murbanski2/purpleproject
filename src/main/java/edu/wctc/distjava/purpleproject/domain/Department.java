@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,7 +38,9 @@ public class Department implements Serializable {
     @Size(max = 50)
     @Column(name = "dept_name")
     private String deptName;
-    @OneToMany(mappedBy = "deptId")
+    // LAZY is default, changing to EAGER allows detachment from
+    // PersistenceContext, but at a price: huge memory consumption
+    @OneToMany(mappedBy = "deptId", fetch=FetchType.LAZY)
     private Collection<Employee> employeeCollection;
 
     public Department() {

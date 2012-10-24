@@ -2,9 +2,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <!--
-    ABOUT THIS PROJECT:
-
-    
+    ABOUT THIS PAGE:
+       This page uses data resulting from a JPA 'Entity query' which
+       returns a List of entities. See index.xhtml for an example that
+       returns a 'projection query'.
 -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -29,59 +30,49 @@
         <link rel="SHORTCUT ICON" href="/purpleproject/favicon.ico"/>
     </h:head>
     <h:body>
-        <h2>EJB Stateless Session Bean Demo</h2>
-        <p>This demo shows a typical, end-to-end data flow from
-            <b>View - JSF Managed Bean - EJB - DB</b> using JPA. The demo shows this 
-            using both a JPA Projection Query (here) and a JPA Entity Object
-            Query (next page). A third page demonstrates a JPA Entity query
-            where the entity objects retrieved are detached from the JPA
-            PersistenceContext, but have lazy-loaded joined entities that
-            cannot be retrieved in the View (exception is thrown). Switching
-            the employee collection property in the Department class to use
-            EAGER loading is an option to solve this problem.
-        </p>
-        <p>For a demo of EJB Stateful Session Bean use, 
-            <a href="faces/index4.xhtml">click here</a></p>
         <h:form id="form1">
-            <h:dataTable id="empTable" rows="10" value="#{employeeSrv.namesHireDate}"
-                         var="emp" rowClasses="list-row-odd, list-row-even" width="500">
+            <h:dataTable id="empTable" rows="10" value="#{employeeSrv.employeeList}"
+                         var="emp" rowClasses="list-row-odd, list-row-even" width="60%">
                 <f:facet name="header">
-                    Employee List From JPA Projection Query
+                    Employee List From JPA Entity Query
                 </f:facet>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="ID" />
                     </f:facet>
-                    <h:outputText value="#{emp[0]}" />
+                    <h:outputText value="#{emp.id}" />
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="Last Name" />
                     </f:facet>
-                    <h:outputText value="#{emp[1]}" />
+                    <h:outputText value="#{emp.lastname}" />
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="First Name" />
                     </f:facet>
-                    <h:outputText value="#{emp[2]}"/>
+                    <h:outputText value="#{emp.firstname}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="Hire Date" style="float:right;" />
+                        <h:outputText value="Hire Date" />
                     </f:facet>
-                    <h:outputText value="#{emp[3]}" style="float:right;">
+                    <h:outputText value="#{emp.hiredate}">
                         <f:convertDateTime pattern="MM-dd-yy" />
                     </h:outputText>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="Action" style="float:right;" />
+                        <h:outputText value="Department" />
                     </f:facet>
-                    <h:commandButton id="cmdDelete" style="float:right;" value="Delete" action="#{employeeSrv.removeWithAudit(emp[0])}"/>
+                    <h:outputText value="#{emp.deptId.deptName}">
+                        <f:convertDateTime pattern="MM-dd-yy" />
+                    </h:outputText>
                 </h:column>
             </h:dataTable>
-            <h:commandButton id="cmdNextPage" value="Next Page" action="index2"/>
+            <h:commandButton id="cmdPrevPage" value="Previous Page" action="index"/>
+            <h:commandButton id="cmdNextPage" value="Next Page" action="index3"/>
         </h:form>
     </h:body>
 

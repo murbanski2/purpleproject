@@ -40,6 +40,10 @@ public class DepartmentEAO extends AbstractEAO<Department> {
         return em;
     }
 
+     /** 
+     * Default constructor must be declared this way when extending
+     * AbstractEAO
+     */
     public DepartmentEAO() {
         super(Department.class);
     }

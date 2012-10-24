@@ -1,11 +1,12 @@
 package edu.wctc.distjava.purpleproject.controller;
 
+import edu.wctc.distjava.purpleproject.domain.Department;
+import edu.wctc.distjava.purpleproject.domain.DepartmentEAO;
 import edu.wctc.distjava.purpleproject.domain.Employee;
 import edu.wctc.distjava.purpleproject.domain.EmployeeEAO;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -33,14 +34,15 @@ import javax.inject.Named;
  * to defer to the server for resource management.
  * 
  * @author     Jim Lombardo
- * @version    1.00
+ * @version    1.01
  */
 @Named(value = "employeeSrv")
 @RequestScoped
 public class EmployeeService {
     @Inject
     private EmployeeEAO empEAO;
-    
+    @Inject
+    private DepartmentEAO deptEAO;    
     // Don't need this unless using @PostConstruct to cache, or if we 
     // want to call the setter method below.
 //    private List<Employee> employeeList;
@@ -72,6 +74,10 @@ public class EmployeeService {
      */
     public List<Employee> getEmployeeList() {
         return empEAO.findAll();
+    }
+    
+    public List<Department> getDepartmentList() {
+        return deptEAO.findAll();
     }
     
     /**
