@@ -24,9 +24,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "authorities")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Authorities.findAll", query = "SELECT a FROM Authorities a"),
-    @NamedQuery(name = "Authorities.findByAuthority", query = "SELECT a FROM Authorities a WHERE a.authority = :authority"),
-    @NamedQuery(name = "Authorities.findByAuthoritiesId", query = "SELECT a FROM Authorities a WHERE a.authoritiesId = :authoritiesId")})
+    @NamedQuery(name = "Authority.findAll", query = "SELECT a FROM Authority a"),
+    @NamedQuery(name = "Authority.findByAuthority", query = "SELECT a FROM Authority a WHERE a.authority = :authority"),
+    @NamedQuery(name = "Authority.findByAuthoritiesId", query = "SELECT a FROM Authority a WHERE a.authoritiesId = :authoritiesId")})
 public class Authority implements Serializable {
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
@@ -36,7 +36,7 @@ public class Authority implements Serializable {
     private String authority;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
+    @Basic(optional = true)
     @Column(name = "authorities_id")
     private Integer authoritiesId;
     @JoinColumn(name = "username", referencedColumnName = "username")
@@ -101,7 +101,7 @@ public class Authority implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Authorities[ authoritiesId=" + authoritiesId + " ]";
+        return "model.Authority[ authoritiesId=" + authoritiesId + " ]";
     }
 
 }

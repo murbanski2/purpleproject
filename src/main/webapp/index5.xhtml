@@ -31,23 +31,18 @@
     </h:head>
     <h:body>
         <h2>EJB Statefull Session Bean Demo With ConversatioScope JSF Bean</h2>
-        <p>This demo shows how to use an EJB Statefull Session Bean in a typical
-            long-running conversation example such as when creating a shopping
-            cart. In this demo we'll simply navigate from one page to another
-            to complete data entry. We'll use the EJB to remember what was
-            entered on the first page and use it with the data entered on the
-            second page. NOTE: Do not use RequestScope. Your Stateful EJB will
-            be destroyed prematurely! ConversationScope is better, but not as
-            heavy as SessionScope.
-        </p>
+        
         <h:form id="form1">
-            <h3>Step 1: Choose a role for this user:</h3>
-            <h:selectOneRadio value="#{userSrv.authority}" layout="pageDirection">
-                <f:selectItem itemValue="ROLL_ADMIN" itemLabel="Administrator" />
-                <f:selectItem itemValue="ROLL_MEMBER" itemLabel="Member" />
-            </h:selectOneRadio>
-            <h:commandButton id="cmdPrevPage" value="Previous Page" actionListener="#{userSrv.endConversation}" action="index"/>
-            <h:commandButton id="Continue" value="Continue..." action="#{userSrv.processAuthorityRequest}"/>
+            <h:messages showDetail="true"/>
+            <h3>Step 2: Provide user information:</h3>
+            <h:panelGrid columns="2">
+                <h:outputText id="userNameLbl" value="User name: "/>
+                <h:inputText id="userName" value="#{userSrv.username}"/>
+                <h:outputText id="pwdLbl" value="Password: "/>
+                <h:inputText id="password" value="#{userSrv.password}"/>
+            </h:panelGrid>
+            <h:commandButton id="cmdPrevPage" value="Previous Page" action="index4"/>
+            <h:commandButton id="cmdNextPage" value="Finish New User" action="#{userSrv.saveNew}"/>
         </h:form>
     </h:body>
 

@@ -1,15 +1,15 @@
 package edu.wctc.distjava.purpleproject.controller;
 
-import edu.wctc.distjava.purpleproject.domain.Department;
-import edu.wctc.distjava.purpleproject.domain.DepartmentEAO;
-import edu.wctc.distjava.purpleproject.domain.Employee;
-import edu.wctc.distjava.purpleproject.domain.EmployeeEAO;
 import edu.wctc.distjava.purpleproject.domain.User;
 import edu.wctc.distjava.purpleproject.domain.UserEAO;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.enterprise.context.RequestScoped;
+import java.io.Serializable;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -21,55 +21,120 @@ import javax.inject.Named;
  * plus others, including dependency injection.
  * 
  * Additionally, I chose to name this bean a "Service" bean because it
- * fulfills that role. This is a personal choice, but an appropriate one.
+ * fulfills that role. This is a personal choice, but an appropriate one. YOu
+ * could also argue this bean is a Controller. Also I've made this a
+ * ConversationScoped bean (CDI scope, not JSF scope). This is slightly 
+ * heavier in resource use than a RequestScoped bean, but substantially lighter
+ * than a SessionScoped bean. It's perfect for this demo which takes the user
+ * through several related views to accomplish a goal. NOTE: when using
+ * ConversatiobScoped you MUST inject a Conversation object and use
+ * conversation.begin() and conversation.end().
  * 
- * Finally, notice the @EJB annotation. This is one way to inject an 
+ * Finally, notice the @Iject annotation. This is one way to inject an 
  * Enterprise Java Bean (EJB). However, it requires a java application server
  * that is a full-stack server like Glassfish. This won't work on servers 
- * that are just servlet containers or those that don't support EJBs. Another
- * way to inject objects is to use CDI via the @Inject annotation. Again, you
- * need a jee6 certified server that supports CDI. I like to use @EJB for EJBs 
- * and @Inject for other POJOs. (Only CDI allows injection of POJOs.) Were we
+ * that are just servlet containers or those that don't support EJBs. You can 
+ * also use @Inject for POJOs. (Only CDI allows injection of POJOs.) Were we
  * to use Spring, we would have all of these capabilities without needing a
  * JEE 6 certified server -- one of the big advantages of using Spring. And
  * yet if youd do use Spring on a certified server, Spring is smart of enough
  * to defer to the server for resource management.
  * 
  * @author     Jim Lombardo
- * @version    1.01
+ * @version    1.02
  */
 @Named(value = "userSrv")
-@RequestScoped
-public class UserService {
+@ConversationScoped
+public class UserService implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     @Inject
     private UserEAO userEAO;
-
-    private String authority;
-
+    
+    @Inject 
+    private Conversation  conversation;
+        
+    @PostConstruct
+    public void init(){
+         // No need to check here because we're in init
+         getConversation().begin();
+    }
+    
+    public void endConversation(ActionEvent e) {
+        // Check first or you could get an exception if, e.g.,
+        // the conversation has timed out
+         if(!getConversation().isTransient()) {
+             getConversation().end();
+         }
+    }
     /**
      * Creates a new instance of EmployeeService
      */
     public UserService() {
     }
- 
-    public void saveNew(String username, String password) {
+    
+    public void setAuthority(String value) {
+        getUserEAO().setAuthority(value);
+    }
+    
+    public void setUsername(String value) {
+        getUserEAO().setUsername(value);
+    }
+    
+    public void setPassword(String value) {
+        getUserEAO().setPassword(value);
+    }
+    
+    // Post first part of 2-part conversation
+    public String processAuthorityRequest() {
+        return "index5";
+    }
+    
+    // Post 2nd part of 2-part conversation
+    public String saveNew() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        
         User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
+        user.setUsername(getUserEAO().getUsername());
+        user.setPassword(getUserEAO().getPassword());
         user.setEnabled(true);
         
-        if(!userEAO.isUsernameInUse(username)) {
-            userEAO.addNewUser(user,authority);
+        if(!getUserEAO().isUsernameInUse(getUserEAO().getUsername())) {
+            getUserEAO().addNewUser(user);
+            context.addMessage(null, 
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Success", 
+                    "User saved successfully!"));
+            
+        } else {
+            context.addMessage(null, 
+                    new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "Duplicate username", 
+                    "User not saved. username already in use. Please choose another."));
         }
+        
+        return null; // back to same page
     }
 
     public String getAuthority() {
-        return authority;
+        return "ROLE_MEMBER";
     }
 
-    public void setAuthority(String authority) {
-        this.authority = authority;
+    public String getUsername() {
+        return "";
     }
-    
+
+    public String getPassword() {
+        return "";
+    }
+
+    public UserEAO getUserEAO() {
+        return userEAO;
+    }
+
+    public Conversation getConversation() {
+        return conversation;
+    }
+
 
  }
