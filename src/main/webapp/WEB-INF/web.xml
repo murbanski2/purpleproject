@@ -12,7 +12,7 @@
 
     <context-param>
         <param-name>primefaces.THEME</param-name>
-        <param-value>humanity</param-value>
+        <param-value>south-street</param-value>
     </context-param>
 
     <!-- required if you want comments mixed in with JSF tags -->

@@ -64,7 +64,7 @@
         </dependency>
         <dependency>
             <groupId>org.primefaces.themes</groupId>
-            <artifactId>humanity</artifactId>
+            <artifactId>south-street</artifactId>
             <version>[1.0.8]</version>
         </dependency>
    

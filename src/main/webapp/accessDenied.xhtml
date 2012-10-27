@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <h:outputStylesheet name="default.css" library="css" />
+            <h:outputStylesheet name="layout.css" library="css" />
+            <link rel="SHORTCUT ICON" href="/#{msg['server.context.root']}/favicon.ico"/>
+
+            <title>Login</title>
+
+            <style type="text/css">
+                .ui-widget {
+                    font-size: 75%;
+                }
+
+                .ui-tabs-nav {
+                    background-color: transparent;
+                    background-image: none;
+                }
+
+                /*
+                .ui-growl {
+                    top: 350px;
+                    left: 600px;
+                }
+                */
+
+                .ui-datatable-scrollable-header2 {
+                    height: 10px;
+                }
+
+
+                .ui-panel {
+                    border:0px;
+                }
+
+                .ui-layout-north {
+                    z-index:20 !important;
+                    overflow:visible;
+                }
+
+                .ui-layout-north .ui-layout-unit-content {
+                    overflow:visible;
+                }
+            </style>
+        </h:head>
+
+        <h:body>  
+
+            <p:layout id="homeLayout" fullPage="true">
+
+                <p:layoutUnit position="north" size="75">
+                    <ui:include src="top.xhtml" />
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" resizable="false" size="#{msg['nav.bar.width']}">
+                    <ui:include src="navBar.xhtml" />
+                </p:layoutUnit>
+
+                <p:layoutUnit id="centerPanel" position="center">
+                    <h:panelGrid columns="1" cellspacing="8">
+                        <h:outputText style="font-size: xx-large;" value="Access Denied"/>
+                        <h:link value="&lt;&lt; Back to Login Page" outcome="login" />
+                        <a href="/#{msg['server.context.root']}/j_spring_security_logout">Just Log Me Out</a>
+                    </h:panelGrid>
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="50">
+                    <ui:include src="footer.xhtml" />
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>
+

@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!--
+    This is not a template client. This is just content that may be
+    included by a template client so that when the content changes you do
+    not need to change it in every client. Basically, this is global content.
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:panel header="Welcome #{request.userPrincipal.name == null ? 'Visitor' : 'Back' + request.userPrincipal.name}">
+        <br />
+        <p:calendar mode="inline" navigator="none" immediate="true" value="#{homeNavBean.currentDate}" readonly="true" />
+        <br />
+    </p:panel>
+
+    <!--
+    <p:panel header="Navigation">
+        <p:commandButton id="dynaButton" value="Quick Jump To &gt;&gt;" type="button"/>
+        <p:menu position="dynamic" type="tiered" trigger="dynaButton" 
+                my="left top" at="left bottom" triggerEvent="mouseover">
+            <p:menuitem value="MobilizeIT Home" url="/faces/home.xhtml" />
+            <p:menuitem value="Quality Inspection" url="/faces/qicHome.xhtml" />
+            <p:menuitem value="Add Tool" url="/faces/addTool.xhtml" />
+            <p:menuitem value="Cycle Count Filters" url="/faces/cycleCount.xhtml" />
+            <p:menuitem value="Units of Measure" url="/faces/unitMeasureAdmin.xhtml" />
+        </p:menu>
+
+    </p:panel>
+    -->
+
+    <p:panel header="About #{msg['app.name']}">
+        <h:panelGrid columns="1">
+            <h:outputText value="#{msg['app.version']}" />
+            <h:outputText value="#{appBean.serverInfo}" />
+            <h:outputText value="#{homeNavBean.javaVersion}" />
+            <h:outputText value="#{homeNavBean.osInfo}" />
+            <h:panelGroup>
+                <h:outputText value="#{msg['server.started']}:&lt;br/&gt;" escape="false"/>
+                <h:outputText value="#{appBean.startupDate}">
+                    <f:convertDateTime type="both" dateStyle="short" />
+                </h:outputText>
+            </h:panelGroup>
+            <h:outputText value="&nbsp;" escape="false"/>
+            
+            <h:outputText value="#{msg['navbar.copyright']}" escape="false" />
+            <h:outputText value="#{msg['mfg.name']}" escape="false" />
+            <h:outputText value="#{msg['mfg.address']}" />
+            <h:outputText value="#{msg['mfg.city.state.zip']}" />
+            <h:outputText value="#{msg['mfg.phone']}" />
+            <h:outputText value=" " />
+        </h:panelGrid>
+    </p:panel>
+
+</ui:composition>

@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!--
+    This is not a template client. This is just content that may be
+    included by a template client so that when the content changes you do
+    not need to change it in every client. Basically, this is global content.
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <div align="center">
+        <h:panelGrid columns="1" cellspacing="0" cellpadding="0">
+            <h:panelGroup>
+            <h:form>
+                 <p:commandLink action="index">
+                    <h:graphicImage library="images" name="jsf-tech.jpg" height="18%" width="18%" style="position:relative;top:6px;padding-right:10px;" />
+                </p:commandLink>
+                <h:outputText value="#{msg['page.home.header']}" style="font-size:xx-large;position:relative;top:6px;" escape="false" />
+            </h:form>
+            </h:panelGroup> 
+        </h:panelGrid>
+    </div>
+
+</ui:composition>
