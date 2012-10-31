@@ -60,12 +60,19 @@
 
         <script type="text/javascript">	
             $(document).ready(function(){
-                    var options = {
-                            autoPlay: false,
-                            nextButton: true,
-                            prevButton: true,
-                            transitionThreshold: 500
-                    };
+                    var options = {		
+				autoPlayDelay: 2000,
+				hidePreloaderDelay: 0,
+				nextButton: true,
+				prevButton: true,
+				hidePreloaderUsingCSS: false,						
+				animateStartingFrameIn: true, 			
+				transitionThreshold: 1000,
+				pauseOnHover: true,
+				customKeyEvents: {
+					80: "pause"
+				}
+			};
                     var sequence = $("#sequence").sequence(options).data("sequence");
 
                     sequence.afterLoaded = function(){
@@ -81,7 +88,12 @@
         <p:layout id="homeLayout" fullPage="true">
 
             <p:layoutUnit position="north" size="25">
-                <ui:include src="/top.xhtml" />
+                <div align="left">
+                    <p:breadCrumb>
+                        <p:menuitem value="Categories" url="#" />
+                        <p:menuitem value="BIT Bay Home" url="#" />
+                    </p:breadCrumb>
+                </div>
             </p:layoutUnit>
 
             <p:layoutUnit position="west" resizable="false" size="#{msg['nav.bar.width']}">
@@ -142,6 +154,14 @@
                                     </ul>
                                 </div>
                                 </div>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <f:metadata>
+                                <f:viewParam name="myparam" value="#{homeNavBean.currentDate}"/>
+                            </f:metadata>
+                            <p:column>
+                                <h:link value="Redirect with View Parameter" outcome="page2?includeViewParams=true"/>
                             </p:column>
                         </p:row>
                     </p:panelGrid>
