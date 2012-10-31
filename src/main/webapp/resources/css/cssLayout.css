@@ -80,3 +80,9 @@
 
 }
 
+.ui-panel .ui-panel-titlebar {
+    background: none;
+    background-color: #459E00;
+    color: white;
+}
+

@@ -11,9 +11,11 @@
     <h:head>
         <h:outputStylesheet name="default.css" library="css" />
         <h:outputStylesheet name="cssLayout.css" library="css" />
+
+        <h:outputScript library="js" name="sequence.jquery-min.js" />
         <link rel="SHORTCUT ICON" href="/#{msg['server.context.root']}/favicon.ico"/>
 
-        <title>Unit of Measure Administration</title>
+        <title>BIT Bay Home</title>
 
         <style type="text/css">
             .ui-widget {
@@ -49,13 +51,28 @@
             .ui-layout-north .ui-layout-unit-content {
                 overflow:visible;
             }
-            
-            .ui-panel .ui-panel-titlebar {
-                background: none;
-                background-color: #459E00;
-                color: white;
-            }
+
         </style>
+        
+	<link rel="stylesheet" type="text/css" media="screen" href="resources/css/sequencejs-theme.sliding-horizontal-parallax.css" />
+	<!--[if lt IE 9]><link rel="stylesheet" type="text/css" media="screen" href="resources/css/sequencejs-theme.sliding-horizontal-parallax-ie.css" /><![endif]-->
+
+
+        <script type="text/javascript">	
+            $(document).ready(function(){
+                    var options = {
+                            autoPlay: false,
+                            nextButton: true,
+                            prevButton: true,
+                            transitionThreshold: 500
+                    };
+                    var sequence = $("#sequence").sequence(options).data("sequence");
+
+                    sequence.afterLoaded = function(){
+                            $(".prev, .next").fadeIn(500);
+                    }
+            })
+	</script>
     </h:head>
 
     <h:body>  
@@ -63,7 +80,7 @@
 
         <p:layout id="homeLayout" fullPage="true">
 
-            <p:layoutUnit position="north" size="75">
+            <p:layoutUnit position="north" size="25">
                 <ui:include src="/top.xhtml" />
             </p:layoutUnit>
 
@@ -85,10 +102,46 @@
                             <p:column>
                                 <p:selectOneMenu value="#{appBean.selectedCategory}" style="font-size: larger;">
                                     <f:selectItems value="#{appBean.categories}" />
-                               </p:selectOneMenu>
+                                </p:selectOneMenu>
                             </p:column>
                             <p:column>
                                 <p:commandButton id="searchBtn" value="Go" action="index" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="3">
+                                <div id="header">
+                                <div id="sequence">
+                                    <img class="prev" src="resources/images/bt-prev.png" alt="Previous" />
+                                    <img class="next" src="resources/images/bt-next.png" alt="Next" />
+                                    <ul>
+                                        <li>
+                                            <div class="info animate-in">
+                                                <h2 class="seqTitle">Donate to BIT Bay</h2>
+                                                <p>Donate your old stuff, or your time and expertise, to help fund the WCTC BIT Club</p>
+                                            </div>
+                                            <img class="sky animate-in" src="resources/images/bg-clouds.png" alt="Blue Sky" />
+                                            <img class="balloon animate-in" src="resources/images/gadgets_digi.png" height="50%" width="30%" alt="Gadgets" />
+                                        </li>
+                                        <li>
+                                            <div class="info">
+                                                <h2 class="seqTitle">Make Your Bid</h2>
+                                                <p>Get cool stuff in an auction format where you bid against others. All proceeds go to the WCTC BIT Club.</p>
+                                            </div>
+                                            <img class="sky" src="resources/images/bg-clouds.png" alt="Blue Sky" />
+                                            <img class="aeroplane" src="resources/images/aeroplane.png" alt="Aeroplane" />
+                                        </li>
+                                        <li>
+                                            <div class="info">
+                                                <h2 class="seqTitle">Win Cool Stuff</h2>
+                                                <p>Congratulations. You had the winning bid. Give us the funds and we'll get you your stuff.</p>
+                                            </div>
+                                            <img class="sky" src="resources/images/bg-clouds.png" alt="Blue Sky" />
+                                            <img class="kite" src="resources/images/kite.png" alt="Kite" />
+                                        </li>
+                                    </ul>
+                                </div>
+                                </div>
                             </p:column>
                         </p:row>
                     </p:panelGrid>

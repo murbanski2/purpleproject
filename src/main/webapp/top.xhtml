@@ -12,17 +12,11 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
 
-    <div align="center">
-        <h:panelGrid columns="1" cellspacing="0" cellpadding="0">
-            <h:panelGroup>
-            <h:form>
-                 <p:commandLink action="index">
-                    <h:graphicImage library="images" name="jsf-tech.jpg" height="18%" width="18%" style="position:relative;top:6px;padding-right:10px;" />
-                </p:commandLink>
-                <h:outputText value="#{msg['page.home.header']}" style="font-size:xx-large;position:relative;top:6px;" escape="false" />
-            </h:form>
-            </h:panelGroup> 
-        </h:panelGrid>
+    <div align="left">
+        <p:breadCrumb>
+            <p:menuitem value="Categories" url="#" />
+            <p:menuitem value="BIT Bay Home" url="#" />
+        </p:breadCrumb>
     </div>
 
 </ui:composition>
