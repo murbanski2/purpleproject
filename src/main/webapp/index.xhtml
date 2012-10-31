@@ -60,12 +60,19 @@
 
         <script type="text/javascript">	
             $(document).ready(function(){
-                    var options = {
-                            autoPlay: false,
-                            nextButton: true,
-                            prevButton: true,
-                            transitionThreshold: 500
-                    };
+                    var options = {		
+				autoPlayDelay: 2000,
+				hidePreloaderDelay: 0,
+				nextButton: true,
+				prevButton: true,
+				hidePreloaderUsingCSS: false,						
+				animateStartingFrameIn: true, 			
+				transitionThreshold: 1000,
+				pauseOnHover: true,
+				customKeyEvents: {
+					80: "pause"
+				}
+			};
                     var sequence = $("#sequence").sequence(options).data("sequence");
 
                     sequence.afterLoaded = function(){
