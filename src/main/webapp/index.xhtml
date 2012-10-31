@@ -11,7 +11,7 @@
     <h:head>
         <h:outputStylesheet name="default.css" library="css" />
         <h:outputStylesheet name="cssLayout.css" library="css" />
-
+        <h:outputScript name="jquery/jquery.js" library="primefaces" />
         <h:outputScript library="js" name="sequence.jquery-min.js" />
         <link rel="SHORTCUT ICON" href="/#{msg['server.context.root']}/favicon.ico"/>
 
@@ -84,11 +84,14 @@
 
     <h:body>  
         <p:growl id="growl" sticky="false" life="7500" showDetail="true" />
-
         <p:layout id="homeLayout" fullPage="true">
-
             <p:layoutUnit position="north" size="25">
-                <ui:include src="/top.xhtml" />
+                <div align="left">
+                    <p:breadCrumb>
+                        <p:menuitem value="Categories" url="#" />
+                        <p:menuitem value="BIT Bay Home" url="#" />
+                    </p:breadCrumb>
+                </div>
             </p:layoutUnit>
 
             <p:layoutUnit position="west" resizable="false" size="#{msg['nav.bar.width']}">
@@ -98,25 +101,27 @@
             <p:layoutUnit id="centerPanel" position="center">         
                 <h:form id="home_form">
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                    <p:panelGrid cellpadding="4" style="margin:4 auto;">
+                    <p:panelGrid cellpadding="4" style="width: 760px; margin:4 auto;">
                         <p:row>
                             <p:column>
                                 <p:outputLabel for="searchTxt" value="Search for" style="font-size: larger;" />
-                                <p:spacer width="25px" />
-                                <p:inputText id="searchTxt" value="" size="50" style="font-size: larger;"/>
+                                <p:spacer width="10px" />
+                                <p:inputText id="searchTxt" value="" size="30" style="font-size: larger;"/>
                                 <p:watermark for="searchTxt" value="I'm Looking For ..." />
-                            </p:column>
-                            <p:column>
-                                <p:selectOneMenu value="#{appBean.selectedCategory}" style="font-size: larger;">
+                                <p:spacer width="10px" />                                
+                                <p:selectOneMenu value="#{appBean.selectedCategory}" style="font-size: larger;position: relative;top: 9px;">
                                     <f:selectItems value="#{appBean.categories}" />
                                 </p:selectOneMenu>
-                            </p:column>
-                            <p:column>
-                                <p:commandButton id="searchBtn" value="Go" action="index" />
+                                <p:spacer width="10px" />                                 
+                                <p:commandButton id="searchBtn" value="Go" action="index" style="postion: relative;top: -2px;" />
+                                <div style="position:relative;width:120px;height:15px;left:600px;top:-30px;">
+                                    <h:link value="Login" outcome="index"/><br/>
+                                    <h:link value="Create Account" outcome="index"/>
+                                </div>
                             </p:column>
                         </p:row>
                         <p:row>
-                            <p:column colspan="3">
+                            <p:column>
                                 <div id="header">
                                 <div id="sequence">
                                     <img class="prev" src="resources/images/bt-prev.png" alt="Previous" />
@@ -149,6 +154,31 @@
                                     </ul>
                                 </div>
                                 </div>
+                            </p:column>
+                        </p:row>
+                        <p:spacer height="10px"/>
+                        <p:row>
+                            <p:column>
+                                <h2>Welcome to BIT Bay. The Auction Site Benefitting Student IT Clubs</h2>
+                                <p style="font-size: medium;">
+                                    Everyone has stuff they no longer want or use. Now students, teachers,
+                                    administrators or anyone, really, can turn that stuff into cold, hard
+                                    cash that can help fund student IT clubs.
+                                </p>
+                                <p style="font-size: medium;">
+                                    It works like an eBay&trade; auction, except that the sellers donate 
+                                    the proceeds to the IT club. Buyers compete with each via bids, with 
+                                    the winning bidder getting the stuff. The winning bidder then pays 
+                                    the IT club and the IT club makes arrangements to get the stuff to the 
+                                    buyer.To get started as a buyer or seller create an account. No credit 
+                                    card is necessary. We don't collect the funds
+                                </p>
+                                <p style="font-size: medium;">
+                                    To get started as a buyer or seller create an account. No credit 
+                                    card is necessary. Just provide contact information so we can 
+                                    communicate with you. And, don't worry, we absolutely will not send
+                                    you spam or sell your contact information to anyone. 
+                                </p>
                             </p:column>
                         </p:row>
                     </p:panelGrid>
