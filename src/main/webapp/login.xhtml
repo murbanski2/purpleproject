@@ -19,7 +19,7 @@
 
             <style type="text/css">
                 .ui-widget {
-                    font-size: 75%;
+                    font-size: 100%;
                 }
 
                 .ui-tabs-nav {
@@ -59,7 +59,13 @@
             <p:layout id="homeLayout" fullPage="true">
 
                 <p:layoutUnit position="north" size="75">
-                    <ui:include src="top.xhtml" />
+                    <div align="left">
+                        <p:breadCrumb>
+                            <p:menuitem value="Categories" url="index.xhtml" />
+                            <p:menuitem value="BIT Bay Home" url="index.xhtml" />
+                            <p:menuitem value="Login" url="#" />
+                        </p:breadCrumb>
+                    </div>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="west" resizable="false" size="#{msg['nav.bar.width']}">
@@ -73,21 +79,22 @@
                         
                         <p:panelGrid columns="1">
                             <f:facet name="header">
-                                MobilizeIT Middleware Authentication
+                                BIT Bay Authentication
                             </f:facet>
 
                             <p:panelGrid columns="2">
-                                <h:outputLabel value="User Name" for="j_username"/>
+                                <h:outputLabel value="User Name" for="j_username" />
                                 <p:inputText id="j_username"
-                                            value="#{loginBean.username}"
+                                             value="#{loginBean.username}"
                                             required="true"/>
+                                
                                 <h:outputLabel value="Password" for="j_password"/>
                                 <p:password id="j_password"
-                                                value="#{loginBean.password}"
+                                            value="#{loginBean.password}"
                                                 required="true"/>
                                 
-                                <h:outputText value=""/>
-                                <p:commandButton action="#{loginBean.doLogin}" value="Login" ajax="false"/>
+                                
+                                <p:commandButton action="#{loginBean.doLogin()}" value="Login" ajax="false"/>
                             </p:panelGrid>
                         </p:panelGrid>
                     </h:form>

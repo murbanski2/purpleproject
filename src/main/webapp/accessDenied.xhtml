@@ -59,7 +59,13 @@
             <p:layout id="homeLayout" fullPage="true">
 
                 <p:layoutUnit position="north" size="75">
-                    <ui:include src="top.xhtml" />
+                    <div align="left">
+                        <p:breadCrumb>
+                            <p:menuitem value="Categories" url="index.xhtml" />
+                            <p:menuitem value="BIT Bay Home" url="index.xhtml" />
+                            <p:menuitem value="Access Denied" url="#" />
+                        </p:breadCrumb>
+                    </div>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="west" resizable="false" size="#{msg['nav.bar.width']}">
