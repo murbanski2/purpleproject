@@ -2,6 +2,7 @@ package edu.wctc.distjava.purpleproject.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -15,6 +16,7 @@ import javax.servlet.ServletResponse;
  * @author jlombardo
  */
 @Named
+@RequestScoped
 public class LoginBean implements Serializable {
     private static final long serialVersionUID = 1L;
 

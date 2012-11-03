@@ -12,7 +12,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
 
-    <p:panel header="Welcome #{request.userPrincipal.name == null ? 'Visitor' : 'Back' + request.userPrincipal.name}">
+    <p:panel header="Welcome #{request.userPrincipal.name == null ? 'Guest' : 'Back '.concat(request.userPrincipal.name)}">
         <br />
         <p:calendar mode="inline" navigator="none" immediate="true" value="#{homeNavBean.currentDate}" readonly="true" />
         <br />

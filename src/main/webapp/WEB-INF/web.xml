@@ -26,7 +26,7 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
-    <!-- Security configuration
+    <!-- Security configuration -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
@@ -46,7 +46,7 @@
         <url-pattern>/*</url-pattern>
         <dispatcher>FORWARD</dispatcher>
         <dispatcher>REQUEST</dispatcher>
-    </filter-mapping>  -->
+    </filter-mapping> 
     <!-- end spring configuration -->
     <session-config>
         <session-timeout>
