@@ -26,7 +26,10 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
-    <!-- Security configuration -->
+    <!-- 
+        Security configuration: note that you must also configure "glassfish-web.xml"
+        AND a connection pool, JDBC Resource and JDBC Realm in Glassfish admin. 
+    -->
     <login-config>
         <auth-method>FORM</auth-method>
         <realm-name>jdbc-realm</realm-name>
