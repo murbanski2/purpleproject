@@ -24,10 +24,6 @@
         </locale-config>
 
     </application>
-    
-    <!-- for spring security -->
-    <lifecycle>
-        <phase-listener>edu.wctc.distjava.purpleproject.util.LoginErrorPhaseListener</phase-listener>
-    </lifecycle>
+
     
 </faces-config>

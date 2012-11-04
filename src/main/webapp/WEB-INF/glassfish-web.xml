@@ -3,6 +3,14 @@
 <glassfish-web-app error-url="">
   <parameter-encoding default-charset="UTF-8"/>
   <context-root>/bitbay</context-root>
+  <security-role-mapping>
+    <role-name>ROLE_ADMIN</role-name>
+    <group-name>ROLE_ADMIN</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
+    <role-name>ROLE_MEMBER</role-name>
+    <group-name>ROLE_MEMBER</group-name>
+  </security-role-mapping>
   <class-loader delegate="true"/>
   <jsp-config>
     <property name="keepgenerated" value="false">

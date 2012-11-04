@@ -12,7 +12,7 @@
     <f:view contentType="text/html">
         <h:head>
             <h:outputStylesheet name="default.css" library="css" />
-            <h:outputStylesheet name="layout.css" library="css" />
+            <h:outputStylesheet name="cssLayout.css" library="css" />
             <link rel="SHORTCUT ICON" href="/#{msg['server.context.root']}/favicon.ico"/>
 
             <title>Login</title>
@@ -76,7 +76,7 @@
                     <h:panelGrid columns="1" cellspacing="8">
                         <h:outputText style="font-size: xx-large;" value="Access Denied"/>
                         <h:link value="&lt;&lt; Back to Login Page" outcome="login" />
-                        <a href="/#{msg['server.context.root']}/j_spring_security_logout">Just Log Me Out</a>
+                        <h:commandLink action="#{securityBean.logout}" value="Just Log Me Out"/>
                     </h:panelGrid>
 
                 </p:layoutUnit>

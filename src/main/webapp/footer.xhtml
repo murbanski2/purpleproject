@@ -22,9 +22,7 @@
                         <h:outputText value="Home" />
                     </p:commandLink>
                     <h:outputText value=" :: "/>
-                    <p:commandLink actionListener="#{homeNavBean.logout}">
-                        <h:outputText value="Logout" />
-                    </p:commandLink>
+                    <h:commandLink action="#{securityBean.logout}" value="Logout"/>
             </h:panelGrid>
             <h:outputText value="#{msg['page.footer.copyright']} &lt;a href='#'&gt;#{msg['page.footer.terms']}&lt;/a&gt; | &lt;a href='#'&gt;#{msg['page.footer.privacy']}&lt;/a&gt;" escape="false"/>
         </div>

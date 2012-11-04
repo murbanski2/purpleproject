@@ -11,7 +11,7 @@
     <h:head>
         <h:outputStylesheet name="default.css" library="css" />
         <h:outputStylesheet name="cssLayout.css" library="css" />
-        <h:outputScript name="jquery/jquery.js" library="primefaces" />
+        <h:outputScript name="jquery/jquery.js" library="primefaces" target="head"/>
         <h:outputScript library="js" name="sequence.jquery-min.js" />
         <link rel="SHORTCUT ICON" href="/#{msg['server.context.root']}/favicon.ico"/>
 
@@ -37,10 +37,6 @@
             .ui-datatable-scrollable-header2 {
                 height: 10px;
             }
-            
-            .ui-watermark {
-                color: #dddddd;
-            }
 
             .ui-panel {
                 border:0px;
@@ -54,6 +50,24 @@
             .ui-layout-north .ui-layout-unit-content {
                 overflow:visible;
             }
+            
+            /* styles for chrome and safari */
+            ::-webkit-input-placeholder {
+                color: #858585 !important;
+                font-weight: normal !important;
+            }
+
+            /* styles for firefox */
+            :-moz-placeholder {
+                color: #858585 !important;
+                font-weight: normal !important;
+            }
+
+            /* styles for internet explorer */
+            .ui-watermark {
+                    color: #858585 !important;
+                    font-weight: normal !important;
+            }  
 
         </style>
         
@@ -62,7 +76,7 @@
 
 
         <script type="text/javascript">	
-            $(document).ready(function(){
+            jQuery(document).ready(function(){
                     var options = {		
 				autoPlayDelay: 2000,
 				hidePreloaderDelay: 0,
@@ -107,16 +121,16 @@
                     <p:panelGrid cellpadding="4" style="width: 760px; margin:4 auto;">
                         <p:row>
                             <p:column>
-                                <p:outputLabel for="searchTxt" value="Search for" style="font-size: larger;" />
+                                <h:outputText value="Search for" style="font-size: larger;" />
                                 <p:spacer width="10px" />
-                                <p:inputText id="searchTxt" value="" size="30" style="font-size: larger;"/>
-                                <p:watermark for="searchTxt" value="I'm Looking For ..." />
+                                <p:inputText id="searchTxt" value="#{searchBean.searchText}" size="30" style="font-size: larger;"/>
+                                <p:watermark for="searchTxt" value="I am looking for..." />
                                 <p:spacer width="10px" />                                
                                 <p:selectOneMenu value="#{appBean.selectedCategory}" style="font-size: larger;position: relative;top: 9px;">
                                     <f:selectItems value="#{appBean.categories}" />
                                 </p:selectOneMenu>
                                 <p:spacer width="10px" />                                 
-                                <p:commandButton id="searchBtn" value="Go" action="index" style="postion: relative;top: -2px;" />
+                                <p:commandButton id="searchBtn" value="Go" action="index" ajax="false" style="postion: relative;top: -2px;" />
                                 <div style="position:relative;width:120px;height:15px;left:600px;top:-30px;">
                                     <h:link value="Login" outcome="/member/index.xhtml"/><br/>
                                     <h:link value="Create Account" outcome="login"/>

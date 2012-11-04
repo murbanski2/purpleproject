@@ -24,7 +24,7 @@ Aside from these comments, you may modify and distribute this file as you please
 }
 
 #sequence {
-    	background: url(../resources/images/bg-sky.png) repeat-x #65B7F1;
+    	background: url(../../resources/images/bg-sky.png) repeat-x #65B7F1;
         color: white;
 	font-family: 'Play', sans-serif;
         margin: 0 auto;

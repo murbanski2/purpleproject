@@ -27,27 +27,56 @@
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
     <!-- Security configuration -->
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
-    <listener>
-        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-    </listener>
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/applicationContext.xml</param-value>
-    </context-param>
-    <filter>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/*</url-pattern>
-        <dispatcher>FORWARD</dispatcher>
-        <dispatcher>REQUEST</dispatcher>
-    </filter-mapping> 
-    <!-- end spring configuration -->
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>jdbc-realm</realm-name>
+        <form-login-config>
+            <form-login-page>/faces/login.xhtml</form-login-page>
+            <!-- only for bad credentials, not for access right violations (see below) -->
+            <form-error-page>/faces/accessDenied.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
+    <security-constraint>
+        <display-name>Admin Constraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Admin</web-resource-name>
+            <url-pattern>/faces/admin/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ROLE_ADMIN</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>User Constraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Member</web-resource-name>
+            <url-pattern>/faces/member/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ROLE_ADMIN</role-name>
+            <role-name>ROLE_MEMBER</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    
+    <!-- This is needed for access right violations -->
+    <error-page>
+        <error-code>403</error-code>
+        <location>/faces/accessDenied.xhtml</location>
+    </error-page>
+
+    <!-- end security configuration -->
     <session-config>
         <session-timeout>
             30
@@ -56,4 +85,12 @@
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
+    <security-role>
+        <description/>
+        <role-name>ROLE_ADMIN</role-name>
+    </security-role>
+    <security-role>
+        <description/>
+        <role-name>ROLE_MEMBER</role-name>
+    </security-role>
 </web-app>

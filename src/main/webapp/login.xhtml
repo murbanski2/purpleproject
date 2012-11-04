@@ -73,7 +73,7 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit id="centerPanel" position="center">
-                    <h:form prependId="false" style="margin:90px 90px 90px 90px;">
+                    <form method="post" action="/bitbay/j_security_check" style="margin:90px 90px 90px 90px;">
                         <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
                         <p:focus for="j_username"/>
                         
@@ -84,20 +84,17 @@
 
                             <p:panelGrid columns="2">
                                 <h:outputLabel value="User Name" for="j_username" />
-                                <p:inputText id="j_username"
-                                             value="#{loginBean.username}"
-                                            required="true"/>
+                                <p:inputText id="j_username" required="true"/>
                                 
                                 <h:outputLabel value="Password" for="j_password"/>
-                                <p:password id="j_password"
-                                            value="#{loginBean.password}"
-                                                required="true"/>
+                                <p:password id="j_password" required="true"/>
                                 
+                                <h:outputLabel value=""/>
+                                <input type="submit" name="submit" value="Login" />
                                 
-                                <p:commandButton action="#{loginBean.doLogin()}" value="Login" ajax="false"/>
                             </p:panelGrid>
                         </p:panelGrid>
-                    </h:form>
+                    </form>
 
                 </p:layoutUnit>
 
