@@ -35,7 +35,7 @@ CREATE TABLE `employee` (
   PRIMARY KEY (`ID`),
   KEY `dept_id` (`dept_id`),
   CONSTRAINT `fk_dept_id` FOREIGN KEY (`dept_id`) REFERENCES `department` (`dept_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE `employee` (
 
 LOCK TABLES `employee` WRITE;
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
-INSERT INTO `employee` VALUES (1,'Lombardo','James','jlombardo@wctc.edu','2001-07-01 05:00:00',1,2),(2,'Smith','Robert','rsmith@isp.com','2000-11-21 06:00:00',1,3),(3,'Jones','Sally','sjones@isp.com','1999-10-22 05:00:00',1,4),(5,'Obama','Barack','bobama@whitehouse.org','1999-10-22 05:00:00',1,1),(7,'Clinton','Bill','bc@isp.com','1999-10-22 05:00:00',1,2),(8,'Best','Pete','pb@isp.com','1999-10-22 05:00:00',1,3);
+INSERT INTO `employee` VALUES (1,'Lombardo','James','jlombardo@wctc.edu','2001-07-01 05:00:00',1,2),(2,'Smith','Robert','rsmith@isp.com','2000-11-21 06:00:00',1,3),(5,'Obama','Barack','bobama@whitehouse.org','1999-10-22 05:00:00',1,1),(6,'Jones','Sally','sjones@isp.com','1999-10-22 05:00:00',1,3),(7,'Board','Bob','bb@isp.com','1999-10-22 05:00:00',1,2);
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-10-17 16:56:06
+-- Dump completed on 2012-11-05  0:11:01

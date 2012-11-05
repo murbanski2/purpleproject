@@ -26,7 +26,7 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `username` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `password` varchar(150) NOT NULL,
   `enabled` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -38,7 +38,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('admin','admin',1),('jlombardo@wctc.edu','lumbo',1),('member','member',1);
+INSERT INTO `users` VALUES ('admin','bab779f98f40e273dd860b4c8381006ee40f92453719ee569b059201fd4f61759dc49b31bb3d75bd5efa3539eb6b472e6e06d7ec88fa55de111b5d7c966bf232',1),('member','7d4b739a31a4f1de50871b9fde25a75bde2b8de76d60e47979dd142d6d85e3163d446169a815e026c7026a81ebb921cf48ff3b0281ef3272aae726577d56704d',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-10-17 16:56:06
+-- Dump completed on 2012-11-05  0:11:01
