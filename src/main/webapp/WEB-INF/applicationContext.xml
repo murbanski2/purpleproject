@@ -27,11 +27,16 @@
 ">
     
     <!-- Scans within the base package of the application for @Components to configure as beans -->
-    <context:component-scan base-package="edu.wctc.purpleproject.controller"/>
+    <context:component-scan base-package="edu.wctc.purpleproject">
+        <context:exclude-filter type="regex" expression="edu\.wctc\.distjava\.purpleproject\.repository.*" />
+        <context:exclude-filter type="regex" expression="edu\.wctc\.distjava\.purpleproject\.util.*" />
+    </context:component-scan>
     <context:annotation-config/>
+    
+    <jpa:repositories base-package="edu.wctc.distjava.purpleproject.repository" />
 
     <!-- begin Spring Security config -->
-    <sec:global-method-security secured-annotations="enabled" jsr250-annotations="enabled" />
+    <sec:global-method-security secured-annotations="enabled" />
 
     <sec:http auto-config="true" access-denied-page="/faces/accessDenied.xhtml">
             
@@ -87,20 +92,6 @@
     
     <!-- Server managed connection pool accessed via JNDI -->
     <jee:jndi-lookup id="dataSource" jndi-name="java:app/jdbc/jsfshowcase"/>
-    
-    <!-- For web apps use the app server's transaction management capabilities, 
-         but only when using the app server's connection pool. See the 
-         Spring documentation for other types of transaction managers. 
-    <bean id="txManager" class="org.springframework.transaction.jta.JtaTransactionManager" />
-    -->
-    
-    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
-    
-    
-    <!-- enable the configuration of transactional behavior based on annotations -->
-    <tx:annotation-driven transaction-manager="txManager" proxy-target-class="false" />
         
     <!-- Prefer jndi access to server-managed connection pool (see above)
          Database connection properties defined in jdbc.config.properties file
@@ -113,6 +104,39 @@
       <property name="password" value="${jdbc.password}" />
     </bean>
     -->
+    
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="showSql" value="false" />
+                <property name="generateDdl" value="false" />
+                <property name="database" value="MYSQL" />
+            </bean>
+        </property>
+        
+        <property name="persistenceProvider">
+            <bean class="org.hibernate.ejb.HibernatePersistence" />
+        </property>
+        
+        <property name="jpaDialect">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
+        </property>
+    </bean>
+	
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+        <property name="jpaDialect">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
+        </property>
+    </bean>
+    
+    <tx:annotation-driven transaction-manager="transactionManager" />   
+    <aop:config>
+        <aop:pointcut id="allServiceMethods" expression="execution(* edu.wctc.distjava.purpleproject.service.*.*(..))"/>
+        <aop:advisor pointcut-ref="allServiceMethods" advice-ref="perfLogInterceptor" order="2"/>
+    </aop:config> 
     
     <bean name="perfLogInterceptor" class="edu.wctc.distjava.purpleproject.util.PerformanceLoggingInterceptor"/>
         

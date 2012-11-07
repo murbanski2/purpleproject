@@ -12,23 +12,19 @@
     <f:view contentType="text/html">
         <h:head>
             <h:outputStylesheet name="default.css" library="css" />
-            <h:outputStylesheet name="cssLayout.css" library="css" />
+            <h:outputStylesheet name="layout.css" library="css" />
             <link rel="SHORTCUT ICON" href="/#{msg['server.context.root']}/favicon.ico"/>
 
             <title>Login</title>
 
             <style type="text/css">
                 .ui-widget {
-                    font-size: 100%;
+                    font-size: 75%;
                 }
 
                 .ui-tabs-nav {
                     background-color: transparent;
                     background-image: none;
-                }
-
-                .ui-watermark {
-                    color: #dddddd;
                 }
 
                 /*
@@ -67,7 +63,7 @@
                         <p:breadCrumb>
                             <p:menuitem value="Categories" url="index.xhtml" />
                             <p:menuitem value="BIT Bay Home" url="index.xhtml" />
-                            <p:menuitem value="Login" url="#" />
+                            <p:menuitem value="Registration Confirmation" url="#" />
                         </p:breadCrumb>
                     </div>
                 </p:layoutUnit>
@@ -77,36 +73,12 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit id="centerPanel" position="center">
-                    <h:form prependId="false" style="margin:90px 90px 90px 90px;">
-                        <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                        <p:focus for="j_username"/>
-
-                        <p:panelGrid columns="1">
-                            <f:facet name="header">
-                                BIT Bay Authentication
-                            </f:facet>
-
-                            <p:panelGrid columns="3">
-                                <h:outputLabel value="Email" for="j_username" />
-                                <p:inputText id="j_username" value="#{loginBean.username}" 
-                                             required="true" label="Email" requiredMessage="Email is required"
-                                             validatorMessage="Please use a valid email address">
-                                    <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
-                                </p:inputText>
-                                <p:message for="j_username"/>
-                                <p:watermark for="j_username" value="username@isp.com"/>
-
-                                <h:outputLabel value="Password" for="j_password"/>
-                                <p:password id="j_password" value="#{loginBean.password}" feedback="true"
-                                            required="true" label="Password" requiredMessage="Password is required"
-                                            validatorMessage="Password must be at least 7 characters" />
-                                <p:message for="j_password"/>                                
-
-                                <h:outputText value=""/>
-                                <p:commandButton action="#{loginBean.doLogin()}" value="Login" ajax="false"/>
-                            </p:panelGrid>
-                        </p:panelGrid>
-                    </h:form>
+                        <h2>Registration Confirmed</h2>
+                        <p>Thanks for registering with Bit Bay. You may now
+                           login and start donating or bidding.</p>
+                        <p>
+                        <h:link value="&lt;&lt; Go to Login Page" outcome="login" />
+                        </p>
 
                 </p:layoutUnit>
 

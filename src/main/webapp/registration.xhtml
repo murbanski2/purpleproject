@@ -67,7 +67,7 @@
                         <p:breadCrumb>
                             <p:menuitem value="Categories" url="index.xhtml" />
                             <p:menuitem value="BIT Bay Home" url="index.xhtml" />
-                            <p:menuitem value="Login" url="#" />
+                            <p:menuitem value="User Registration" url="#" />
                         </p:breadCrumb>
                     </div>
                 </p:layoutUnit>
@@ -79,31 +79,32 @@
                 <p:layoutUnit id="centerPanel" position="center">
                     <h:form prependId="false" style="margin:90px 90px 90px 90px;">
                         <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                        <p:focus for="j_username"/>
+                        <p:focus for="email"/>
 
                         <p:panelGrid columns="1">
                             <f:facet name="header">
-                                BIT Bay Authentication
+                                BIT Bay User Registration
                             </f:facet>
 
+                            <p:watermark for="email" value="username@isp.com"/>
                             <p:panelGrid columns="3">
-                                <h:outputLabel value="Email" for="j_username" />
-                                <p:inputText id="j_username" value="#{loginBean.username}" 
+                                <h:outputLabel value="Email" for="email" />
+                                <p:inputText id="email" value="#{loginBean.username}" 
                                              required="true" label="Email" requiredMessage="Email is required"
                                              validatorMessage="Please use a valid email address">
                                     <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
                                 </p:inputText>
-                                <p:message for="j_username"/>
-                                <p:watermark for="j_username" value="username@isp.com"/>
 
-                                <h:outputLabel value="Password" for="j_password"/>
-                                <p:password id="j_password" value="#{loginBean.password}" feedback="true"
+                                <p:message for="email"/>
+
+                                <h:outputLabel value="Password" for="password"/>
+                                <p:password id="password" value="#{loginBean.password}" feedback="true"
                                             required="true" label="Password" requiredMessage="Password is required"
                                             validatorMessage="Password must be at least 7 characters" />
-                                <p:message for="j_password"/>                                
+                                <p:message for="password"/>                                
 
                                 <h:outputText value=""/>
-                                <p:commandButton action="#{loginBean.doLogin()}" value="Login" ajax="false"/>
+                                <p:commandButton action="#{loginBean.doRegistration()}" value="Register"/>
                             </p:panelGrid>
                         </p:panelGrid>
                     </h:form>
