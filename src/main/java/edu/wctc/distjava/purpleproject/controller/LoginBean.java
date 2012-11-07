@@ -136,4 +136,7 @@ public class LoginBean implements Serializable {
     public void setLoggedIn(final boolean loggedIn) {
         this.loggedIn = loggedIn;
     }
+
+    
+    
 }

@@ -27,7 +27,7 @@
 ">
     
     <!-- Scans within the base package of the application for @Components to configure as beans -->
-    <context:component-scan base-package="edu.wctc.purpleproject">
+    <context:component-scan base-package="edu.wctc.distjava.purpleproject">
         <context:exclude-filter type="regex" expression="edu\.wctc\.distjava\.purpleproject\.repository.*" />
         <context:exclude-filter type="regex" expression="edu\.wctc\.distjava\.purpleproject\.util.*" />
     </context:component-scan>

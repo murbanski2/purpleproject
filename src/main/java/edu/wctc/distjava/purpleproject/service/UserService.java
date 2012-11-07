@@ -5,7 +5,8 @@ import edu.wctc.distjava.purpleproject.repository.UserRepository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -18,21 +19,23 @@ import org.springframework.transaction.annotation.Transactional;
  * @author      Jim Lombardo
  * @version     1.01
  */
-@Service
+@Repository
 @Transactional(readOnly=true)
 public class UserService implements IUserService {
     @PersistenceContext
     private EntityManager em;
     
     @Autowired
-    UserRepository userRepo;
+    private UserRepository userRepo;
     
+    @Modifying   
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public User saveAndFlush(User entity) {
         return userRepo.saveAndFlush(entity);
     }
     
+    @Override
     public User findByUsername(String username) {
         return userRepo.findOne(username);
     }
