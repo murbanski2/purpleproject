@@ -19,6 +19,7 @@ import javax.servlet.ServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.web.jsf.FacesContextUtils;
 
@@ -38,8 +39,8 @@ public class LoginBean implements Serializable {
     private boolean loggedIn = false;
     
     public LoginBean() {
-        ctx = FacesContextUtils.getWebApplicationContext(
-                FacesContext.getCurrentInstance());
+        // DO NOT initialize ApplicationContext here. Spring creates
+        // proxy objects so you won't have direct access to this constructor.
     }
 
     /**
@@ -61,6 +62,8 @@ public class LoginBean implements Serializable {
     }
     
     public String doRegistration() {
+        ctx = FacesContextUtils.getWebApplicationContext(
+                FacesContext.getCurrentInstance());
         IUserService userSrv = (IUserService)ctx.getBean("userService");
         FacesContext context = FacesContext.getCurrentInstance();
         
@@ -74,10 +77,7 @@ public class LoginBean implements Serializable {
         }
         
         // If new user, prepare salted hash for password
-        String salt = username; // username field in db
-        ShaPasswordEncoder pe = new ShaPasswordEncoder(512);
-        pe.setIterations(1024);
-        String hash = pe.encodePassword(password, salt);
+        String hash = sha512(password, username);
         
         User user = new User();
         user.setUsername(username);
@@ -86,13 +86,25 @@ public class LoginBean implements Serializable {
         
         List<Authority> auths = new ArrayList<Authority>();
         Authority auth = new Authority();
-        auth.setAuthority("ROLL_MEMBER");
+        auth.setAuthority("ROLE_MEMBER");
         auths.add(auth);
         user.setAuthoritiesCollection(auths);
         auth.setUsername(user);
         userSrv.saveAndFlush(user);
         
         return "registrationConfirmed";
+    }
+    
+    /*
+     * Creates a salted SHA-512 hash composed of password (pwd) and 
+     * salt (username).
+     */
+    private String sha512(String pwd, String salt) {
+        ShaPasswordEncoder pe = new ShaPasswordEncoder(512);
+        pe.setIterations(1024);
+        String hash = pe.encodePassword(pwd, salt);
+
+        return hash;
     }
 
     /**

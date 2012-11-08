@@ -7,19 +7,21 @@
       xmlns:fn="http://java.sun.com/jsp/jstl/functions"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:cc="http://java.sun.com/jsf/composite"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:sec="http://www.springframework.org/security/facelets/tags"
+>
 
     <f:view contentType="text/html">
         <h:head>
             <h:outputStylesheet name="default.css" library="css" />
-            <h:outputStylesheet name="layout.css" library="css" />
+            <h:outputStylesheet name="cssLayout.css" library="css" />
             <link rel="SHORTCUT ICON" href="/#{msg['server.context.root']}/favicon.ico"/>
 
             <title>Login</title>
 
             <style type="text/css">
                 .ui-widget {
-                    font-size: 75%;
+                    font-size: 100%;
                 }
 
                 .ui-tabs-nav {
@@ -61,8 +63,8 @@
                 <p:layoutUnit position="north" size="75">
                     <div align="left">
                         <p:breadCrumb>
-                            <p:menuitem value="Categories" url="index.xhtml" />
-                            <p:menuitem value="BIT Bay Home" url="index.xhtml" />
+                            <p:menuitem value="Categories" url="../index.xhtml" />
+                            <p:menuitem value="BIT Bay Home" url="../index.xhtml" />
                             <p:menuitem value="Access Denied" url="#" />
                         </p:breadCrumb>
                     </div>
@@ -76,7 +78,11 @@
                     <h:panelGrid columns="1" cellspacing="8">
                         <h:outputText style="font-size: xx-large;" value="Access Denied"/>
                         <h:link value="&lt;&lt; Back to Login Page" outcome="login" />
-                        <a href="/#{msg['server.context.root']}/j_spring_security_logout">Just Log Me Out</a>
+                        <c:if test="#{sec:isAuthenticated()}">
+                            <p>Logged in as: #{request.userPrincipal.name}<br/>
+                            <a href="/#{msg['server.context.root']}/j_spring_security_logout">Just Log Me Out</a>
+                            </p>
+                        </c:if>
                     </h:panelGrid>
 
                 </p:layoutUnit>

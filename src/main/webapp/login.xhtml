@@ -86,6 +86,7 @@
                                 BIT Bay Authentication
                             </f:facet>
 
+                            <p:watermark for="j_username" value="username@isp.com"/>                            
                             <p:panelGrid columns="3">
                                 <h:outputLabel value="Email" for="j_username" />
                                 <p:inputText id="j_username" value="#{loginBean.username}" 
@@ -94,7 +95,7 @@
                                     <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
                                 </p:inputText>
                                 <p:message for="j_username"/>
-                                <p:watermark for="j_username" value="username@isp.com"/>
+
 
                                 <h:outputLabel value="Password" for="j_password"/>
                                 <p:password id="j_password" value="#{loginBean.password}" feedback="true"

@@ -2,11 +2,16 @@ package edu.wctc.distjava.purpleproject.service;
 
 import edu.wctc.distjava.purpleproject.domain.User;
 import edu.wctc.distjava.purpleproject.repository.UserRepository;
+import java.io.Serializable;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -19,14 +24,20 @@ import org.springframework.transaction.annotation.Transactional;
  * @author      Jim Lombardo
  * @version     1.01
  */
-@Repository
+@Repository("userService")
 @Transactional(readOnly=true)
-public class UserService implements IUserService {
+public class UserService implements IUserService, Serializable {
+    private static final long serialVersionUID = 1L;
+    private final Logger LOG = LoggerFactory.getLogger(UserService.class);
+    
     @PersistenceContext
     private EntityManager em;
     
     @Autowired
     private UserRepository userRepo;
+    
+    public UserService() {
+    }
     
     @Modifying   
     @Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -40,18 +51,22 @@ public class UserService implements IUserService {
         return userRepo.findOne(username);
     }
 
+    @Override
     public EntityManager getEm() {
         return em;
     }
 
+    @Override
     public void setEm(EntityManager em) {
         this.em = em;
     }
 
+    @Override
     public UserRepository getUserRepo() {
         return userRepo;
     }
 
+    @Override
     public void setUserRepo(UserRepository userRepo) {
         this.userRepo = userRepo;
     }
