@@ -117,6 +117,7 @@
     <bean id="entityManagerFactory"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="purpleproject_PU"/>
+        <property name="packagesToScan" value="edu.wctc.distjava.purpleproject.domain"/>
         <property name="dataSource" ref="dataSource" />
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
@@ -145,7 +146,7 @@
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="smtp.gmail.com"/>
         <property name="username" value="bitbay.auction@gmail.com"/>
-        <property name="password" value="<your password goes here>"/>
+        <property name="password" value="work very h@rd"/>
         <property name="port" value="25"/>
         <property name="javaMailProperties">
             <props>

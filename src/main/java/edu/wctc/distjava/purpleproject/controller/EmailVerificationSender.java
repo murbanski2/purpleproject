@@ -57,14 +57,14 @@ public class EmailVerificationSender implements ISimpleMailSender, Serializable 
         msg.setText("Thank you for registering with Bit Bay, the unique "
                 + "auction site that benefits IT student clubs. This email is "
                 + "being sent to you to verify your intent to join Bit Bay. "
-                + "To complete the registration process for user email '" 
-                + user.getUsername() + "', please click on the link below. "
+                + "To complete the registration process for user email " 
+                + user.getUsername() + "], please click on the link below. ["
                 + "\n\nCAUTION: if you did not register with Bit Bay, somebody "
                 + "else is trying use your email to scam the system. Please "
                 + "do not click on the link below unless you intend to confirm "
                 + "your registraiton with Bit Bay.\n\n"
                 + "Here's the link to complete the registraiton process: \n\n"
-                + "http://localhost:8080/bitbay/verifier?id=" + base64Username);
+                + "http://localhost:8080/bitbay/regVerify.do?id=" + base64Username);
         
         try {
             mailSender.send(msg);

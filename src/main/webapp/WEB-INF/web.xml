@@ -22,6 +22,10 @@
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>RegistrationVerifier</servlet-name>
+        <servlet-class>edu.wctc.distjava.purpleproject.servlet.RegistrationVerifier</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
@@ -46,8 +50,12 @@
         <url-pattern>/*</url-pattern>
         <dispatcher>FORWARD</dispatcher>
         <dispatcher>REQUEST</dispatcher>
-    </filter-mapping> 
+    </filter-mapping>
     <!-- end spring configuration -->
+    <servlet-mapping>
+        <servlet-name>RegistrationVerifier</servlet-name>
+        <url-pattern>/regVerify.do</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

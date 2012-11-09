@@ -63,9 +63,8 @@
                         <p:breadCrumb>
                             <p:menuitem value="Categories" url="index.xhtml" />
                             <p:menuitem value="BIT Bay Home" url="index.xhtml" />
-                            <p:menuitem value="Registration Form" url="registrationForm" />
-                            <p:menuitem value="Registration Agreement" url="registrationAgreement" />
-                            <p:menuitem value="Registration Confirmation" url="#" />
+                            <p:menuitem value="Login" url="login.xhtml" />
+                            <p:menuitem value="Registration Verified" url="#" />
                         </p:breadCrumb>
                     </div>
                 </p:layoutUnit>
@@ -76,18 +75,10 @@
 
                 <p:layoutUnit id="centerPanel" position="center">
                     <h:form prependId="false" style="margin:90px 90px 90px 90px;">
-                        <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                        <h2>Thanks for Registering! Just One More Step to Go...</h2>
-                        <p>Thanks for registering with Bit Bay. A verification
-                           email has been sent to the email address you provided
-                           and you will need to click on the embedded link to 
-                           finalize the registration process. We're looking 
-                           forward to working with you! PLease be on the 
-                           lookout for this email and make sure your spam
-                           filtering does not capture this email as junk.
-                        </p>
+                        <h2>Congratulations, You've Been Verified!</h2>
+                        <p>Please go to the login screen to start using Bit Bay.</p>
                         <p>
-                            <p:commandButton action="index" value="Click Here to Finish" ajax="false"/>
+                            <p:commandButton action="login" value="Go to Login Page" ajax="false"/>
                         </p>
                     </h:form>
                 </p:layoutUnit>
