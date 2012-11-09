@@ -1,14 +1,8 @@
 package edu.wctc.distjava.purpleproject.controller;
 
-import edu.wctc.distjava.purpleproject.domain.Authority;
-import edu.wctc.distjava.purpleproject.domain.User;
-import edu.wctc.distjava.purpleproject.service.IUserService;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -18,10 +12,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
-import org.springframework.web.jsf.FacesContextUtils;
 
 /**
  *
@@ -32,15 +22,11 @@ import org.springframework.web.jsf.FacesContextUtils;
 public class LoginBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private final Logger LOG = LoggerFactory.getLogger(LoginBean.class);
-    private transient ApplicationContext ctx;
 
     private String username = "";
     private String password = "";
-    private boolean loggedIn = false;
     
     public LoginBean() {
-        // DO NOT initialize ApplicationContext here. Spring creates
-        // proxy objects so you won't have direct access to this constructor.
     }
 
     /**
@@ -61,52 +47,6 @@ public class LoginBean implements Serializable {
         return null;
     }
     
-    public String doRegistration() {
-        ctx = FacesContextUtils.getWebApplicationContext(
-                FacesContext.getCurrentInstance());
-        IUserService userSrv = (IUserService)ctx.getBean("userService");
-        FacesContext context = FacesContext.getCurrentInstance();
-        
-        // Determine if user already exists
-        User curUser = userSrv.findByUsername(username);
-        if(curUser != null) {
-            context.addMessage(null, 
-                new FacesMessage(FacesMessage.SEVERITY_WARN,
-                "User Already Exists", "Sorry, that user email is already in use."));
-            return null; // go back to same page
-        }
-        
-        // If new user, prepare salted hash for password
-        String hash = sha512(password, username);
-        
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(hash);
-        user.setEnabled(true);
-        
-        List<Authority> auths = new ArrayList<Authority>();
-        Authority auth = new Authority();
-        auth.setAuthority("ROLE_MEMBER");
-        auths.add(auth);
-        user.setAuthoritiesCollection(auths);
-        auth.setUsername(user);
-        userSrv.saveAndFlush(user);
-        
-        return "registrationConfirmed";
-    }
-    
-    /*
-     * Creates a salted SHA-512 hash composed of password (pwd) and 
-     * salt (username).
-     */
-    private String sha512(String pwd, String salt) {
-        ShaPasswordEncoder pe = new ShaPasswordEncoder(512);
-        pe.setIterations(1024);
-        String hash = pe.encodePassword(pwd, salt);
-
-        return hash;
-    }
-
     /**
      * @return
      */
@@ -133,22 +73,6 @@ public class LoginBean implements Serializable {
      */
     public void setPassword(final String password) {
         this.password = password;
-    }
-
-    /**
-     * @return
-     */
-    public boolean isLoggedIn() {
-        return this.loggedIn;
-    }
-
-    /**
-     * @param loggedIn
-     */
-    public void setLoggedIn(final boolean loggedIn) {
-        this.loggedIn = loggedIn;
-    }
-
-    
+    }    
     
 }
