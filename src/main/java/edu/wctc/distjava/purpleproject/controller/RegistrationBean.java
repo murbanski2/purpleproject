@@ -34,7 +34,7 @@ import org.springframework.web.jsf.FacesContextUtils;
  * @version 1.00
  */
 @Named
-@RequestScoped
+@SessionScoped
 public class RegistrationBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private final Logger LOG = LoggerFactory.getLogger(RegistrationBean.class);

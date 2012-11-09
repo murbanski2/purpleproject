@@ -20,8 +20,15 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
- *
- * @author jlombardo
+ * This class is used to process the verification link sent via email to 
+ * prospective new members of Bit Bay. It does this by converting the
+ * base64 representation of the user email address back to a String and then
+ * using that String to lookup the user. If the user exists, the 'enabled'
+ * status in the database is set to true, else the user is redirected to
+ * an error page.
+ * 
+ * @author  Jim Lombardo
+ * @version 1.00
  */
 public class RegistrationVerifier extends HttpServlet {
 
@@ -67,7 +74,7 @@ public class RegistrationVerifier extends HttpServlet {
         } catch(DataAccessException dae) {
             errMsg = "ERROR: " + dae.getLocalizedMessage();
             request.setAttribute("errMsg", errMsg);
-            destination = "/servletError.jsp";
+            destination = "/faces/servletError.xhtml";
         }
         
                     

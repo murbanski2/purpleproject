@@ -7,7 +7,9 @@
       xmlns:fn="http://java.sun.com/jsp/jstl/functions"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:cc="http://java.sun.com/jsf/composite"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:sec="http://www.springframework.org/security/facelets/tags"
+>
 
     <f:view contentType="text/html">
         <h:head>
@@ -15,7 +17,7 @@
             <h:outputStylesheet name="cssLayout.css" library="css" />
             <link rel="SHORTCUT ICON" href="/#{msg['server.context.root']}/favicon.ico"/>
 
-            <title>Registration Agreement</title>
+            <title>Registration Verification Error</title>
 
             <style type="text/css">
                 .ui-widget {
@@ -61,10 +63,9 @@
                 <p:layoutUnit position="north" size="75">
                     <div align="left">
                         <p:breadCrumb>
-                            <p:menuitem value="Categories" url="index.xhtml" />
-                            <p:menuitem value="BIT Bay Home" url="index.xhtml" />
-                            <p:menuitem value="Registration Form" url="registrationForm" />
-                            <p:menuitem value="Registration Agreement" url="#" />
+                            <p:menuitem value="Categories" url="../index.xhtml" />
+                            <p:menuitem value="BIT Bay Home" url="../index.xhtml" />
+                            <p:menuitem value="Registration Verification Error" url="#" />
                         </p:breadCrumb>
                     </div>
                 </p:layoutUnit>
@@ -75,31 +76,19 @@
 
                 <p:layoutUnit id="centerPanel" position="center">
                     <h:form prependId="false" style="margin:90px 90px 90px 90px;">
-                        <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                        <h2>Please Read and Agree to Terms of Service</h2>
-                        <p>Thanks for your interest in becoming a registered Bit Bay
-                            user. Registration gives you the right to donate and to 
-                            purchase auction items on this site.
-                        </p>
-                        <p>However, Bit Bay cannot be responsible for ...</p>
-                        <p>To complete this registration you must agree to these
-                           terms of service by clicking on the button below.
+                        <h2>Registration Verification Failed.</h2>
+                        <p>
+                            The link provided to you recently in the Registration Verification
+                            email message contained an id value that cannot be found on our
+                            system. Please check that link you clicked on contained this id
+                            and try again. If you have further problems please contact
+                            <a href="mailto:bitbay.auction@gmail.com">bitbay.auction@gmail.com</a> 
+                            and paste your link into the message.
                         </p>
                         <p>
-                            <p:commandButton action="#{registrationBean.doDecline()}" value="No Thanks" ajax="false"/>
-                            <p:spacer width="10px"/>
-                            <p:commandButton action="#{registrationBean.doRegistration()}" global="true" value="I Agree" ajax="false"/>
+                            <p:commandButton action="index" value="Back to Home Page" ajax="false"/>
                         </p>
                     </h:form>
-                    <p:ajaxStatus style="width:32px;height:32px;" id="ajaxStatusPanel">  
-                        <f:facet name="start">  
-                            <h:graphicImage library="images" name="ajaxloading.gif" />  
-                        </f:facet>  
-
-                        <f:facet name="complete">  
-                            <h:outputText value="" />  
-                        </f:facet>  
-                    </p:ajaxStatus>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="south" size="50">

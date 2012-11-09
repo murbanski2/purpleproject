@@ -15,7 +15,7 @@
             <h:outputStylesheet name="cssLayout.css" library="css" />
             <link rel="SHORTCUT ICON" href="/#{msg['server.context.root']}/favicon.ico"/>
 
-            <title>Login</title>
+            <title>Registration Form</title>
 
             <style type="text/css">
                 .ui-widget {
@@ -104,7 +104,7 @@
                                 <p:message for="password"/>                                
 
                                 <h:outputText value=""/>
-                                <p:commandButton action="#{registrationBean.doAgreement()}" value="Register"/>
+                                <p:commandButton action="#{registrationBean.doAgreement()}" value="Register" ajax="false"/>
                             </p:panelGrid>
                         </p:panelGrid>
                     </h:form>
