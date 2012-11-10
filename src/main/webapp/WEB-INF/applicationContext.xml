@@ -71,7 +71,8 @@
         <!-- Use custom form for login -->
         <sec:form-login 
             login-processing-url="/j_spring_security_check"
-            login-page="/faces/login.xhtml" />
+            login-page="/faces/login.xhtml" 
+            authentication-failure-url="/faces/accessDenied.xhtml"/>
             
         <sec:logout invalidate-session="true" logout-success-url="/faces/index.xhtml" />
 

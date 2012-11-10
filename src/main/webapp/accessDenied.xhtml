@@ -77,6 +77,7 @@
                 <p:layoutUnit id="centerPanel" position="center">
                     <h:panelGrid columns="1" cellspacing="8">
                         <h:outputText style="font-size: xx-large;" value="Access Denied"/>
+                        <h:outputText value="Either you haven't registered with Bit Bay, or your account is disabled or you do not have access to certain secured pages on this site."/>                        
                         <h:link value="&lt;&lt; Back to Login Page" outcome="login" />
                         <c:if test="#{sec:isAuthenticated()}">
                             <p>Logged in as: #{request.userPrincipal.name}<br/>

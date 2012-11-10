@@ -88,18 +88,15 @@
                         <p>
                             <p:commandButton action="#{registrationBean.doDecline()}" value="No Thanks" ajax="false"/>
                             <p:spacer width="10px"/>
-                            <p:commandButton action="#{registrationBean.doRegistration()}" global="true" value="I Agree" ajax="false"/>
+                            <p:commandButton onclick="statusDialog.show();" action="#{registrationBean.doRegistration()}" value="I Agree" ajax="false"/>
                         </p>
                     </h:form>
-                    <p:ajaxStatus style="width:32px;height:32px;" id="ajaxStatusPanel">  
-                        <f:facet name="start">  
-                            <h:graphicImage library="images" name="ajaxloading.gif" />  
-                        </f:facet>  
-
-                        <f:facet name="complete">  
-                            <h:outputText value="" />  
-                        </f:facet>  
-                    </p:ajaxStatus>
+                     
+                    <p:dialog modal="false" widgetVar="statusDialog" header="Status"   
+                                draggable="false" closable="false">  
+                        <p:graphicImage value="/resources/images/blueloader.gif" />  
+                    </p:dialog>
+  
                 </p:layoutUnit>
 
                 <p:layoutUnit position="south" size="50">

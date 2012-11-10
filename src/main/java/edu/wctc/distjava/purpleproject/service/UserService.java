@@ -45,6 +45,12 @@ public class UserService implements IUserService, Serializable {
     public User saveAndFlush(User entity) {
         return userRepo.saveAndFlush(entity);
     }
+    @Modifying   
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    @Override
+    public User save(User entity) {
+        return userRepo.save(entity);
+    }
     
     @Override
     public User findByUsername(String username) {
