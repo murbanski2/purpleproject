@@ -1,8 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `jsfshowcase` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `jsfshowcase`;
+CREATE DATABASE  IF NOT EXISTS `bitbay_auction` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `bitbay_auction`;
 -- MySQL dump 10.13  Distrib 5.1.34, for apple-darwin9.5.0 (i386)
 --
--- Host: 127.0.0.1    Database: jsfshowcase
+-- Host: 127.0.0.1    Database: bitbay_auction
 -- ------------------------------------------------------
 -- Server version	5.5.13
 
@@ -18,30 +18,32 @@ USE `jsfshowcase`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `authorities`
+-- Table structure for table `bid`
 --
 
-DROP TABLE IF EXISTS `authorities`;
+DROP TABLE IF EXISTS `bid`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `authorities` (
-  `username` varchar(50) NOT NULL,
-  `authority` varchar(50) NOT NULL DEFAULT 'ROLE_MEMBER',
-  `authorities_id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`authorities_id`),
-  UNIQUE KEY `ix_auth_username` (`username`,`authority`),
-  CONSTRAINT `fk_authorities_users` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+CREATE TABLE `bid` (
+  `bid_id` int(11) NOT NULL AUTO_INCREMENT,
+  `bidder_id` varchar(50) DEFAULT NULL,
+  `item_id` int(11) DEFAULT NULL,
+  `amount` decimal(6,2) DEFAULT NULL,
+  PRIMARY KEY (`bid_id`),
+  KEY `fk_bidder_id` (`bidder_id`),
+  KEY `fk_item_id` (`item_id`),
+  CONSTRAINT `fk_bidder_id` FOREIGN KEY (`bidder_id`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_item_id` FOREIGN KEY (`item_id`) REFERENCES `auction_item` (`item_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `authorities`
+-- Dumping data for table `bid`
 --
 
-LOCK TABLES `authorities` WRITE;
-/*!40000 ALTER TABLE `authorities` DISABLE KEYS */;
-INSERT INTO `authorities` VALUES ('admin','ROLE_ADMIN',2),('admin','ROLE_MEMBER',1),('member','ROLE_MEMBER',3);
-/*!40000 ALTER TABLE `authorities` ENABLE KEYS */;
+LOCK TABLES `bid` WRITE;
+/*!40000 ALTER TABLE `bid` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bid` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -53,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-11-05  0:11:01
+-- Dump completed on 2012-11-11 17:30:22

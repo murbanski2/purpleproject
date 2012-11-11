@@ -2,7 +2,6 @@ package edu.wctc.distjava.purpleproject.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -12,13 +11,14 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
 
 /**
  *
  * @author jlombardo
  */
 @Named
-@RequestScoped
+@Scope("request")
 public class LoginBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private final Logger LOG = LoggerFactory.getLogger(LoginBean.class);

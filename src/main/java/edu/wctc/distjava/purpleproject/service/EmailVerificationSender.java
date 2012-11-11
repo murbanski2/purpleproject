@@ -1,4 +1,4 @@
-package edu.wctc.distjava.purpleproject.controller;
+package edu.wctc.distjava.purpleproject.service;
 
 import edu.wctc.distjava.purpleproject.domain.User;
 import java.io.Serializable;

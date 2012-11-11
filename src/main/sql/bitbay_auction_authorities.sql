@@ -1,8 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `jsfshowcase` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `jsfshowcase`;
+CREATE DATABASE  IF NOT EXISTS `bitbay_auction` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `bitbay_auction`;
 -- MySQL dump 10.13  Distrib 5.1.34, for apple-darwin9.5.0 (i386)
 --
--- Host: 127.0.0.1    Database: jsfshowcase
+-- Host: 127.0.0.1    Database: bitbay_auction
 -- ------------------------------------------------------
 -- Server version	5.5.13
 
@@ -18,34 +18,30 @@ USE `jsfshowcase`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `employee`
+-- Table structure for table `authorities`
 --
 
-DROP TABLE IF EXISTS `employee`;
+DROP TABLE IF EXISTS `authorities`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `employee` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `LASTNAME` varchar(50) DEFAULT NULL,
-  `FIRSTNAME` varchar(45) DEFAULT NULL,
-  `EMAIL` varchar(150) DEFAULT NULL,
-  `HIREDATE` timestamp NULL DEFAULT NULL,
-  `version` int(11) DEFAULT '1',
-  `dept_id` int(11) DEFAULT '1',
-  PRIMARY KEY (`ID`),
-  KEY `dept_id` (`dept_id`),
-  CONSTRAINT `fk_dept_id` FOREIGN KEY (`dept_id`) REFERENCES `department` (`dept_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+CREATE TABLE `authorities` (
+  `username` varchar(50) NOT NULL,
+  `authority` varchar(50) NOT NULL DEFAULT 'ROLE_MEMBER',
+  `authorities_id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`authorities_id`),
+  UNIQUE KEY `ix_auth_username` (`username`,`authority`),
+  CONSTRAINT `fk_authorities_users` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `employee`
+-- Dumping data for table `authorities`
 --
 
-LOCK TABLES `employee` WRITE;
-/*!40000 ALTER TABLE `employee` DISABLE KEYS */;
-INSERT INTO `employee` VALUES (1,'Lombardo','James','jlombardo@wctc.edu','2001-07-01 05:00:00',1,2),(2,'Smith','Robert','rsmith@isp.com','2000-11-21 06:00:00',1,3),(5,'Obama','Barack','bobama@whitehouse.org','1999-10-22 05:00:00',1,1),(6,'Jones','Sally','sjones@isp.com','1999-10-22 05:00:00',1,3),(7,'Board','Bob','bb@isp.com','1999-10-22 05:00:00',1,2);
-/*!40000 ALTER TABLE `employee` ENABLE KEYS */;
+LOCK TABLES `authorities` WRITE;
+/*!40000 ALTER TABLE `authorities` DISABLE KEYS */;
+INSERT INTO `authorities` VALUES ('admin@isp.com','ROLE_ADMIN',35),('admin@isp.com','ROLE_MEMBER',34),('member@isp.com','ROLE_MEMBER',11);
+/*!40000 ALTER TABLE `authorities` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -57,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-11-05  0:11:01
+-- Dump completed on 2012-11-11 17:30:22

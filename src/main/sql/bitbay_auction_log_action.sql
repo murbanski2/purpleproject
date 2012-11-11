@@ -1,8 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `jsfshowcase` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `jsfshowcase`;
+CREATE DATABASE  IF NOT EXISTS `bitbay_auction` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `bitbay_auction`;
 -- MySQL dump 10.13  Distrib 5.1.34, for apple-darwin9.5.0 (i386)
 --
--- Host: 127.0.0.1    Database: jsfshowcase
+-- Host: 127.0.0.1    Database: bitbay_auction
 -- ------------------------------------------------------
 -- Server version	5.5.13
 
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-11-05  0:11:01
+-- Dump completed on 2012-11-11 17:30:22

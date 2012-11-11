@@ -2,17 +2,18 @@ package edu.wctc.distjava.purpleproject.controller;
 
 import edu.wctc.distjava.purpleproject.domain.Authority;
 import edu.wctc.distjava.purpleproject.domain.User;
+import edu.wctc.distjava.purpleproject.service.ISimpleMailSender;
 import edu.wctc.distjava.purpleproject.service.IUserService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 import org.springframework.mail.MailException;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
@@ -32,7 +33,7 @@ import org.springframework.web.jsf.FacesContextUtils;
  * @version 1.00
  */
 @Named
-@SessionScoped
+@Scope("session")
 public class RegistrationBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private final Logger LOG = LoggerFactory.getLogger(RegistrationBean.class);

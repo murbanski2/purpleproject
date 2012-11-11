@@ -109,15 +109,16 @@
                             <p:column>
                                 <p:outputLabel for="searchTxt" value="Search for" style="font-size: larger;" />
                                 <p:spacer width="10px" />
-                                <p:inputText id="searchTxt" value="" size="30" style="font-size: larger;"/>
+                                <p:inputText id="searchTxt" value="" size="28" style="font-size: larger;"/>
                                 <p:watermark for="searchTxt" value="I'm Looking For ..." />
-                                <p:spacer width="10px" />                                
+                                <p:spacer width="8px" />                                
                                 <p:selectOneMenu value="#{appBean.selectedCategory}" style="font-size: larger;position: relative;top: 9px;">
+                                    <f:selectItem itemLabel="Select Category..." itemValue="" />
                                     <f:selectItems value="#{appBean.categories}" />
                                 </p:selectOneMenu>
                                 <p:spacer width="10px" />                                 
                                 <p:commandButton id="searchBtn" value="Go" action="index" style="postion: relative;top: -2px;" />
-                                <div style="position:relative;width:120px;height:15px;left:600px;top:-30px;">
+                                <div style="position:relative;width:120px;height:15px;left:635px;top:-30px;">
                                     <h:link value="Login" outcome="/member/index.xhtml"/><br/>
                                     <h:link value="Create Account" outcome="registrationForm"/>
                                 </div>

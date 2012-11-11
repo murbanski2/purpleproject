@@ -101,7 +101,7 @@
     
     
     <!-- Server managed connection pool accessed via JNDI -->
-    <jee:jndi-lookup id="dataSource" jndi-name="java:app/jdbc/jsfshowcase"/>
+    <jee:jndi-lookup id="dataSource" jndi-name="java:app/jdbc/bitbay_auction"/>
         
     <!-- Prefer jndi access to server-managed connection pool (see above)
          Database connection properties defined in jdbc.config.properties file

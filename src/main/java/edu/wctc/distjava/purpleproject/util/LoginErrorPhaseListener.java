@@ -1,6 +1,5 @@
 package edu.wctc.distjava.purpleproject.util;
 
-import edu.wctc.distjava.purpleproject.controller.FacesUtils;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;

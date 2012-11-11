@@ -1,8 +1,9 @@
 package edu.wctc.distjava.purpleproject.controller;
 
 
+import edu.wctc.distjava.purpleproject.domain.Category;
+import edu.wctc.distjava.purpleproject.service.ICategoryService;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.faces.context.FacesContext;
@@ -10,7 +11,9 @@ import javax.inject.Named;
 import javax.servlet.ServletContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
+import org.springframework.web.jsf.FacesContextUtils;
 
 /**
  * The Spring-managed bean is used to access global application information.
@@ -23,18 +26,25 @@ import org.springframework.context.annotation.Scope;
 public class AppScopeBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private final Logger LOG = LoggerFactory.getLogger(AppScopeBean.class);
+    
+    private transient ApplicationContext ctx; // used to get Spring beans
     private Date startupDate = new Date();
-    private String[] categories= {
-            "All Categories",
-            "Hardware",
-            "Softwware"
-        };
+    private String[] categories;
     private String selectedCategory;
     
-//    private transient ApplicationContext ctx;
-    
     public AppScopeBean() {
-//        ctx = FacesContextUtils.getWebApplicationContext(FacesContext.getCurrentInstance());
+    }
+    
+    public String[] getCategories() {
+        ctx = FacesContextUtils.getWebApplicationContext(FacesContext.getCurrentInstance());
+        ICategoryService catServ = (ICategoryService)ctx.getBean("catService");
+        List<Category> catList = catServ.findAll();
+        categories = new String[catList.size()];
+        for(int i=0; i < categories.length; i++) {
+            categories[i] = catList.get(i).getCategory();
+        }
+        
+        return categories;
     }
 
     public String getServerInfo() {
@@ -50,14 +60,6 @@ public class AppScopeBean implements Serializable {
     public Date getStartupDate() {
         return startupDate;
     }    
-
-    public String[] getCategories() {
-        return categories;
-    }
-
-    public void setCategories(String[] categories) {
-        this.categories = categories;
-    }
 
     private void setSelectedCategory(String value) {
         this.selectedCategory = value;

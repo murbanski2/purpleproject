@@ -30,13 +30,6 @@ import org.springframework.dao.DuplicateKeyException;
 public class HomeNavBean implements Serializable {
     private static final long serialVersionUID = 2L;
     private final Logger LOG = LoggerFactory.getLogger(HomeNavBean.class);
-    private static final boolean DEBUG = true;
-
-//    @Inject
-//    private ImportMapEditorBean importMapEditorBean;
-
-//    @Inject
-//    private LogViewerBean logViewerBean;
     
     private Date currentDate;
     private String noImpMsg = "Not yet Implemented";

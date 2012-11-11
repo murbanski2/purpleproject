@@ -77,14 +77,14 @@
                 <p:layoutUnit id="centerPanel" position="center">
                     <h:form prependId="false" style="margin:90px 90px 90px 90px;">
                         <h2>Thanks for Registering! Just One More Step to Go...</h2>
-                        <p>Thanks for registering with Bit Bay. A verification
-                           email has been sent to the email address you provided
-                           and you will need to click on the embedded link to 
+                        <h:outputText value="Thanks for registering with Bit Bay. A verification
+                           email has been sent to #{registrationBean.username}
+                           and you will need to click on the embedded link in that email to 
                            finalize the registration process. We're looking 
                            forward to working with you! PLease be on the 
                            lookout for this email and make sure your spam
-                           filtering does not capture this email as junk.
-                        </p>
+                           filtering does not capture this email as junk."
+                        />
                         <p>
                             <p:commandButton action="index" value="Click Here to Finish" ajax="false"/>
                         </p>
