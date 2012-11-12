@@ -11,6 +11,7 @@ import javax.inject.Named;
 import javax.servlet.ServletContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.jsf.FacesContextUtils;
@@ -36,6 +37,14 @@ public class AppScopeBean implements Serializable {
     }
     
     public String[] getCategories() {
+        if(categories == null) {
+            initCategories();
+        }
+        
+        return categories;
+    }
+
+    public void initCategories() throws BeansException {
         ctx = FacesContextUtils.getWebApplicationContext(FacesContext.getCurrentInstance());
         ICategoryService catServ = (ICategoryService)ctx.getBean("catService");
         List<Category> catList = catServ.findAll();
@@ -43,8 +52,6 @@ public class AppScopeBean implements Serializable {
         for(int i=0; i < categories.length; i++) {
             categories[i] = catList.get(i).getCategory();
         }
-        
-        return categories;
     }
 
     public String getServerInfo() {

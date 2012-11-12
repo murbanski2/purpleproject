@@ -41,13 +41,13 @@
                 border:0px;
             }
 
-            .ui-layout-north {
-                z-index:20 !important;
-                overflow:visible;
+            .ui-layout-west {
+                    z-index:20 !important;
+                    overflow:visible !important;
             }
 
-            .ui-layout-north .ui-layout-unit-content {
-                overflow:visible;
+            .ui-layout-west .ui-layout-unit-content {
+                overflow:visible !important;
             }
 
         </style>
@@ -61,13 +61,13 @@
                 <div align="left">
                     <p:breadCrumb>
                         <p:menuitem value="Categories" url="#" />
-                        <p:menuitem value="BIT Bay Home" url="../index.xhtml" />
+                        <p:menuitem value="BIT Bay Home" url="/faces/index.xhtml" />
                         <p:menuitem value="BIT Bay Member" url="#" />
                     </p:breadCrumb>
                 </div>
             </p:layoutUnit>
 
-            <p:layoutUnit position="west" resizable="false" size="#{msg['nav.bar.width']}">
+            <p:layoutUnit id="leftPanel" position="west" resizable="false" size="#{msg['nav.bar.width']}">
                 <ui:include src="/navBar.xhtml" />
             </p:layoutUnit>
 

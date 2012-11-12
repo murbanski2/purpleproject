@@ -13,32 +13,37 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <p:panel header="Welcome #{request.userPrincipal.name == null ? 'Guest' : 'Back '.concat(request.userPrincipal.name)}">
-        <br />
+        <br/>
         <p:calendar mode="inline" navigator="none" immediate="true" value="#{homeNavBean.currentDate}" readonly="true" />
-        <br />
+        <br/>
     </p:panel>
 
-    <!--
     <p:panel header="Navigation">
-        <p:commandButton id="dynaButton" value="Quick Jump To &gt;&gt;" type="button"/>
-        <p:menu position="dynamic" type="tiered" trigger="dynaButton" 
-                my="left top" at="left bottom" triggerEvent="mouseover">
-            <p:menuitem value="MobilizeIT Home" url="/faces/home.xhtml" />
-            <p:menuitem value="Quality Inspection" url="/faces/qicHome.xhtml" />
-            <p:menuitem value="Add Tool" url="/faces/addTool.xhtml" />
-            <p:menuitem value="Cycle Count Filters" url="/faces/cycleCount.xhtml" />
-            <p:menuitem value="Units of Measure" url="/faces/unitMeasureAdmin.xhtml" />
-        </p:menu>
-
+        <h:form>
+            <p:tieredMenu>
+            <p:submenu label="Accounts" icon="ui-icon-refresh">
+                <p:menuitem value="Administrators" url="/faces/admin/index.xhtml" />
+                <p:menuitem value="Members" url="/faces/member/index.xhtml" />
+            </p:submenu>
+            <p:submenu label="Popular Items" icon="ui-icon-search">
+                <p:menuitem value="Books" url="#" />
+                <p:menuitem value="Clothing" url="#" />
+                <p:menuitem value="Electronics" url="#" />
+                <p:menuitem value="Collectibles" url="#" />
+                <p:menuitem value="Computing" url="#" />
+            </p:submenu>
+            <p:submenu label="Support" icon="ui-icon-lightbulb">
+                <p:menuitem value="The Bidding Process" url="#" />
+                <p:menuitem value="How to Donate Items" url="#" />
+            </p:submenu>
+        </p:tieredMenu>
+        </h:form>
+        <br/>
     </p:panel>
-    -->
 
     <p:panel header="About #{msg['app.name']}">
         <h:panelGrid columns="1">
             <h:outputText value="#{msg['app.version']}" />
-            <h:outputText value="#{appBean.serverInfo}" />
-            <h:outputText value="#{homeNavBean.javaVersion}" />
-            <h:outputText value="#{homeNavBean.osInfo}" />
             <h:panelGroup>
                 <h:outputText value="#{msg['server.started']}:&lt;br/&gt;" escape="false"/>
                 <h:outputText value="#{appBean.startupDate}">
@@ -52,7 +57,9 @@
             <h:outputText value="#{msg['mfg.address']}" />
             <h:outputText value="#{msg['mfg.city.state.zip']}" />
             <h:outputText value="#{msg['mfg.phone']}" />
-            <h:outputText value=" " />
+            <h:outputLink value="mailto:#{msg['webmaster.email']}">
+                <h:outputText value="#{msg['webmaster.email']}" />
+            </h:outputLink>
         </h:panelGrid>
     </p:panel>
 

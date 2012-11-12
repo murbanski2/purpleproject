@@ -47,14 +47,6 @@
                     border:0px;
                 }
 
-                .ui-layout-north {
-                    z-index:20 !important;
-                    overflow:visible;
-                }
-
-                .ui-layout-north .ui-layout-unit-content {
-                    overflow:visible;
-                }
             </style>
         </h:head>
 
@@ -88,19 +80,55 @@
 
                             <p:watermark for="email" value="username@isp.com"/>
                             <p:panelGrid columns="3">
+                                <h:outputLabel value="First Name" for="firstName" />
+                                <p:inputText id="firstName" value="#{registrationBean.firstName}" 
+                                             required="true" label="First Name" requiredMessage="First Name is required"/>
+                                <p:message for="firstName"/>
+
+                                <h:outputLabel value="Last Name" for="lastName" />
+                                <p:inputText id="lastName" value="#{registrationBean.lastName}" 
+                                             required="true" label="Last Name" requiredMessage="Last Name is required"/>
+                                <p:message for="lastName"/>
+
+                                <h:outputLabel value="Address1" for="address1" />
+                                <p:inputText id="address1" value="#{registrationBean.address1}" 
+                                             required="true" label="Address1" requiredMessage="Address1 is required"/>
+                                <p:message for="address1"/>
+
+                                <h:outputLabel value="Address2" for="address2" />
+                                <p:inputText id="address2" value="#{registrationBean.address2}"/>
+                                <p:message for="lastName"/>
+
+                                <h:outputLabel value="City" for="city" />
+                                <p:inputText id="city" value="#{registrationBean.city}" 
+                                             required="true" label="City" requiredMessage="City is required"/>
+                                <p:message for="city"/>
+
+                                <h:outputLabel value="State" for="state" />
+                                <p:selectOneMenu id="state" value="#{registrationBean.state}">   
+                                    <f:selectItems value="#{registrationBean.abbrevMap}"/>  
+                                </p:selectOneMenu>
+                                <p:message for="state"/>
+
+                                <h:outputLabel value="Zip Code" for="zip" />
+                                <p:inputText id="zip" value="#{registrationBean.zip}" 
+                                             required="true" label="Zip" requiredMessage="Zip is required"
+                                             validatorMessage="Please use a valid zip cide">
+                                    <f:validateRegex pattern="^\d{5}$|^\d{5}-\d{4}$" />
+                                </p:inputText>
+                                <p:message for="zip"/>
+
                                 <h:outputLabel value="Email" for="email" />
                                 <p:inputText id="email" value="#{registrationBean.username}" 
                                              required="true" label="Email" requiredMessage="Email is required"
                                              validatorMessage="Please use a valid email address">
                                     <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
                                 </p:inputText>
-
                                 <p:message for="email"/>
 
                                 <h:outputLabel value="Password" for="password"/>
                                 <p:password id="password" value="#{registrationBean.password}" feedback="true"
-                                            required="true" label="Password" requiredMessage="Password is required"
-                                            validatorMessage="Password must be at least 7 characters" />
+                                            required="true" label="Password" requiredMessage="Password is required"/>
                                 <p:message for="password"/>                                
 
                                 <h:outputText value=""/>

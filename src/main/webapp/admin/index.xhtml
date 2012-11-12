@@ -61,13 +61,13 @@
                 <div align="left">
                     <p:breadCrumb>
                         <p:menuitem value="Categories" url="#" />
-                        <p:menuitem value="BIT Bay Home" url="../index.xhtml" />
+                        <p:menuitem value="BIT Bay Home" url="/faces/index.xhtml" />
                         <p:menuitem value="BIT Bay Administration" url="#" />
                     </p:breadCrumb>
                 </div>
             </p:layoutUnit>
 
-            <p:layoutUnit position="west" resizable="false" size="#{msg['nav.bar.width']}">
+            <p:layoutUnit position="west" resizable="false" size="#{msg['nav.bar.width']}" style="z-index:3000;">
                 <ui:include src="/navBar.xhtml" />
             </p:layoutUnit>
 
