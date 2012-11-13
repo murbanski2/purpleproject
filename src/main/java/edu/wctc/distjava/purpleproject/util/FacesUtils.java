@@ -2,8 +2,14 @@ package edu.wctc.distjava.purpleproject.util;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
 
 public class FacesUtils {
+    
+    public static Flash flashScope (){
+	return (FacesContext.getCurrentInstance().getExternalContext().getFlash());
+    }
+    
     public static void addErrorMessage(String msg) {
         addMessage(FacesMessage.SEVERITY_ERROR, msg);
     }

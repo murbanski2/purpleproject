@@ -22,21 +22,9 @@
                     font-size: 100%;
                 }
 
-                .ui-tabs-nav {
-                    background-color: transparent;
-                    background-image: none;
-                }
-
                 .ui-watermark {
                     color: #e3e3e3;
                 }
-
-                /*
-                .ui-growl {
-                    top: 350px;
-                    left: 600px;
-                }
-                */
 
                 .ui-datatable-scrollable-header2 {
                     height: 10px;
@@ -45,6 +33,15 @@
 
                 .ui-panel {
                     border:0px;
+                }
+
+                .ui-layout-north {
+                    z-index:20 !important;
+                    overflow:visible;
+                }
+
+                .ui-layout-north .ui-layout-unit-content {
+                    overflow:visible;
                 }
 
             </style>
@@ -58,8 +55,8 @@
                     <div align="left">
                         <p:breadCrumb>
                             <p:menuitem value="Categories" url="index.xhtml" />
-                            <p:menuitem value="BIT Bay Home" url="index.xhtml" />
-                            <p:menuitem value="User Registration" url="#" />
+                            <p:menuitem value="bitBay Home" url="index.xhtml" />
+                            <p:menuitem value="Registration Form" url="#" />
                         </p:breadCrumb>
                     </div>
                 </p:layoutUnit>
@@ -75,7 +72,7 @@
 
                         <p:panelGrid columns="1">
                             <f:facet name="header">
-                                BIT Bay User Registration
+                                bitBay Member Registration
                             </f:facet>
 
                             <p:watermark for="email" value="username@isp.com"/>

@@ -20,18 +20,6 @@
                 font-size: 100%;
             }
 
-            .ui-tabs-nav {
-                background-color: transparent;
-                background-image: none;
-            }
-
-            /*
-            .ui-growl {
-                top: 350px;
-                left: 600px;
-            }
-            */
-
             .ui-datatable-scrollable-header2 {
                 height: 10px;
             }
@@ -39,6 +27,15 @@
 
             .ui-panel {
                 border:0px;
+            }
+
+            .ui-layout-north {
+                z-index:20 !important;
+                overflow:visible;
+            }
+
+            .ui-layout-north .ui-layout-unit-content {
+                overflow:visible;
             }
 
         </style>
@@ -52,8 +49,8 @@
                 <div align="left">
                     <p:breadCrumb>
                         <p:menuitem value="Categories" url="#" />
-                        <p:menuitem value="BIT Bay Home" url="/faces/index.xhtml" />
-                        <p:menuitem value="BIT Bay Member" url="/faces/member/index.xhtml" />
+                        <p:menuitem value="bitBay Home" url="/faces/index.xhtml" />
+                        <p:menuitem value="bitBay Member" url="/faces/member/index.xhtml" />
                         <p:menuitem value="Donate Item" url="#" />
                     </p:breadCrumb>
                 </div>
