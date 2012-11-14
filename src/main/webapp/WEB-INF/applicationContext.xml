@@ -43,9 +43,7 @@
     <sec:global-method-security secured-annotations="enabled" />
 
     <!-- Don't SSL encrypt static resources -->
-    <sec:http pattern="/resources/css/*.css" security="none"/>
-    <sec:http pattern="/resources/images/*.*" security="none"/>
-    <sec:http pattern="/resources/js/*.js" security="none"/>
+    <sec:http pattern="/resources/**" security="none"/>
 
     <sec:http auto-config="true" access-denied-page="/faces/accessDenied.xhtml">
             
@@ -62,7 +60,7 @@
             pattern="/faces/member/**" 
             access="ROLE_MEMBER, ROLE_ADMIN" requires-channel="https" />
         <sec:intercept-url 
-            pattern="/*.*" 
+            pattern="/**" 
             access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         
         <!-- Use O/S provided login window
@@ -74,7 +72,9 @@
             login-page="/faces/login.xhtml" 
             authentication-failure-url="/faces/accessDenied.xhtml"/>
             
-        <sec:logout invalidate-session="true" logout-success-url="/faces/index.xhtml" />
+        <sec:logout logout-url="/j_spring_security_logout" 
+                    invalidate-session="true" 
+                    logout-success-url="/faces/index.xhtml" />
 
     </sec:http>
  

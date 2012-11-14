@@ -46,7 +46,7 @@
 
             <p:layout id="homeLayout" fullPage="true">
 
-                <p:layoutUnit position="north" size="75">
+                <p:layoutUnit position="north" size="25">
                     <div align="left">
                         <p:breadCrumb>
                             <p:menuitem value="Categories" url="index.xhtml" />
@@ -74,7 +74,8 @@
                            filtering does not capture this email as junk."
                         />
                         <p>
-                            <p:commandButton action="index" value="Click Here to Finish" ajax="false"/>
+                            <p:commandButton actionListener="#{homeNavBean.killRregistrationBean}" 
+                                             action="index" value="Click Here to Finish" ajax="false"/>
                         </p>
                     </h:form>
                 </p:layoutUnit>

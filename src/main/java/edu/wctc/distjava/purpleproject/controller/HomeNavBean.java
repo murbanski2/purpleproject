@@ -9,10 +9,13 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.ChartSeries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.util.WebUtils;
 
 /**
  * The is a Spring-managed JSF bean and the main entry point for the
@@ -27,11 +30,39 @@ public class HomeNavBean implements Serializable {
     private static final long serialVersionUID = 6L;
     private final Logger LOG = LoggerFactory.getLogger(HomeNavBean.class);
     
-    private Date currentDate;
     private String noImpMsg = "Not yet Implemented";
+    private CartesianChartModel categoryModel;
 
     public HomeNavBean() {
+        createCategoryModel();
     }
+
+    public CartesianChartModel getCategoryModel() {
+        return categoryModel;
+    }
+
+    private void createCategoryModel() {
+        categoryModel = new CartesianChartModel();
+
+        ChartSeries donations = new ChartSeries();
+//        donations.setLabel("Donations");
+
+        donations.set("Oct", 25);
+        donations.set("Nov", 125);
+        donations.set("Dec", 0);
+        donations.set("Jan", 0);
+        donations.set("Feb", 0);
+        donations.set("Mar", 0);
+        donations.set("Apr", 0);
+        donations.set("May", 0);
+        donations.set("Jun", 0);        
+        donations.set("Jul", 0);
+        donations.set("Aug", 0);
+        donations.set("Sep", 0);
+        
+        categoryModel.addSeries(donations);
+    }
+    
     
     public String showPopularByType(String key) {
         return null;
@@ -62,6 +93,17 @@ public class HomeNavBean implements Serializable {
                 new FacesMessage(FacesMessage.SEVERITY_WARN,
                 this.noImpMsg, "Coming soon..."));
     }
+    
+    public void killRregistrationBean(ActionEvent e) {
+        // Now remove RegistrationBean from HttpSession
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext extContext = context.getExternalContext();
+        extContext.getRequest();
+        WebUtils.setSessionAttribute(
+                (HttpServletRequest)extContext.getRequest(), 
+                "registrationBean", null);
+
+    }
 
     public String getJavaVersion() {
         return "Java: " + System.getProperty("java.version");
@@ -73,12 +115,12 @@ public class HomeNavBean implements Serializable {
     }
 
     public Date getCurrentDate() {
-        return currentDate == null ? new Date() : currentDate;
+        return new Date();
     }
-
-    public void setCurrentDate(Date currentDate) {
-        this.currentDate = currentDate;
-    }
+//
+//    public void setCurrentDate(Date currentDate) {
+//        this.currentDate = currentDate;
+//    }
 
     
 

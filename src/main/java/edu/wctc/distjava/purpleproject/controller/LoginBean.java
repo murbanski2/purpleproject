@@ -43,6 +43,7 @@ public class LoginBean implements Serializable {
         dispatcher.forward((ServletRequest) context.getRequest(),
                 (ServletResponse) context.getResponse());
         FacesContext.getCurrentInstance().responseComplete();
+
         // It's OK to return null here because Faces is just going to exit.
         return null;
     }

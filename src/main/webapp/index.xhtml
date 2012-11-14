@@ -25,9 +25,9 @@
             .ui-datatable-scrollable-header2 {
                 height: 10px;
             }
-            
+
             .ui-watermark {
-                color: #dddddd;
+                color: #e3e3e3;
             }
 
             .ui-panel {
@@ -44,33 +44,33 @@
             }
 
         </style>
-        
-	<link rel="stylesheet" type="text/css" media="screen" href="resources/css/sequencejs-theme.sliding-horizontal-parallax.css" />
-	<!--[if lt IE 9]><link rel="stylesheet" type="text/css" media="screen" href="resources/css/sequencejs-theme.sliding-horizontal-parallax-ie.css" /><![endif]-->
+
+        <link rel="stylesheet" type="text/css" media="screen" href="resources/css/sequencejs-theme.sliding-horizontal-parallax.css" />
+        <!--[if lt IE 9]><link rel="stylesheet" type="text/css" media="screen" href="resources/css/sequencejs-theme.sliding-horizontal-parallax-ie.css" /><![endif]-->
 
 
         <script type="text/javascript">	
             $(document).ready(function(){
-                    var options = {		
-				autoPlayDelay: 2000,
-				hidePreloaderDelay: 0,
-				nextButton: true,
-				prevButton: true,
-				hidePreloaderUsingCSS: false,						
-				animateStartingFrameIn: true, 			
-				transitionThreshold: 1000,
-				pauseOnHover: true,
-				customKeyEvents: {
-					80: "pause"
-				}
-			};
-                    var sequence = $("#sequence").sequence(options).data("sequence");
-
-                    sequence.afterLoaded = function(){
-                            $(".prev, .next").fadeIn(500);
+                var options = {		
+                    autoPlayDelay: 2000,
+                    hidePreloaderDelay: 0,
+                    nextButton: true,
+                    prevButton: true,
+                    hidePreloaderUsingCSS: false,						
+                    animateStartingFrameIn: true, 			
+                    transitionThreshold: 1000,
+                    pauseOnHover: true,
+                    customKeyEvents: {
+                        80: "pause"
                     }
+                };
+                var sequence = $("#sequence").sequence(options).data("sequence");
+
+                sequence.afterLoaded = function(){
+                    $(".prev, .next").fadeIn(500);
+                }
             })
-	</script>
+        </script>
     </h:head>
 
     <h:body>  
@@ -98,7 +98,7 @@
                                 <p:outputLabel for="searchTxt" value="Search for" style="font-size: larger;" />
                                 <p:spacer width="10px" />
                                 <p:inputText id="searchTxt" value="" size="28" style="font-size: larger;"/>
-                                <p:watermark for="searchTxt" value="I'm Looking For ..." />
+                                <p:watermark for="searchTxt" value="my search terms" />
                                 <p:spacer width="8px" />                                
                                 <p:selectOneMenu value="#{appBean.selectedCategory}" style="font-size: larger;position: relative;top: 9px;">
                                     <f:selectItem itemLabel="Select Category..." itemValue="" />
@@ -112,43 +112,52 @@
                                 </div>
                             </p:column>
                         </p:row>
+
                         <p:row>
                             <p:column>
                                 <div id="header">
-                                <div id="sequence">
-                                    <img class="prev" src="resources/images/bt-prev.png" alt="Previous" />
-                                    <img class="next" src="resources/images/bt-next.png" alt="Next" />
-                                    <ul>
-                                        <li>
-                                            <div class="info animate-in">
-                                                <h2 class="seqTitle">Donate to bitBay&trade;</h2>
-                                                <p>Donate your old stuff, or your time and expertise, to help fund the WCTC's IT Club</p>
-                                            </div>
-                                            <img class="sky animate-in" src="resources/images/bg-clouds.png" alt="Blue Sky" />
-                                            <img class="balloon animate-in" src="resources/images/gadgets_digi.png" height="50%" width="30%" alt="Gadgets" />
-                                        </li>
-                                        <li>
-                                            <div class="info">
-                                                <h2 class="seqTitle">Make Your Bid</h2>
-                                                <p>Get cool stuff in an auction format where you bid against others. All proceeds go to the WCTC IT Club.</p>
-                                            </div>
-                                            <img class="sky" src="resources/images/bg-clouds.png" alt="Blue Sky" />
-                                            <img class="aeroplane" src="resources/images/aeroplane.png" alt="Aeroplane" />
-                                        </li>
-                                        <li>
-                                            <div class="info">
-                                                <h2 class="seqTitle">Win Cool Stuff</h2>
-                                                <p>Congratulations. You had the winning bid. Give us the funds and we'll get you your stuff.</p>
-                                            </div>
-                                            <img class="sky" src="resources/images/bg-clouds.png" alt="Blue Sky" />
-                                            <img class="kite" src="resources/images/kite.png" alt="Kite" />
-                                        </li>
-                                    </ul>
-                                </div>
+                                    <div id="sequence">
+                                        <img class="prev" src="resources/images/bt-prev.png" alt="Previous" />
+                                        <img class="next" src="resources/images/bt-next.png" alt="Next" />
+                                        <ul>
+                                            <li>
+                                                <div class="info animate-in">
+                                                    <h2 class="seqTitle">Donate to bitBay&trade;</h2>
+                                                    <p>Donate your old stuff, or your time and expertise, to help fund the WCTC's IT Club</p>
+                                                </div>
+                                                <img class="sky animate-in" src="resources/images/bg-clouds.png" alt="Blue Sky" />
+                                                <img class="balloon animate-in" src="resources/images/gadgets_digi.png" height="50%" width="30%" alt="Gadgets" />
+                                            </li>
+                                            <li>
+                                                <div class="info">
+                                                    <h2 class="seqTitle">Make Your Bid</h2>
+                                                    <p>Get cool stuff in an auction format where you bid against others. All proceeds go to the WCTC IT Club.</p>
+                                                </div>
+                                                <img class="sky" src="resources/images/bg-clouds.png" alt="Blue Sky" />
+                                                <img class="aeroplane" src="resources/images/aeroplane.png" alt="Aeroplane" />
+                                            </li>
+                                            <li>
+                                                <div class="info">
+                                                    <h2 class="seqTitle">Win Cool Stuff</h2>
+                                                    <p>Congratulations. You had the winning bid. Give us the funds and we'll get you your stuff.</p>
+                                                </div>
+                                                <img class="sky" src="resources/images/bg-clouds.png" alt="Blue Sky" />
+                                                <img class="kite" src="resources/images/kite.png" alt="Kite" />
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </p:column>
                         </p:row>
                         <p:spacer height="10px"/>
+                        <p:row>
+                            <p:column>
+                                <p:lineChart id="filled" value="#{homeNavBean.categoryModel}" 
+                                             fill="true" title="Donations to Date" 
+                                             style="height:110px;margin-top:0px" 
+                                             yaxisLabel="Dollars" />
+                            </p:column>
+                        </p:row>
                         <p:row>
                             <p:column>
                                 <h2>Welcome to bitBay&trade;. The Auction Site That Benefits WCTC's IT Club</h2>

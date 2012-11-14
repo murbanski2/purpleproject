@@ -26,7 +26,9 @@ import org.springframework.web.jsf.FacesContextUtils;
  * This Spring-managed JSF/CDI bean handles the member registration process from
  * provision of credentials, to acceptance of terms of service, to the sending
  * of an email for verification purposes, and finally to acceptance and
- * confirmation of member registration. <P> Because this process spans several
+ * confirmation of member registration. 
+ * <P> 
+ * Because this process spans several
  * pages, the class uses Session scope. Note that we cannot use CDI
  * ConverstaionScope because Spring does not currently support it with CDI
  * (rumored to be fixed in next version).
@@ -86,7 +88,7 @@ public class RegistrationBean implements Serializable {
 
         // Prepare salted hash for password here, so as not to
         // overtax the doRegistration method below
-        hash = sha512(password, username);
+        hash = encodeSha512(password, username);
         return "registrationAgreement";
     }
 
@@ -180,7 +182,7 @@ public class RegistrationBean implements Serializable {
      * Creates a salted SHA-512 hash composed of password (pwd) and 
      * salt (username).
      */
-    private String sha512(String pwd, String salt) {
+    private String encodeSha512(String pwd, String salt) {
         ShaPasswordEncoder pe = new ShaPasswordEncoder(512);
         pe.setIterations(1024);
         String hash = pe.encodePassword(pwd, salt);
