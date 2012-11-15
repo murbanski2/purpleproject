@@ -18,6 +18,8 @@ public interface ICategoryService extends Serializable {
 
     List<Category> findAll();
     
+    List<Category> findByCategoryName(String name);
+    
     @Modifying
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     Category save(Category entity);

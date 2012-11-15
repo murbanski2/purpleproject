@@ -36,6 +36,10 @@ public class CategoryService implements ICategoryService {
         return catRepo.findAllSorted();
     }
     
+    public List<Category> findByCategoryName(String name) {
+        return catRepo.findByCategoryName(name);
+    }
+    
     @Modifying   
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override

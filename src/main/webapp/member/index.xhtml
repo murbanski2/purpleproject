@@ -19,7 +19,7 @@
             .ui-widget {
                 font-size: 100%;
             }  
-                        
+
             .ui-watermark {
                 color: #e3e3e3;
             }
@@ -40,10 +40,10 @@
             .ui-layout-north .ui-layout-unit-content {
                 overflow:visible;
             }
-            
+
 
         </style>
-        
+
     </h:head>
 
     <h:body>  
@@ -69,7 +69,13 @@
                     <p:panelGrid cellpadding="4" style="width: 760px; margin:4 auto;">
                         <p:row>
                             <p:column colspan="2" style="text-align: center;">
-                                <h2>Member's Launch Pad</h2>
+                                <h2>Welcome Member. Please Donate Often.</h2>
+                                <p>We hope you're enjoying your user experience with
+                                    bitBay. Please remember what we're about, however,
+                                    which is funding our student IT club. Please consider
+                                    donating some stuff that you no longer need. Thanks
+                                    for using bitBay.
+                                </p>
                             </p:column>
                         </p:row>
                         <p:row>
@@ -98,15 +104,18 @@
                         <p:row>
                             <p:column style="vertical-align: top;">
                                 <div id="searchDiv">
-                                <h3>Your Recent Searches</h3>
-                                <p>fast track C400 pro</p>
+                                    <h3>Your Recent Searches</h3>
+                                    <p>fast track C400 pro</p>
                                 </div>
                             </p:column>
                             <p:column style="vertical-align: top;">
                                 <div id="infoDiv">
-                                <h3>Start Bidding or Donating</h3>
-                                <p>How to Donate an Item on bitBay</p>
-                                <p>How to Bid on an Item</p>
+                                    <h3>Start Bidding or Donating</h3>
+                                    <p><h:outputLink value="donate.xhtml">
+                                            <h:outputText value="Donate Stuff" />
+                                        </h:outputLink></p>
+                                    <p>How to Donate Stuff on bitBay</p>
+                                    <p>How to Bid on an Item</p>
                                 </div>
                             </p:column>
                         </p:row>

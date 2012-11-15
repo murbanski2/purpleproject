@@ -61,16 +61,82 @@
             </p:layoutUnit>
 
             <p:layoutUnit id="centerPanel" position="center">         
-                <h:form id="home_form">
+                <h:form id="donate_form">
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                    <p:panelGrid cellpadding="4" style="width: 760px; margin:4 auto;">
-                        
+                    <p:panelGrid cellpadding="4">
                         <p:row>
-                            <p:column>
-                                <h2>Donate an Item</h2>
-                                
+                            <p:column colspan="3">
+                                <h2>Donate Some Stuff</h2>
+                                <p>You may use HTML tags in your text to format your content</p>
                             </p:column>
                         </p:row>
+                        
+                        <p:row>
+                            <p:column><h:outputLabel value="Category" for="category" style="font-weight: bold;" /></p:column>
+                             <p:column>
+                                <p:selectOneMenu id="category" value="#{donateBean.selectedCategory}" 
+                                                 required="true">
+                                    <f:selectItem itemLabel="Select Category..." itemValue="" />
+                                    <f:selectItems value="#{appBean.categories}" />
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column><p:message for="desc"/></p:column>  
+                       </p:row>
+                         
+                        <p:row>
+                            <p:column><h:outputLabel value="Title" for="title" style="font-weight: bold;" /></p:column>
+                             <p:column>
+                                 <p:inputText id="title" value="#{donateBean.title}" size="125"
+                                             required="true" label="Title" requiredMessage="Title is required"/>
+                            </p:column>
+                            <p:column><p:message for="title"/></p:column>  
+                       </p:row>
+                        
+                        <p:row>
+                            <p:column style="vertical-align: top;"><h:outputLabel value="Description" for="desc" style="font-weight: bold;" /></p:column>
+                             <p:column>
+                                <p:inputTextarea id="desc" rows="10" cols="125" value="#{donateBean.description}" 
+                                             required="true" label="Description" requiredMessage="Description is required"/>
+                            </p:column>
+                            <p:column><p:message for="desc"/></p:column>  
+                       </p:row>
+
+                        <p:row>
+                            <p:column colspan="3">
+                                <h3>Upload Pictures of Your Stuff</h3>
+                                <p>You may upload up to five (5) pictures of type *.jpg, *gif or .png,
+                                    where the size of each picture file may not exceed 1 Mb (1,024 Kb).<br/>
+                                   The first picture will be the main picture and will appear largest.
+                                </p>
+                            </p:column>
+                        </p:row>
+                        
+                       <p:row>
+                            <p:column colspan="3">
+                                <p:fileUpload fileUploadListener="#{donateBean.handleFileUpload}" multiple="true"
+                                              allowTypes="/(\.|\/)(gif|jpe?g|png)$/"  sizeLimit="1048576"/>
+                            </p:column>
+                        </p:row>
+                        
+                       <p:row>
+                            <p:column>
+                                <p style="font-weight: bold;">Auction Start Date:<br/>
+                                <p:calendar id="startDate" value="#{donateBean.startDate}" />
+                                </p>
+                            </p:column>
+                            <p:column>
+                                <p style="font-weight: bold;">Auction End Date:<br/>
+                                <p:calendar id="endDate" value="#{donateBean.endDate}" />
+                                </p>
+                            </p:column>
+                       </p:row>
+                         
+                        <p:row>
+                            <p:column colspan="3">
+                                <p:commandButton action="#{donateBean.saveItem}" value="Donate It"/>
+                            </p:column>
+                        </p:row>
+                        
                     </p:panelGrid>
                 </h:form>
             </p:layoutUnit>
