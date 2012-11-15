@@ -54,7 +54,8 @@
                     <p:breadCrumb>
                         <p:menuitem value="Categories" url="#" />
                         <p:menuitem value="bitBay Home" url="/faces/index.xhtml" />
-                        <p:menuitem value="bitBay Member" url="#" />
+                        <p:menuitem value="bitBay Member" url="/faces/member/index.xhtml" />
+                        <p:menuitem value="Auction Items Found" url="#" />
                     </p:breadCrumb>
                 </div>
             </p:layoutUnit>
@@ -64,28 +65,9 @@
             </p:layoutUnit>
 
             <p:layoutUnit id="centerPanel" position="center">         
-                <h:form id="member_form">
+                <h:form id="search_form">
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
                     <p:panelGrid cellpadding="4" style="width: 760px; margin:4 auto;">
-                        <p:row>
-                            <p:column colspan="2" style="text-align: center;">
-                                <h2>Welcome Member. Please Donate Often.</h2>
-                                <p>We hope you're enjoying your user experience with
-                                    bitBay. Please remember what we're about, however,
-                                    which is funding our student IT club. Please consider
-                                    donating some stuff that you no longer need. Thanks
-                                    for using bitBay.
-                                </p>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column colspan="2">
-                                <p:lineChart id="filled" value="#{homeNavBean.categoryModel}" 
-                                             fill="true" title="Donations to Date" 
-                                             style="height:160px;margin-top:0px" 
-                                             yaxisLabel="Dollars" />
-                            </p:column>
-                        </p:row>
                         <p:row>
                             <p:column colspan="2">
                                 <p:outputLabel for="searchTxt" value="Search for" style="font-size: larger;" />
@@ -101,25 +83,23 @@
                                 <p:commandButton id="searchBtn" value="Go" action="#{homeNavBean.doItemSearch}" style="postion: relative;top: -2px;" />
                             </p:column>
                         </p:row>
-                        <p:row>
-                            <p:column style="vertical-align: top;">
-                                <div id="searchDiv">
-                                    <h3>Your Recent Searches</h3>
-                                    <p>fast track C400 pro</p>
-                                </div>
-                            </p:column>
-                            <p:column style="vertical-align: top;">
-                                <div id="infoDiv">
-                                    <h3>Start Bidding or Donating</h3>
-                                    <p><h:outputLink value="donate.xhtml">
-                                            <h:outputText value="Donate Stuff" />
-                                        </h:outputLink></p>
-                                    <p>How to Donate Stuff on bitBay</p>
-                                    <p>How to Bid on an Item</p>
-                                </div>
-                            </p:column>
-                        </p:row>
                     </p:panelGrid>
+                    
+                    <p:dataTable var="item" value="#{homeNavBean.auctionItemsFound}">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Pic" />
+                            </f:facet>
+                            <p:graphicImage url="#{item.image1}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Description" />
+                            </f:facet>
+                            <h:outputText value="#{item.title}" />
+                        </p:column>
+                        
+                    </p:dataTable>
                 </h:form>
             </p:layoutUnit>
 

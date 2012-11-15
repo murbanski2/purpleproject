@@ -1,8 +1,11 @@
 package edu.wctc.distjava.purpleproject.controller;
 
+import edu.wctc.distjava.purpleproject.domain.AuctionItem;
+import edu.wctc.distjava.purpleproject.service.IAuctionItemService;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -14,7 +17,9 @@ import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
+import org.springframework.web.jsf.FacesContextUtils;
 import org.springframework.web.util.WebUtils;
 
 /**
@@ -29,12 +34,36 @@ import org.springframework.web.util.WebUtils;
 public class HomeNavBean implements Serializable {
     private static final long serialVersionUID = 6L;
     private final Logger LOG = LoggerFactory.getLogger(HomeNavBean.class);
+    private transient ApplicationContext ctx; // used to get Spring beans    
     
     private String noImpMsg = "Not yet Implemented";
     private CartesianChartModel categoryModel;
+    private List<AuctionItem> auctionItemsFound;
+    private String selectedCategory;
+    private String searchPhrase;
 
     public HomeNavBean() {
         createCategoryModel();
+    }
+    
+    public String doItemSearch() {
+        ctx = FacesContextUtils.getWebApplicationContext(
+                FacesContext.getCurrentInstance());          
+        FacesContext context = FacesContext.getCurrentInstance();
+        
+        if(searchPhrase != null) {
+            
+        }
+        
+        if(selectedCategory != null) {
+            
+        }
+        
+        IAuctionItemService auctionSrv = 
+                (IAuctionItemService) ctx.getBean("auctionItemService");  
+        auctionItemsFound = auctionSrv.findAll();
+        
+        return "foundItemsList";
     }
 
     public CartesianChartModel getCategoryModel() {
@@ -62,6 +91,8 @@ public class HomeNavBean implements Serializable {
         
         categoryModel.addSeries(donations);
     }
+    
+    
     
     
     public String showPopularByType(String key) {
@@ -117,10 +148,30 @@ public class HomeNavBean implements Serializable {
     public Date getCurrentDate() {
         return new Date();
     }
-//
-//    public void setCurrentDate(Date currentDate) {
-//        this.currentDate = currentDate;
-//    }
+
+    public List<AuctionItem> getAuctionItemsFound() {
+        return auctionItemsFound;
+    }
+
+    public void setAuctionItemsFound(List<AuctionItem> auctionItemsFound) {
+        this.auctionItemsFound = auctionItemsFound;
+    }
+
+    public String getSelectedCategory() {
+        return selectedCategory;
+    }
+
+    public void setSelectedCategory(String selectedCategory) {
+        this.selectedCategory = selectedCategory;
+    }
+
+    public String getSearchPhrase() {
+        return searchPhrase;
+    }
+
+    public void setSearchPhrase(String searchPhrase) {
+        this.searchPhrase = searchPhrase;
+    }
 
     
 
