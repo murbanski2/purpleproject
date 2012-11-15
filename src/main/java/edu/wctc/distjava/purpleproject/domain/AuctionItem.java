@@ -59,19 +59,19 @@ public class AuctionItem implements Serializable {
     @Size(max = 16777215)
     @Column(name = "description")
     private String description;
-    @Size(max = 80)
+    @Size(max = 180)
     @Column(name = "image1")
     private String image1;
-    @Size(max = 80)
+    @Size(max = 180)
     @Column(name = "image2")
     private String image2;
-    @Size(max = 80)
+    @Size(max = 180)
     @Column(name = "image3")
     private String image3;
-    @Size(max = 80)
+    @Size(max = 180)
     @Column(name = "image4")
     private String image4;
-    @Size(max = 80)
+    @Size(max = 180)
     @Column(name = "image5")
     private String image5;
     @Column(name = "start_date")

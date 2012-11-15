@@ -9,5 +9,5 @@
     </property>
   </jsp-config>
   <parameter-encoding default-charset="UTF-8"/>
-  <property name="alternatedocroot_1" value="from=/imgvault/* dir=/bitbay/imgvault" /> 
+  <property name="alternatedocroot_1" value="from=/imgvault/* dir=/auction/" /> 
 </glassfish-web-app>
