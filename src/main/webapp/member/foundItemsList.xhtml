@@ -89,34 +89,33 @@
                                              selectionMode="single" rowKey="#{item.itemId}">
                                     <p:column width="150">
                                         <f:facet name="header">
-                                            <h:outputText value="Pic" />
+                                            <h:outputText value=""/>
                                         </f:facet>
                                         <p:graphicImage url="#{item.image1}"/>
                                     </p:column>
-                                    <p:column width="175">
+                                    <p:column width="175" style="text-align: left;">
                                         <f:facet name="header">
-                                            <h:outputText value="Item" />
+                                            <h:outputText value="Click for Details" />
                                         </f:facet>
-                                        <h:outputText value="#{item.title}" />
+                                        <h:outputText value="#{item.title}" style="font-size: 1.15em;" />
                                     </p:column>
-                                    <p:column width="50">
+                                    <p:column width="100">
                                         <f:facet name="header">
-                                            <h:outputText value="Bids" />
+                                            <h:outputText value="Auction Ends" />
                                         </f:facet>
-                                        <h:outputText value="4 bids" />
+                                        <h:outputText value="#{item.timeRemaining}" style="font-size: 1.15em;" /><br/>
+                                        <h:outputText value="#{item.endDate}">
+                                            <f:convertDateTime pattern="M/d hh:mm a"/>
+                                        </h:outputText>
                                     </p:column>
-                                    <p:column width="50">
-                                        <f:facet name="header">
-                                            <h:outputText value="High Bid" />
-                                        </f:facet>
-                                        <h:outputText value="$91.90" />
-                                    </p:column>
-                                    <p:column width="75">
+                                    <p:column width="50" style="text-align: right;">
                                         <f:facet name="header">
                                             <h:outputText value="High Bid" />
                                         </f:facet>
-                                        <h:outputText value="2d 5h 14m" />
+                                        <h:outputText value="#{item.highBid}" style="font-size: 1.25em; font-weight: bold;"/><br/>
+                                        <h:outputText value="#{item.bidCount} bids" />
                                     </p:column>
+
                                 </p:dataTable>
                             </p:column>
                         </p:row>

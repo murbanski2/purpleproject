@@ -1,9 +1,13 @@
 package edu.wctc.distjava.purpleproject.controller;
 
 import edu.wctc.distjava.purpleproject.domain.AuctionItem;
+import edu.wctc.distjava.purpleproject.domain.AuctionItemDto;
 import edu.wctc.distjava.purpleproject.service.IAuctionItemService;
 import java.io.IOException;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -38,7 +42,7 @@ public class HomeNavBean implements Serializable {
     
     private String noImpMsg = "Not yet Implemented";
     private CartesianChartModel categoryModel;
-    private List<AuctionItem> auctionItemsFound;
+    private List<AuctionItemDto> auctionItemsFound;
     private String selectedCategory;
     private String searchPhrase;
 
@@ -61,7 +65,25 @@ public class HomeNavBean implements Serializable {
         
         IAuctionItemService auctionSrv = 
                 (IAuctionItemService) ctx.getBean("auctionItemService");  
-        auctionItemsFound = auctionSrv.findAll();
+        List<AuctionItem> rawData = auctionSrv.findAll();
+        auctionItemsFound = new ArrayList<AuctionItemDto>(rawData.size());
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        AuctionItemDto adto = null;
+        
+        for(AuctionItem ai : rawData) {
+            adto = new AuctionItemDto();
+            adto.setItemId(ai.getItemId());
+            adto.setTitle(ai.getTitle());
+            adto.setImage1(ai.getImage1());
+            adto.setEndDate(ai.getEndDate());
+            BigDecimal highestBid = 
+                    auctionSrv.findHighestBidForItem(ai.getItemId());
+            double bid = highestBid == null ? 0 : highestBid.doubleValue();
+            adto.setHighBid(nf.format(bid));
+            Number count = auctionSrv.findBidCountForItem(ai.getItemId());
+            adto.setBidCount(count.toString());
+            auctionItemsFound.add(adto);
+        }
         
         return "foundItemsList";
     }
@@ -91,10 +113,7 @@ public class HomeNavBean implements Serializable {
         
         categoryModel.addSeries(donations);
     }
-    
-    
-    
-    
+     
     public String showPopularByType(String key) {
         return null;
     }
@@ -149,11 +168,11 @@ public class HomeNavBean implements Serializable {
         return new Date();
     }
 
-    public List<AuctionItem> getAuctionItemsFound() {
+    public List<AuctionItemDto> getAuctionItemsFound() {
         return auctionItemsFound;
     }
 
-    public void setAuctionItemsFound(List<AuctionItem> auctionItemsFound) {
+    public void setAuctionItemsFound(List<AuctionItemDto> auctionItemsFound) {
         this.auctionItemsFound = auctionItemsFound;
     }
 

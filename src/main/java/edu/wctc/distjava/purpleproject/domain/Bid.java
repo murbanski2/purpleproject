@@ -36,12 +36,10 @@ public class Bid implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "amount")
     private BigDecimal amount;
-    @JoinColumn(name = "item_id", referencedColumnName = "item_id")
-    @ManyToOne
-    private AuctionItem itemId;
-    @JoinColumn(name = "bidder_id", referencedColumnName = "username")
-    @ManyToOne
-    private User bidderId;
+    @Column(name = "item_id")
+    private Integer itemId;
+    @Column(name = "bidder_id")
+    private String bidderId;
 
     public Bid() {
     }
@@ -66,19 +64,19 @@ public class Bid implements Serializable {
         this.amount = amount;
     }
 
-    public AuctionItem getItemId() {
+    public Integer getItemId() {
         return itemId;
     }
 
-    public void setItemId(AuctionItem itemId) {
+    public void setItemId(Integer itemId) {
         this.itemId = itemId;
     }
 
-    public User getBidderId() {
+    public String getBidderId() {
         return bidderId;
     }
 
-    public void setBidderId(User bidderId) {
+    public void setBidderId(String bidderId) {
         this.bidderId = bidderId;
     }
 

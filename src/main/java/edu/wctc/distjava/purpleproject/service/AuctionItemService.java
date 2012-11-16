@@ -1,9 +1,9 @@
 package edu.wctc.distjava.purpleproject.service;
 
 import edu.wctc.distjava.purpleproject.domain.AuctionItem;
-import edu.wctc.distjava.purpleproject.domain.Category;
 import edu.wctc.distjava.purpleproject.repository.AuctionItemRepository;
-import edu.wctc.distjava.purpleproject.repository.CategoryRepository;
+import edu.wctc.distjava.purpleproject.repository.BidRepository;
+import java.math.BigDecimal;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +30,18 @@ public class AuctionItemService implements IAuctionItemService {
     
     @Autowired
     private AuctionItemRepository itemRepo;
+    @Autowired
+    private BidRepository bidRepo;    
     
     public AuctionItemService() {
+    }
+    
+    public BigDecimal findHighestBidForItem(Integer itemId) {
+        return bidRepo.findHighestBidForItem(itemId);
+    }
+    
+    public Number findBidCountForItem(Integer itemId) {
+        return bidRepo.findBidCountForItem(itemId);
     }
     
     public List<AuctionItem> findAll() {
@@ -53,6 +63,14 @@ public class AuctionItemService implements IAuctionItemService {
     @Override
     public void setItemRepo(AuctionItemRepository itemRepo) {
         this.itemRepo = itemRepo;
+    }
+
+    public BidRepository getBidRepo() {
+        return bidRepo;
+    }
+
+    public void setBidRepo(BidRepository bidRepo) {
+        this.bidRepo = bidRepo;
     }
 
     
