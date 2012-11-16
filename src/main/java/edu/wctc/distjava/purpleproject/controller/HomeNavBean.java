@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
+import org.springframework.dao.DataAccessException;
 import org.springframework.web.jsf.FacesContextUtils;
 import org.springframework.web.util.WebUtils;
 
@@ -38,6 +39,7 @@ import org.springframework.web.util.WebUtils;
 public class HomeNavBean implements Serializable {
     private static final long serialVersionUID = 6L;
     private final Logger LOG = LoggerFactory.getLogger(HomeNavBean.class);
+    private static final int MAX_RECORDS = 200;
     private transient ApplicationContext ctx; // used to get Spring beans    
     
     private String noImpMsg = "Not yet Implemented";
@@ -54,18 +56,33 @@ public class HomeNavBean implements Serializable {
         ctx = FacesContextUtils.getWebApplicationContext(
                 FacesContext.getCurrentInstance());          
         FacesContext context = FacesContext.getCurrentInstance();
-        
-        if(searchPhrase != null) {
-            
-        }
-        
-        if(selectedCategory != null) {
-            
-        }
-        
         IAuctionItemService auctionSrv = 
-                (IAuctionItemService) ctx.getBean("auctionItemService");  
-        List<AuctionItem> rawData = auctionSrv.findAll();
+                    (IAuctionItemService) ctx.getBean("auctionItemService");          
+        List<AuctionItem> rawData = null;
+        
+        try {
+            if((searchPhrase != null && selectedCategory != null) &&
+                    (!searchPhrase.isEmpty() && !selectedCategory.isEmpty())) {
+                rawData = auctionSrv.findByCategoryAndSearchPhrase(
+                                    selectedCategory, searchPhrase, MAX_RECORDS);
+
+            } else if(searchPhrase != null && !searchPhrase.isEmpty()) {
+                rawData = auctionSrv.findBySearchPhrase(searchPhrase, MAX_RECORDS);
+
+            } else if(selectedCategory != null && !selectedCategory.isEmpty()) {
+                rawData = auctionSrv.findByCategory(selectedCategory, MAX_RECORDS);
+
+            } else {
+                rawData = auctionSrv.findAllLimited(MAX_RECORDS);
+    //            rawData = auctionSrv.findAll();
+            }
+        } catch(DataAccessException dae) {
+            LOG.error("Auction items could not be found due to: " + dae.getMessage());
+            context.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "Search Error", "Sorry, the search failed. Please report to the webmaster."));
+        }
+        
         auctionItemsFound = new ArrayList<AuctionItemDto>(rawData.size());
         NumberFormat nf = NumberFormat.getCurrencyInstance();
         AuctionItemDto adto = null;

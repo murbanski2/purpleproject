@@ -1,6 +1,7 @@
 package edu.wctc.distjava.purpleproject.service;
 
 import edu.wctc.distjava.purpleproject.domain.AuctionItem;
+import edu.wctc.distjava.purpleproject.domain.Category;
 import edu.wctc.distjava.purpleproject.repository.AuctionItemRepository;
 import java.math.BigDecimal;
 import java.util.List;
@@ -17,7 +18,15 @@ public interface IAuctionItemService {
     
     Number findBidCountForItem(Integer itemId);
     
+    List<AuctionItem> findByCategory(String category, int recCount);
+    
+    List<AuctionItem> findByCategoryAndSearchPhrase(String category, String phrase, int recCount);
+    
+    List<AuctionItem> findBySearchPhrase(String phrase, int recCount);
+    
     List<AuctionItem> findAll();
+    
+    List<AuctionItem> findAllLimited(int recCount);
     
     AuctionItemRepository getItemRepo();
 
