@@ -2,6 +2,7 @@ package edu.wctc.distjava.purpleproject.controller;
 
 import edu.wctc.distjava.purpleproject.domain.AuctionItem;
 import edu.wctc.distjava.purpleproject.domain.AuctionItemDto;
+import edu.wctc.distjava.purpleproject.domain.MemberSearch;
 import edu.wctc.distjava.purpleproject.service.IAuctionItemService;
 import java.io.IOException;
 import java.io.Serializable;
@@ -17,13 +18,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
-import org.primefaces.model.chart.CartesianChartModel;
-import org.primefaces.model.chart.ChartSeries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.jsf.FacesContextUtils;
 import org.springframework.web.util.WebUtils;
 
@@ -43,13 +44,18 @@ public class HomeNavBean implements Serializable {
     private transient ApplicationContext ctx; // used to get Spring beans    
     
     private String noImpMsg = "Not yet Implemented";
-    private CartesianChartModel categoryModel;
     private List<AuctionItemDto> auctionItemsFound;
+    private List<MemberSearch> recentSearches;
     private String selectedCategory;
     private String searchPhrase;
 
     public HomeNavBean() {
-        createCategoryModel();
+    }
+    
+    public String redoMemberSearch(String phrase) {
+        selectedCategory = null;
+        searchPhrase = phrase;
+        return doItemSearch();
     }
     
     public String doItemSearch() {
@@ -104,33 +110,7 @@ public class HomeNavBean implements Serializable {
         
         return "foundItemsList";
     }
-
-    public CartesianChartModel getCategoryModel() {
-        return categoryModel;
-    }
-
-    private void createCategoryModel() {
-        categoryModel = new CartesianChartModel();
-
-        ChartSeries donations = new ChartSeries();
-//        donations.setLabel("Donations");
-
-        donations.set("Oct", 25);
-        donations.set("Nov", 125);
-        donations.set("Dec", 0);
-        donations.set("Jan", 0);
-        donations.set("Feb", 0);
-        donations.set("Mar", 0);
-        donations.set("Apr", 0);
-        donations.set("May", 0);
-        donations.set("Jun", 0);        
-        donations.set("Jul", 0);
-        donations.set("Aug", 0);
-        donations.set("Sep", 0);
-        
-        categoryModel.addSeries(donations);
-    }
-     
+    
     public String showPopularByType(String key) {
         return null;
     }
@@ -208,6 +188,28 @@ public class HomeNavBean implements Serializable {
     public void setSearchPhrase(String searchPhrase) {
         this.searchPhrase = searchPhrase;
     }
+
+    public List<MemberSearch> getRecentSearches() {
+        if(recentSearches == null) {
+            ctx = FacesContextUtils.getWebApplicationContext(
+                    FacesContext.getCurrentInstance());      
+            UserDetails userDetails = (UserDetails)SecurityContextHolder
+                    .getContext().getAuthentication().getPrincipal(); 
+            String username = userDetails.getUsername();
+            FacesContext context = FacesContext.getCurrentInstance();
+            IAuctionItemService auctionSrv = 
+                        (IAuctionItemService) ctx.getBean("auctionItemService");          
+            try {
+                recentSearches = auctionSrv.findRecentSearchesByUser(username);
+                LOG.debug("**** RECENT SEARCHES: " + recentSearches.toString());
+            } catch(DataAccessException dae) { 
+                LOG.error("Recent member search query failed due to: " 
+                        + dae.getMessage());
+            }        
+        }
+        return recentSearches;
+    }
+
 
     
 

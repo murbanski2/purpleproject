@@ -2,6 +2,7 @@ package edu.wctc.distjava.purpleproject.service;
 
 import edu.wctc.distjava.purpleproject.domain.AuctionItem;
 import edu.wctc.distjava.purpleproject.domain.Category;
+import edu.wctc.distjava.purpleproject.domain.MemberSearch;
 import edu.wctc.distjava.purpleproject.repository.AuctionItemRepository;
 import java.math.BigDecimal;
 import java.util.List;
@@ -17,6 +18,8 @@ public interface IAuctionItemService {
     BigDecimal findHighestBidForItem(Integer itemId);
     
     Number findBidCountForItem(Integer itemId);
+    
+    List<MemberSearch> findRecentSearchesByUser(String userId);
     
     List<AuctionItem> findByCategory(String category, int recCount);
     

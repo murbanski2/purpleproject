@@ -24,10 +24,14 @@
                 color: #e3e3e3;
             }
 
-            .ui-datatable-scrollable-header2 {
-                height: 10px;
+            .hide-column-names table thead tr {
+                display: none;
             }
-
+            
+            td.recentsearches {
+                background-color: #f5f3e5;
+            }
+            
             .ui-panel {
                 border:0px;
             }
@@ -80,7 +84,7 @@
                         </p:row>
                         <p:row>
                             <p:column colspan="2">
-                                <p:lineChart id="filled" value="#{homeNavBean.categoryModel}" 
+                                <p:lineChart id="filled" value="#{appBean.categoryModel}" 
                                              fill="true" title="Donations to Date" 
                                              style="height:160px;margin-top:0px" 
                                              yaxisLabel="Dollars" />
@@ -105,7 +109,11 @@
                             <p:column style="vertical-align: top;">
                                 <div id="searchDiv">
                                     <h3>Your Recent Searches</h3>
-                                    <p>fast track C400 pro</p>
+                                    <c:forEach items="#{homeNavBean.recentSearches}" var="item">
+                                        <p>
+                                            <p:commandLink value="#{item.searchPhrase}" action="#{homeNavBean.redoMemberSearch(item.searchPhrase)}"/>
+                                        </p>
+                                    </c:forEach>
                                 </div>
                             </p:column>
                             <p:column style="vertical-align: top;">

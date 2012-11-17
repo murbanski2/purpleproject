@@ -2,6 +2,7 @@ package edu.wctc.distjava.purpleproject.service;
 
 import edu.wctc.distjava.purpleproject.domain.AuctionItem;
 import edu.wctc.distjava.purpleproject.domain.Category;
+import edu.wctc.distjava.purpleproject.domain.MemberSearch;
 import edu.wctc.distjava.purpleproject.repository.AuctionItemRepository;
 import edu.wctc.distjava.purpleproject.repository.BidRepository;
 import edu.wctc.distjava.purpleproject.repository.CategoryRepository;
@@ -35,6 +36,8 @@ public class AuctionItemService implements IAuctionItemService {
 
     private static final long serialVersionUID = 1L;
     private final Logger LOG = LoggerFactory.getLogger(AuctionItemService.class);
+    private final int MAX_SEARCH_REDO = 10;
+    
     @PersistenceContext
     private EntityManager em;
     @Autowired
@@ -45,6 +48,14 @@ public class AuctionItemService implements IAuctionItemService {
     public AuctionItemService() {
     }
 
+    public List<MemberSearch> findRecentSearchesByUser(String userId) {
+        String sql = "select ms from MemberSearch ms where ms.userId = '"
+                +  userId + "' order by ms.searchId DESC";
+        Query query = em.createQuery(sql);
+        query.setMaxResults(MAX_SEARCH_REDO);
+        return query.getResultList();        
+    }
+    
     @Override
     public List<AuctionItem> findByCategoryAndSearchPhrase(String category, String phrase, int recCount) {
         String[] words = phrase.trim().split(" ");

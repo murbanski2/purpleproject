@@ -67,6 +67,20 @@
                 <h:form id="search_form">
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
                     <p:panelGrid cellpadding="4" style="width: 760px; margin:4 auto;">
+                       <p:row>
+                           <p:column colspan="2" style="text-align: center;">
+                                <h2>Please Join bitBay&trad; to Donate and Get Great Stuff</h2>
+                                <p><p:commandButton value="Ok, Sign Me Up!" action="registrationForm"/></p>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:lineChart id="filled" value="#{appBean.categoryModel}" 
+                                             fill="true" title="Donations to Date" 
+                                             style="height:160px;margin-top:0px" 
+                                             yaxisLabel="Dollars" />
+                            </p:column>
+                        </p:row>
                         <p:row>
                             <p:column>
                                 <p:outputLabel for="searchTxt" value="Search for" style="font-size: larger;" />
