@@ -1,7 +1,6 @@
 package edu.wctc.distjava.purpleproject.service;
 
 import edu.wctc.distjava.purpleproject.domain.AuctionItem;
-import edu.wctc.distjava.purpleproject.domain.Category;
 import edu.wctc.distjava.purpleproject.domain.MemberSearch;
 import edu.wctc.distjava.purpleproject.repository.AuctionItemRepository;
 import java.math.BigDecimal;
@@ -14,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author jlombardo
  */
 public interface IAuctionItemService {
+    
+    void updateMembersRecentSearch(String userId, String searchPhrase);
 
     BigDecimal findHighestBidForItem(Integer itemId);
     

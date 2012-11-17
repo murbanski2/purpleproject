@@ -95,8 +95,9 @@
                         <p:row>
                             <p:column style="vertical-align: top;"><h:outputLabel value="Description" for="desc" style="font-weight: bold;" /></p:column>
                              <p:column>
-                                <p:inputTextarea id="desc" rows="10" cols="125" value="#{donateBean.description}" 
-                                             required="true" label="Description" requiredMessage="Description is required"/>
+                                 <p:editor id="desc" value="#{donateBean.description}" 
+                                           width="680" height="300" required="true" label="Description" 
+                                           requiredMessage="Description is required"/>
                             </p:column>
                             <p:column><p:message for="desc"/></p:column>  
                        </p:row>
@@ -135,7 +136,9 @@
                         <p:row>
                             <p:column colspan="3">
                                 <p:commandButton action="#{donateBean.saveItem}" value="Donate It"/>
-                            </p:column>
+                                <p:spacer width="10px"/>
+                                <p:button value="Cancel" outcome="index"/>
+                             </p:column>
                         </p:row>
                         
                     </p:panelGrid>

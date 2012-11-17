@@ -59,9 +59,36 @@ public class HomeNavBean implements Serializable {
         return doItemSearch();
     }
     
+    /**
+     * There are two search result pages, one for authenticated users and
+     * one for guests. The guest page has a plea for joining, a button and
+     * a chart of donations. The authenticated version does not. Therefore,
+     * this method checks if user is authenticated and then sends the user
+     * to the correct page based on the result. Authenticated users go to the
+     * result page under the member folder.
+     * 
+     * @return destination page
+     */
     public String doItemSearch() {
-        findItems();
-        return "foundItemsList";
+        String authenticatedDestination = "/member/foundItemsList";
+        String anonymousDestination = "/foundItemsList";
+        
+
+        // No UserDetails instsance if anonymous
+        String username = SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal().toString();
+
+        if(username.contains("anonymous")) {
+            findItems(null);
+            return anonymousDestination;
+            
+        } else {
+            UserDetails userDetails = (UserDetails)SecurityContextHolder
+                    .getContext().getAuthentication().getPrincipal(); 
+            username = userDetails.getUsername();
+            findItems(username);
+            return authenticatedDestination;
+        }
     }
     
     public String showPopularByType(String key) {
@@ -163,7 +190,7 @@ public class HomeNavBean implements Serializable {
         return recentSearches;
     }
 
-    public void findItems() throws BeansException {
+    public void findItems(String userId) {
         ctx = FacesContextUtils.getWebApplicationContext(
                 FacesContext.getCurrentInstance());          
         FacesContext context = FacesContext.getCurrentInstance();
@@ -176,9 +203,17 @@ public class HomeNavBean implements Serializable {
                     (!searchPhrase.isEmpty() && !selectedCategory.isEmpty())) {
                 rawData = auctionSrv.findByCategoryAndSearchPhrase(
                                     selectedCategory, searchPhrase, MAX_RECORDS);
+                if(userId != null) {
+                    auctionSrv.updateMembersRecentSearch(userId, searchPhrase);
+                    recentSearches = auctionSrv.findRecentSearchesByUser(userId);
+                }
 
             } else if(searchPhrase != null && !searchPhrase.isEmpty()) {
                 rawData = auctionSrv.findBySearchPhrase(searchPhrase, MAX_RECORDS);
+                if(userId != null) {
+                    auctionSrv.updateMembersRecentSearch(userId, searchPhrase);
+                    recentSearches = auctionSrv.findRecentSearchesByUser(userId);
+                }
 
             } else if(selectedCategory != null && !selectedCategory.isEmpty()) {
                 rawData = auctionSrv.findByCategory(selectedCategory, MAX_RECORDS);
@@ -195,21 +230,21 @@ public class HomeNavBean implements Serializable {
         
         auctionItemsFound = new ArrayList<AuctionItemDto>(rawData.size());
         NumberFormat nf = NumberFormat.getCurrencyInstance();
-        AuctionItemDto adto = null;
+        AuctionItemDto dto = null;
         
         for(AuctionItem ai : rawData) {
-            adto = new AuctionItemDto();
-            adto.setItemId(ai.getItemId());
-            adto.setTitle(ai.getTitle());
-            adto.setImage1(ai.getImage1());
-            adto.setEndDate(ai.getEndDate());
+            dto = new AuctionItemDto();
+            dto.setItemId(ai.getItemId());
+            dto.setTitle(ai.getTitle());
+            dto.setImage1(ai.getImage1());
+            dto.setEndDate(ai.getEndDate());
             BigDecimal highestBid = 
                     auctionSrv.findHighestBidForItem(ai.getItemId());
             double bid = highestBid == null ? 0 : highestBid.doubleValue();
-            adto.setHighBid(nf.format(bid));
+            dto.setHighBid(nf.format(bid));
             Number count = auctionSrv.findBidCountForItem(ai.getItemId());
-            adto.setBidCount(count.toString());
-            auctionItemsFound.add(adto);
+            dto.setBidCount(count.toString());
+            auctionItemsFound.add(dto);
         }
     }
 

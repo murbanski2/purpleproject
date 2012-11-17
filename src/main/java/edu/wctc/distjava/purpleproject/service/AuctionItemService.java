@@ -1,11 +1,10 @@
 package edu.wctc.distjava.purpleproject.service;
 
 import edu.wctc.distjava.purpleproject.domain.AuctionItem;
-import edu.wctc.distjava.purpleproject.domain.Category;
 import edu.wctc.distjava.purpleproject.domain.MemberSearch;
 import edu.wctc.distjava.purpleproject.repository.AuctionItemRepository;
 import edu.wctc.distjava.purpleproject.repository.BidRepository;
-import edu.wctc.distjava.purpleproject.repository.CategoryRepository;
+import edu.wctc.distjava.purpleproject.repository.MemberSearchRepository;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -33,7 +32,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository("auctionItemService")
 @Transactional(readOnly = true)
 public class AuctionItemService implements IAuctionItemService {
-
     private static final long serialVersionUID = 1L;
     private final Logger LOG = LoggerFactory.getLogger(AuctionItemService.class);
     private final int MAX_SEARCH_REDO = 10;
@@ -44,10 +42,21 @@ public class AuctionItemService implements IAuctionItemService {
     private AuctionItemRepository itemRepo;
     @Autowired
     private BidRepository bidRepo;
+    @Autowired
+    private MemberSearchRepository memSearchRepo;
 
     public AuctionItemService() {
     }
+    
+    @Override
+    public void updateMembersRecentSearch(String userId, String searchPhrase) {
+        MemberSearch ms = new MemberSearch();
+        ms.setSearchPhrase(searchPhrase);
+        ms.setUserId(userId);
+        memSearchRepo.save(ms);
+    }
 
+    @Override
     public List<MemberSearch> findRecentSearchesByUser(String userId) {
         String sql = "select ms from MemberSearch ms where ms.userId = '"
                 +  userId + "' order by ms.searchId DESC";
@@ -140,4 +149,14 @@ public class AuctionItemService implements IAuctionItemService {
     public void setBidRepo(BidRepository bidRepo) {
         this.bidRepo = bidRepo;
     }
+
+    public MemberSearchRepository getMemSearchRepo() {
+        return memSearchRepo;
+    }
+
+    public void setMemSearchRepo(MemberSearchRepository memSearchRepo) {
+        this.memSearchRepo = memSearchRepo;
+    }
+    
+    
 }
