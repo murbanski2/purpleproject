@@ -66,6 +66,7 @@
 
             <p:layoutUnit id="centerPanel" position="center">         
                 <h:form id="search_form">
+                    <p:poll listener="#{homeNavBean.findItems}" update="itemsFoundDt" interval="5" />
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
                     <p:panelGrid cellpadding="4" style="width: 760px; margin:4 auto;">
                         <p:row>
@@ -85,7 +86,7 @@
                         </p:row>
                         <p:row>
                             <p:column>
-                                <p:dataTable var="item" value="#{homeNavBean.auctionItemsFound}"
+                                <p:dataTable id="itemsFoundDt" var="item" value="#{homeNavBean.auctionItemsFound}"
                                              selectionMode="single" rowKey="#{item.itemId}">
                                     <p:column width="150">
                                         <f:facet name="header">

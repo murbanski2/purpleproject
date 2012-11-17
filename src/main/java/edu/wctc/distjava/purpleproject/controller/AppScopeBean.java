@@ -79,13 +79,13 @@ public class AppScopeBean implements Serializable {
         donations.set(months[m2], 0);
         donations.set(months[m3], 0);
         donations.set(months[m4], 0);
-        donations.set(months[m5], 25);
-        donations.set(months[m6], 75);
-        donations.set(months[m7], 125);
+        donations.set(months[m5], 0);
+        donations.set(months[m6], 0);
+        donations.set(months[m7], 0);
         donations.set(months[m8], 0);
         donations.set(months[m9], 0);        
-        donations.set(months[m10], 0);
-        donations.set(months[m11], 0);
+        donations.set(months[m10], 75);
+        donations.set(months[m11], 125);
         donations.set(months[m12], 0);
         
         chartModel.addSeries(donations);
@@ -93,7 +93,7 @@ public class AppScopeBean implements Serializable {
     
     private void initChartMonths() {
         Calendar today = Calendar.getInstance();
-        today.add(Calendar.MONTH, -6);
+        today.add(Calendar.MONTH, -10);
         m1 = today.get(Calendar.MONTH);
         today.add(Calendar.MONTH, 1);
         m2 = today.get(Calendar.MONTH);

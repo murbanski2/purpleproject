@@ -20,6 +20,7 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
@@ -59,55 +60,7 @@ public class HomeNavBean implements Serializable {
     }
     
     public String doItemSearch() {
-        ctx = FacesContextUtils.getWebApplicationContext(
-                FacesContext.getCurrentInstance());          
-        FacesContext context = FacesContext.getCurrentInstance();
-        IAuctionItemService auctionSrv = 
-                    (IAuctionItemService) ctx.getBean("auctionItemService");          
-        List<AuctionItem> rawData = null;
-        
-        try {
-            if((searchPhrase != null && selectedCategory != null) &&
-                    (!searchPhrase.isEmpty() && !selectedCategory.isEmpty())) {
-                rawData = auctionSrv.findByCategoryAndSearchPhrase(
-                                    selectedCategory, searchPhrase, MAX_RECORDS);
-
-            } else if(searchPhrase != null && !searchPhrase.isEmpty()) {
-                rawData = auctionSrv.findBySearchPhrase(searchPhrase, MAX_RECORDS);
-
-            } else if(selectedCategory != null && !selectedCategory.isEmpty()) {
-                rawData = auctionSrv.findByCategory(selectedCategory, MAX_RECORDS);
-
-            } else {
-                rawData = auctionSrv.findAllLimited(MAX_RECORDS);
-    //            rawData = auctionSrv.findAll();
-            }
-        } catch(DataAccessException dae) {
-            LOG.error("Auction items could not be found due to: " + dae.getMessage());
-            context.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Search Error", "Sorry, the search failed. Please report to the webmaster."));
-        }
-        
-        auctionItemsFound = new ArrayList<AuctionItemDto>(rawData.size());
-        NumberFormat nf = NumberFormat.getCurrencyInstance();
-        AuctionItemDto adto = null;
-        
-        for(AuctionItem ai : rawData) {
-            adto = new AuctionItemDto();
-            adto.setItemId(ai.getItemId());
-            adto.setTitle(ai.getTitle());
-            adto.setImage1(ai.getImage1());
-            adto.setEndDate(ai.getEndDate());
-            BigDecimal highestBid = 
-                    auctionSrv.findHighestBidForItem(ai.getItemId());
-            double bid = highestBid == null ? 0 : highestBid.doubleValue();
-            adto.setHighBid(nf.format(bid));
-            Number count = auctionSrv.findBidCountForItem(ai.getItemId());
-            adto.setBidCount(count.toString());
-            auctionItemsFound.add(adto);
-        }
-        
+        findItems();
         return "foundItemsList";
     }
     
@@ -208,6 +161,56 @@ public class HomeNavBean implements Serializable {
             }        
         }
         return recentSearches;
+    }
+
+    public void findItems() throws BeansException {
+        ctx = FacesContextUtils.getWebApplicationContext(
+                FacesContext.getCurrentInstance());          
+        FacesContext context = FacesContext.getCurrentInstance();
+        IAuctionItemService auctionSrv = 
+                    (IAuctionItemService) ctx.getBean("auctionItemService");          
+        List<AuctionItem> rawData = null;
+        
+        try {
+            if((searchPhrase != null && selectedCategory != null) &&
+                    (!searchPhrase.isEmpty() && !selectedCategory.isEmpty())) {
+                rawData = auctionSrv.findByCategoryAndSearchPhrase(
+                                    selectedCategory, searchPhrase, MAX_RECORDS);
+
+            } else if(searchPhrase != null && !searchPhrase.isEmpty()) {
+                rawData = auctionSrv.findBySearchPhrase(searchPhrase, MAX_RECORDS);
+
+            } else if(selectedCategory != null && !selectedCategory.isEmpty()) {
+                rawData = auctionSrv.findByCategory(selectedCategory, MAX_RECORDS);
+
+            } else {
+                rawData = auctionSrv.findAllLimited(MAX_RECORDS);
+            }
+        } catch(DataAccessException dae) {
+            LOG.error("Auction items could not be found due to: " + dae.getMessage());
+            context.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "Search Error", "Sorry, the search failed. Please report to the webmaster."));
+        }
+        
+        auctionItemsFound = new ArrayList<AuctionItemDto>(rawData.size());
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        AuctionItemDto adto = null;
+        
+        for(AuctionItem ai : rawData) {
+            adto = new AuctionItemDto();
+            adto.setItemId(ai.getItemId());
+            adto.setTitle(ai.getTitle());
+            adto.setImage1(ai.getImage1());
+            adto.setEndDate(ai.getEndDate());
+            BigDecimal highestBid = 
+                    auctionSrv.findHighestBidForItem(ai.getItemId());
+            double bid = highestBid == null ? 0 : highestBid.doubleValue();
+            adto.setHighBid(nf.format(bid));
+            Number count = auctionSrv.findBidCountForItem(ai.getItemId());
+            adto.setBidCount(count.toString());
+            auctionItemsFound.add(adto);
+        }
     }
 
 

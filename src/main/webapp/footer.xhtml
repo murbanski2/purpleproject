@@ -17,13 +17,17 @@
 
         <h:form id="footerForm">
         <div align="center">
-            <h:panelGrid columns="3" cellspacing="2" columnClasses="centered">
+            <h:panelGrid columns="5" cellspacing="2" columnClasses="centered">
                     <p:commandLink action="/faces/index.xhtml?faces-redirect=true">
                         <h:outputText value="Home" />
                     </p:commandLink>
-                    <h:outputText value=" :: "/>
+                    <h:outputText value=" | "/>
                     <p:commandLink actionListener="#{homeNavBean.logout}">
                         <h:outputText value="Logout" />
+                    </p:commandLink>
+                    <h:outputText value=" | "/>
+                    <p:commandLink action="member/index?faces-redirect=true">
+                        <h:outputText value="Login" />
                     </p:commandLink>
             </h:panelGrid>
             <h:outputText value="#{msg['page.footer.copyright']} &lt;a href='#'&gt;#{msg['page.footer.terms']}&lt;/a&gt; | &lt;a href='#'&gt;#{msg['page.footer.privacy']}&lt;/a&gt;" escape="false"/>
