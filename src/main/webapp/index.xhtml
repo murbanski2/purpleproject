@@ -15,7 +15,7 @@
         <h:outputScript library="js" name="sequence.jquery-min.js" />
         <link rel="SHORTCUT ICON" href="/#{msg['server.context.root']}/favicon.ico"/>
 
-        <title>BIT Bay Home</title>
+        <title>bitBay Home</title>
 
         <style type="text/css">
             .ui-widget {
@@ -92,12 +92,12 @@
             <p:layoutUnit id="centerPanel" position="center">         
                 <h:form id="home_form">
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                    <p:panelGrid cellpadding="4" style="width: 760px; margin:4 auto;">
+                    <p:panelGrid cellpadding="4" style="width: 720px; margin:4 auto;">
                         <p:row>
                             <p:column>
                                 <p:outputLabel for="searchTxt" value="Search for" style="font-size: larger;" />
                                 <p:spacer width="10px" />
-                                <p:inputText id="searchTxt" value="#{homeNavBean.searchPhrase}" size="28" style="font-size: larger;"/>
+                                <p:inputText id="searchTxt" value="#{homeNavBean.searchPhrase}" size="24" style="font-size: larger;"/>
                                 <p:watermark for="searchTxt" value="my search terms" />
                                 <p:spacer width="8px" />                                
                                 <p:selectOneMenu value="#{homeNavBean.selectedCategory}" style="font-size: larger;position: relative;top: 9px;">
@@ -106,7 +106,7 @@
                                 </p:selectOneMenu>
                                 <p:spacer width="10px" />                                 
                                 <p:commandButton id="searchBtn" value="Go" action="#{homeNavBean.doItemSearch}" style="postion: relative;top: -2px;" ajax="false"/>
-                                <div style="position:relative;width:120px;height:15px;left:635px;top:-30px;">
+                                <div style="position:relative;width:120px;height:15px;left:608px;top:-30px;">
                                     <h:link value="Login" outcome="/member/index.xhtml"/><br/>
                                     <h:link value="Create Account" outcome="registrationForm"/>
                                 </div>

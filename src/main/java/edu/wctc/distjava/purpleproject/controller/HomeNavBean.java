@@ -20,7 +20,6 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
@@ -236,7 +235,7 @@ public class HomeNavBean implements Serializable {
             dto = new AuctionItemDto();
             dto.setItemId(ai.getItemId());
             dto.setTitle(ai.getTitle());
-            dto.setImage1(ai.getImage1());
+            dto.setImage1(ai.getImage1().substring(0, ai.getImage1().length()-4) + "-thumb.jpg");
             dto.setEndDate(ai.getEndDate());
             BigDecimal highestBid = 
                     auctionSrv.findHighestBidForItem(ai.getItemId());

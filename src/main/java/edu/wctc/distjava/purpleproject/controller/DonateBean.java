@@ -6,12 +6,14 @@ import edu.wctc.distjava.purpleproject.domain.User;
 import edu.wctc.distjava.purpleproject.service.IAuctionItemService;
 import edu.wctc.distjava.purpleproject.service.ICategoryService;
 import edu.wctc.distjava.purpleproject.service.IUserService;
+import edu.wctc.distjava.purpleproject.util.ThumbnailGenerator;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.security.Principal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -37,13 +39,14 @@ public class DonateBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private final Logger LOG = LoggerFactory.getLogger(DonateBean.class);
-    private static final int BUFFER_SIZE = 6124;
+    private static final int BUFFER_SIZE = 6124; // bytes
+    private static final int ONE_WEEK = 7; // days
     private transient ApplicationContext ctx; // used to get Spring beans    
     
     private String title = "";
     private String description = "";
-    private Date startDate = new Date();
-    private Date endDate = new Date();
+    private Date startDate;
+    private Date endDate;
     private String image1Url;
     private String image2Url;
     private String image3Url;
@@ -53,6 +56,12 @@ public class DonateBean implements Serializable {
     private String selectedCategory;
 
     public DonateBean() {
+        initDates();
+    }
+    
+    public String cancelDonation() {
+        this.resetProperties();
+        return "index";
     }
 
     public String saveItem() {
@@ -93,7 +102,7 @@ public class DonateBean implements Serializable {
             auctionSrv.save(item);
             context.addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Auction Item Donated Succesffully", "Auction Item Donated Succesffully"));            
+                    "Auction Item Donated Successfully", "Auction Item Donated Successfully"));    
             
         } catch(DataAccessException dae) {
             LOG.error("Auction item could not be saved due to: " + dae.getMessage());
@@ -102,30 +111,38 @@ public class DonateBean implements Serializable {
                     "Data Storage Error", "Sorry, the auction item could not be saved."));
         }
         
+        this.resetProperties();
         return "index";
     }
 
     public void handleFileUpload(FileUploadEvent event) {
         ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
-        String filePath = "imgvault/"
+        HttpServletRequest request = ((HttpServletRequest) extContext.getRequest());
+        int intPort = request.getServerPort();
+        String port = intPort == 80 ? "" : (":"+intPort);
+        String filePathInDb = request.getScheme() + "://" 
+                + request.getServerName() + port
+                + request.getContextPath() + "/imgvault/"
                 + event.getFile().getFileName();
-        File result = new File(filePath);
-        LOG.debug("*** handling File Upload: " + result.getPath());
+        String absoluteFilePath = "/auction/imgvault/"
+                + event.getFile().getFileName();
+        File outFile = new File(absoluteFilePath);
+        LOG.debug("*** handling File Upload: " + outFile.getPath());
         
         if(image1Url == null) {
-            image1Url = filePath;
+            image1Url = filePathInDb;
         } else if(image2Url == null) {
-            image2Url = filePath;
+            image2Url = filePathInDb;
         } else if(image3Url == null) {
-            image3Url = filePath;
+            image3Url = filePathInDb;
         } else if(image4Url == null) {
-            image4Url = filePath;
+            image4Url = filePathInDb;
         } else if(image5Url == null) {
-            image5Url = filePath;
+            image5Url = filePathInDb;
         }
 
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(result);
+            FileOutputStream fileOutputStream = new FileOutputStream(outFile);
 
             byte[] buffer = new byte[BUFFER_SIZE];
 
@@ -142,13 +159,20 @@ public class DonateBean implements Serializable {
 
             fileOutputStream.close();
             inputStream.close();
+            
+            String errMsg = "";
+            if(image2Url == null && image3Url == null && image4Url == null && image5Url == null) {
+                ThumbnailGenerator th = new ThumbnailGenerator();
+                errMsg = th.createThumbnail(absoluteFilePath, 
+                    absoluteFilePath.substring(0, absoluteFilePath.length()-4) + "-thumb.jpg", 200);
+            }
 
-            FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName()
-                    + " is uploaded.");
+            FacesMessage msg = new FacesMessage("Upload Success", event.getFile().getFileName()
+                    + " is uploaded. " + errMsg);
             FacesContext.getCurrentInstance().addMessage(null, msg);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage());
 
             FacesMessage error = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "The files were not uploaded!", "");
@@ -243,6 +267,23 @@ public class DonateBean implements Serializable {
     public void setSelectedCategory(String selectedCategory) {
         this.selectedCategory = selectedCategory;
     }
+
+    private void initDates() {
+        startDate = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, ONE_WEEK);
+        endDate = cal.getTime();
+    }
     
-    
+    private void resetProperties() {
+        title = "";
+        description = "";
+        this.initDates();
+        image1Url = null;
+        image2Url = null;
+        image3Url = null;
+        image4Url = null;
+        image5Url = null;
+        selectedCategory = null;
+    }
 }

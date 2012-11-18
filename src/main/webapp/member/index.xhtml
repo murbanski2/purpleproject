@@ -13,7 +13,7 @@
         <h:outputStylesheet name="cssLayout.css" library="css" />
         <link rel="SHORTCUT ICON" href="/#{msg['server.context.root']}/favicon.ico"/>
 
-        <title>BIT Bay Home</title>
+        <title>bitBay Member Home</title>
 
         <style type="text/css">
             .ui-widget {
@@ -70,7 +70,7 @@
             <p:layoutUnit id="centerPanel" position="center">         
                 <h:form id="member_form">
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                    <p:panelGrid cellpadding="4" style="width: 760px; margin:4 auto;">
+                    <p:panelGrid cellpadding="4" style="width: 720px; margin:4 auto;">
                         <p:row>
                             <p:column colspan="2" style="text-align: center;">
                                 <h2>Welcome Member. Please Donate Often.</h2>
@@ -94,7 +94,7 @@
                             <p:column colspan="2">
                                 <p:outputLabel for="searchTxt" value="Search for" style="font-size: larger;" />
                                 <p:spacer width="10px" />
-                                <p:inputText id="searchTxt" value="#{homeNavBean.searchPhrase}" size="40" style="font-size: larger;"/>
+                                <p:inputText id="searchTxt" value="#{homeNavBean.searchPhrase}" size="35" style="font-size: larger;"/>
                                 <p:watermark for="searchTxt" value="my search terms" />
                                 <p:spacer width="8px" />                                
                                 <p:selectOneMenu value="#{homeNavBean.selectedCategory}" style="font-size: larger;position: relative;top: 9px;">
