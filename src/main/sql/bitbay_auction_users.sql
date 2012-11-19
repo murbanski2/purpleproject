@@ -46,7 +46,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('admin@isp.com','518794af334479bec993c52b9b7671cd667f6731f1f1d5bfeee7d3a7c2a684b07073c3907bbcf4cd018fa1adb4217aa145fc7919e6a1fb21c91062dc2fc07ca2',1,'4321 Street','Apt 2','Glendale','WI','53245','262-555-5555','Bob','Administrator'),('member@isp.com','8a55203cb07cc091261eb610acc7f6b48e7483bb10854a79f71fa1d4789e21bc4c945ac503e30e3b0bf4b2ed9ec236065e2cdbfb5b978e76781bd131f27a0365',1,'1234 Street',NULL,'Milwaukee','WI','53212','414-444-4444','Andrew','Member');
+INSERT INTO `users` VALUES ('admin@isp.com','518794af334479bec993c52b9b7671cd667f6731f1f1d5bfeee7d3a7c2a684b07073c3907bbcf4cd018fa1adb4217aa145fc7919e6a1fb21c91062dc2fc07ca2',1,'4321 Street','Apt 2','Glendale','WI','53245','262-555-5555','Bob','Administrator'),('jlombardo@wi.rr.com','7a14c9886e4b281613effc0bf99b3afb7fd7c4e168ae88aeef1c297604eacd2957f7817a18f957bbf635ff9ccf2b8aa3d0b6ee6063047d3b86cda6f4974d1b5d',1,'N11W31327 Fairfield Way','','Delafield','WI','53018',NULL,'James','Lombardo'),('member@isp.com','8a55203cb07cc091261eb610acc7f6b48e7483bb10854a79f71fa1d4789e21bc4c945ac503e30e3b0bf4b2ed9ec236065e2cdbfb5b978e76781bd131f27a0365',1,'1234 Street',NULL,'Milwaukee','WI','53212','414-444-4444','Andrew','Member');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-11-11 17:30:22
+-- Dump completed on 2012-11-19  4:19:46

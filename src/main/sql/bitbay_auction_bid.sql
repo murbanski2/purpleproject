@@ -34,7 +34,7 @@ CREATE TABLE `bid` (
   KEY `fk_item_id` (`item_id`),
   CONSTRAINT `fk_bidder_id` FOREIGN KEY (`bidder_id`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_item_id` FOREIGN KEY (`item_id`) REFERENCES `auction_item` (`item_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,6 +43,7 @@ CREATE TABLE `bid` (
 
 LOCK TABLES `bid` WRITE;
 /*!40000 ALTER TABLE `bid` DISABLE KEYS */;
+INSERT INTO `bid` VALUES (1,'admin@isp.com',1,'0.25'),(2,'member@isp.com',1,'2.95'),(3,'admin@isp.com',1,'3.40'),(4,'member@isp.com',8,'100.00');
 /*!40000 ALTER TABLE `bid` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-11-11 17:30:22
+-- Dump completed on 2012-11-19  4:19:46

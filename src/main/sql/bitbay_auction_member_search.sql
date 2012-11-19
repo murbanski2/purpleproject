@@ -18,28 +18,29 @@ USE `bitbay_auction`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `log_action`
+-- Table structure for table `member_search`
 --
 
-DROP TABLE IF EXISTS `log_action`;
+DROP TABLE IF EXISTS `member_search`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `log_action` (
-  `log_id` int(11) NOT NULL AUTO_INCREMENT,
-  `rec_id` varchar(32) DEFAULT NULL,
-  `action` varchar(256) DEFAULT NULL,
-  PRIMARY KEY (`log_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+CREATE TABLE `member_search` (
+  `search_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(50) DEFAULT NULL,
+  `search_phrase` varchar(180) DEFAULT NULL,
+  `category` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`search_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `log_action`
+-- Dumping data for table `member_search`
 --
 
-LOCK TABLES `log_action` WRITE;
-/*!40000 ALTER TABLE `log_action` DISABLE KEYS */;
-INSERT INTO `log_action` VALUES (1,'6','Employee deleted.'),(2,'7','Employee deleted.'),(3,'3','Employee deleted.');
-/*!40000 ALTER TABLE `log_action` ENABLE KEYS */;
+LOCK TABLES `member_search` WRITE;
+/*!40000 ALTER TABLE `member_search` DISABLE KEYS */;
+INSERT INTO `member_search` VALUES (1,'admin@isp.com','logo art',NULL),(2,'admin@isp.com','test title',NULL),(3,'member@isp.com','Martin guitar',NULL),(4,'member@isp.com','Martin guitar',NULL),(5,'member@isp.com','Fender Guitar',NULL);
+/*!40000 ALTER TABLE `member_search` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

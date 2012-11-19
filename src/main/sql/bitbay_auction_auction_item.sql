@@ -30,11 +30,11 @@ CREATE TABLE `auction_item` (
   `seller_id` varchar(50) DEFAULT NULL,
   `title` varchar(80) DEFAULT NULL,
   `description` mediumtext,
-  `image1` varchar(80) DEFAULT NULL COMMENT 'relative url',
-  `image2` varchar(80) DEFAULT NULL,
-  `image3` varchar(80) DEFAULT NULL,
-  `image4` varchar(80) DEFAULT NULL,
-  `image5` varchar(80) DEFAULT NULL,
+  `image1` varchar(180) DEFAULT NULL COMMENT 'relative url',
+  `image2` varchar(180) DEFAULT NULL,
+  `image3` varchar(180) DEFAULT NULL,
+  `image4` varchar(180) DEFAULT NULL,
+  `image5` varchar(180) DEFAULT NULL,
   `start_date` datetime DEFAULT NULL,
   `end_date` datetime DEFAULT NULL,
   `win_bidder_id` varchar(50) DEFAULT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE `auction_item` (
   KEY `fk_seller_id` (`seller_id`),
   CONSTRAINT `fk_cat_id` FOREIGN KEY (`cat_id`) REFERENCES `category` (`cat_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_seller_id` FOREIGN KEY (`seller_id`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -55,6 +55,7 @@ CREATE TABLE `auction_item` (
 
 LOCK TABLES `auction_item` WRITE;
 /*!40000 ALTER TABLE `auction_item` DISABLE KEYS */;
+INSERT INTO `auction_item` VALUES (1,2,'admin@isp.com','My Favorite Logos','Fav logos are cool','http://localhost:8080/bitbay/imgvault/guitar.jpg','','','','','2012-11-15 12:30:30','2012-11-22 18:11:33',NULL,NULL,NULL,NULL),(2,3,'admin@isp.com','Test Title','Test description','http://localhost:8080/bitbay/imgvault/fender_amp.jpg',NULL,NULL,NULL,NULL,'2012-11-15 11:45:12','2012-11-22 13:23:44',NULL,NULL,NULL,NULL),(7,2,'admin@isp.com','Cool photos','now is the time<br/>','http://localhost:8080/bitbay/imgvault/pic13.jpg',NULL,NULL,NULL,NULL,'2012-11-18 13:37:00','2012-11-25 00:00:00',NULL,NULL,NULL,NULL),(8,21,'member@isp.com','Wisconsin Golf Course on Beautiful Wooded Land','<img src=\"http://localhost:8080/bitbay/imgvault/IMG_0631.jpg\" height=\"425\" width=\"573\"/><br/><br/>Enjoy this beautiful golf course on a wooded lot overlooking Lake Michigan in Wisconsin\'s upper peninsula. You love the views.<br/><br/><img src=\"http://localhost:8080/bitbay/imgvault/IMG_0631.jpg\" height=\"399\" width=\"537\"/><br/>','http://localhost:8080/bitbay/imgvault/IMG_0631.jpg','http://localhost:8080/bitbay/imgvault/IMG_0626.jpg','http://localhost:8080/bitbay/imgvault/IMG_0629.jpg','http://localhost:8080/bitbay/imgvault/IMG_0633.jpg',NULL,'2012-11-18 21:15:00','2012-11-25 21:15:00',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `auction_item` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -67,4 +68,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-11-11 17:30:22
+-- Dump completed on 2012-11-19  4:19:46
