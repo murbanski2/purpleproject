@@ -1,6 +1,7 @@
 package edu.wctc.distjava.purpleproject.service;
 
 import edu.wctc.distjava.purpleproject.domain.AuctionItem;
+import edu.wctc.distjava.purpleproject.domain.Bid;
 import edu.wctc.distjava.purpleproject.domain.MemberSearch;
 import edu.wctc.distjava.purpleproject.repository.AuctionItemRepository;
 import edu.wctc.distjava.purpleproject.repository.BidRepository;
@@ -48,6 +49,20 @@ public class AuctionItemService implements IAuctionItemService {
     public AuctionItemService() {
     }
     
+    @Override
+    public AuctionItem findById(Integer id) {
+        return itemRepo.findOne(id);
+    }
+    
+    @Modifying
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    @Override
+    public void saveBid(Bid bid) {
+        bidRepo.saveAndFlush(bid);
+    }
+    
+    @Modifying
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public void updateMembersRecentSearch(String userId, String searchPhrase) {
         MemberSearch ms = new MemberSearch();

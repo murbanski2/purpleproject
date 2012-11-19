@@ -126,7 +126,10 @@
                                 <p:message for="password"/>                                
 
                                 <h:outputText value=""/>
-                                <p:commandButton action="#{registrationBean.doAgreement()}" value="Register" ajax="false"/>
+                                <p:panelGrid columns="2">
+                                    <p:commandButton action="#{registrationBean.doAgreement()}" value="Register" ajax="false"/>
+                                    <p:commandButton action="index" actionListener="#{homeNavBean.killRregistrationBean}" immediate="true" value="Cancel" ajax="false"/>
+                                </p:panelGrid>
                             </p:panelGrid>
                         </p:panelGrid>
                     </h:form>

@@ -86,7 +86,7 @@
                             <p:column>
                                 <p:outputLabel for="searchTxt" value="Search for" style="font-size: larger;" />
                                 <p:spacer width="10px" />
-                                <p:inputText id="searchTxt" value="#{homeNavBean.searchPhrase}" size="40" style="font-size: larger;"/>
+                                <p:inputText id="searchTxt" value="#{homeNavBean.searchPhrase}" size="35" style="font-size: larger;"/>
                                 <p:watermark for="searchTxt" value="my search terms" />
                                 <p:spacer width="8px" />                                
                                 <p:selectOneMenu value="#{homeNavBean.selectedCategory}" style="font-size: larger;position: relative;top: 9px;">
@@ -100,12 +100,14 @@
                         <p:row>
                             <p:column>
                                 <p:dataTable id="itemsFoundDt" var="item" value="#{homeNavBean.auctionItemsFound}"
-                                             selectionMode="single" rowKey="#{item.itemId}">
+                                             selectionMode="single" selection="#{homeNavBean.selectedAuctionItemDto}" 
+                                             rowKey="#{item.itemId}">
+                                    <p:ajax event="rowSelect" listener="#{homeNavBean.handleItemSelect}" />
                                     <p:column>
                                         <f:facet name="header">
                                             <h:outputText value="Max. Search Results: 200"/>
                                         </f:facet>
-                                        <p:graphicImage url="#{item.image1}"/>
+                                        <p:graphicImage url="#{item.thumbnail}"/>
                                     </p:column>
                                     <p:column width="175" style="text-align: left;">
                                         <f:facet name="header">
@@ -117,7 +119,7 @@
                                         <f:facet name="header">
                                             <h:outputText value="Auction Ends" />
                                         </f:facet>
-                                        <h:outputText value="#{item.timeRemaining}" style="font-size: 1.15em;" /><br/>
+                                        <h:outputText value="#{item.timeRemaining} left" style="font-size: 1.15em;" /><br/>
                                         <h:outputText value="#{item.endDate}">
                                             <f:convertDateTime pattern="M/d hh:mm a"/>
                                         </h:outputText>

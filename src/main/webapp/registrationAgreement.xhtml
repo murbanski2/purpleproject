@@ -74,7 +74,7 @@
                            terms of service by clicking on the button below.
                         </p>
                         <p>
-                            <p:commandButton action="#{registrationBean.doDecline()}" value="No Thanks" ajax="false"/>
+                            <p:commandButton action="index" actionListener="#{homeNavBean.killRregistrationBean}" value="No Thanks" ajax="false"/>
                             <p:spacer width="10px"/>
                             <p:commandButton onclick="statusDialog.show();" action="#{registrationBean.doRegistration()}" value="I Agree" ajax="false"/>
                         </p>

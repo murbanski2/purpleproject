@@ -2,6 +2,7 @@ package edu.wctc.distjava.purpleproject.controller;
 
 import edu.wctc.distjava.purpleproject.domain.AuctionItem;
 import edu.wctc.distjava.purpleproject.domain.AuctionItemDto;
+import edu.wctc.distjava.purpleproject.domain.Bid;
 import edu.wctc.distjava.purpleproject.domain.MemberSearch;
 import edu.wctc.distjava.purpleproject.service.IAuctionItemService;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -27,6 +29,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.jsf.FacesContextUtils;
 import org.springframework.web.util.WebUtils;
+import org.primefaces.event.SelectEvent;
 
 /**
  * The is a Spring-managed JSF bean and the main entry point for the
@@ -45,11 +48,55 @@ public class HomeNavBean implements Serializable {
     
     private String noImpMsg = "Not yet Implemented";
     private List<AuctionItemDto> auctionItemsFound;
+    public AuctionItemDto selectedAuctionItemDto;
     private List<MemberSearch> recentSearches;
     private String selectedCategory;
     private String searchPhrase;
 
     public HomeNavBean() {
+    }
+    
+    public String placeBid() {
+        
+        ctx = FacesContextUtils.getWebApplicationContext(
+                FacesContext.getCurrentInstance());          
+        FacesContext context = FacesContext.getCurrentInstance();
+        
+        // No UserDetails instsance if anonymous
+        String username = SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal().toString();
+
+        if(username.contains("anonymous")) {
+            context.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "Registration Required", "Sorry, you must be a registered user to place bids."));
+            return "foundItemsList";
+        }
+        
+        Bid bid = new Bid();
+        bid.setItemId(selectedAuctionItemDto.getItemId());
+        
+        UserDetails userDetails = (UserDetails)SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal(); 
+        username = userDetails.getUsername();
+
+        bid.setBidderId(username);
+        bid.setAmount(new BigDecimal(selectedAuctionItemDto.getPlacedBid()));
+        IAuctionItemService auctionSrv = 
+                    (IAuctionItemService) ctx.getBean("auctionItemService");          
+       auctionSrv.saveBid(bid);
+       
+       return "index";
+    }
+    
+    public void handleItemSelect(SelectEvent e) {
+        // auction item has been selected and saved in the
+        // selectedAutionItemDto property. Now navigate to details page
+        ConfigurableNavigationHandler navigationHandler = 
+            (ConfigurableNavigationHandler) FacesContext
+            .getCurrentInstance().getApplication().getNavigationHandler();
+
+        navigationHandler.performNavigation("itemDetails.xhtml?faces-redirect=true");
     }
     
     public String redoMemberSearch(String phrase) {
@@ -72,7 +119,6 @@ public class HomeNavBean implements Serializable {
         String authenticatedDestination = "/member/foundItemsList";
         String anonymousDestination = "/foundItemsList";
         
-
         // No UserDetails instsance if anonymous
         String username = SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal().toString();
@@ -235,19 +281,30 @@ public class HomeNavBean implements Serializable {
             dto = new AuctionItemDto();
             dto.setItemId(ai.getItemId());
             dto.setTitle(ai.getTitle());
-            dto.setImage1(ai.getImage1().substring(0, ai.getImage1().length()-4) + "-thumb.jpg");
+            dto.setDescription(ai.getDescription());
+            dto.setThumbnail(ai.getImage1().substring(0, ai.getImage1().length()-4) + "-thumb.jpg");
             dto.setEndDate(ai.getEndDate());
             BigDecimal highestBid = 
                     auctionSrv.findHighestBidForItem(ai.getItemId());
             double bid = highestBid == null ? 0 : highestBid.doubleValue();
             dto.setHighBid(nf.format(bid));
+            dto.setMinBid(bid + .10);
             Number count = auctionSrv.findBidCountForItem(ai.getItemId());
             dto.setBidCount(count.toString());
             auctionItemsFound.add(dto);
         }
     }
 
+    public AuctionItemDto getSelectedAuctionItemDto() {
+        return selectedAuctionItemDto;
+    }
 
-    
+    public void setSelectedAuctionItemDto(AuctionItemDto selectedAuctionItemDto) {
+        LOG.debug("*** Selected Auction Item: " + selectedAuctionItemDto);
+        this.selectedAuctionItemDto = selectedAuctionItemDto;
+    }
+
+
+
 
 }

@@ -6,6 +6,7 @@ import edu.wctc.distjava.purpleproject.domain.User;
 import edu.wctc.distjava.purpleproject.service.IAuctionItemService;
 import edu.wctc.distjava.purpleproject.service.ICategoryService;
 import edu.wctc.distjava.purpleproject.service.IUserService;
+import edu.wctc.distjava.purpleproject.util.FacesUtils;
 import edu.wctc.distjava.purpleproject.util.ThumbnailGenerator;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -119,9 +120,11 @@ public class DonateBean implements Serializable {
         ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
         HttpServletRequest request = ((HttpServletRequest) extContext.getRequest());
         int intPort = request.getServerPort();
-        String port = intPort == 80 ? "" : (":"+intPort);
-        String filePathInDb = request.getScheme() + "://" 
-                + request.getServerName() + port
+        String port = "";
+        if(intPort != 80) {
+            port = ":" + FacesUtils.getBundleKey("msg", "server.port.unsecured");
+        }
+        String filePathInDb = "http://" + request.getServerName() + port
                 + request.getContextPath() + "/imgvault/"
                 + event.getFile().getFileName();
         String absoluteFilePath = "/auction/imgvault/"

@@ -19,9 +19,12 @@ public class AuctionItemDto implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer itemId;
     private String title;
-    private String image1;
+    private String description;
+    private String thumbnail;
     private Date endDate;
     private String highBid;
+    private double minBid;
+    private double placedBid;
     private String bidCount;
 
     /**
@@ -50,7 +53,7 @@ public class AuctionItemDto implements Serializable {
             bldr.appendMinutes().appendSuffix("m");        }
                 
         PeriodFormatter formatter = bldr.toFormatter();
-        return formatter.print(period) + " left";
+        return formatter.print(period);
     }
 
     @Override
@@ -91,14 +94,6 @@ public class AuctionItemDto implements Serializable {
         this.title = title;
     }
 
-    public String getImage1() {
-        return image1;
-    }
-
-    public void setImage1(String image1) {
-        this.image1 = image1;
-    }
-
     public Date getEndDate() {
         return endDate;
     }
@@ -121,6 +116,38 @@ public class AuctionItemDto implements Serializable {
 
     public void setBidCount(String bidCount) {
         this.bidCount = bidCount;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getMinBid() {
+        return minBid;
+    }
+
+    public void setMinBid(double minBid) {
+        this.minBid = minBid;
+    }
+
+    public double getPlacedBid() {
+        return placedBid;
+    }
+
+    public void setPlacedBid(double placedBid) {
+        this.placedBid = placedBid;
     }
 
 }
