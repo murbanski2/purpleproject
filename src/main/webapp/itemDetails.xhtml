@@ -64,7 +64,7 @@
                 <h:form id="item_form">
                     <p:poll listener="#{homeNavBean.findItems(request.userPrincipal.name)}" update="highBid" interval="5" />
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                    <p:panelGrid cellpadding="4" style="width: 720px;">
+                    <p:panelGrid cellpadding="4" style="width: 1000px;">
                         <p:row>
                             <p:column colspan="3">
                                 <h2>#{homeNavBean.selectedAuctionItemDto.title}</h2>

@@ -145,6 +145,7 @@ public class DonateBean implements Serializable {
         }
 
         try {
+            
             FileOutputStream fileOutputStream = new FileOutputStream(outFile);
 
             byte[] buffer = new byte[BUFFER_SIZE];
@@ -163,15 +164,22 @@ public class DonateBean implements Serializable {
             fileOutputStream.close();
             inputStream.close();
             
-            String errMsg = "";
-            if(image2Url == null && image3Url == null && image4Url == null && image5Url == null) {
-                ThumbnailGenerator th = new ThumbnailGenerator();
+            ThumbnailGenerator th = new ThumbnailGenerator();
+            String errMsg = 
+                    th.createThumbnail(absoluteFilePath, absoluteFilePath, 550);            
+            
+//            String errMsg = "";
+            if(image2Url == null && image3Url == null 
+               && image4Url == null && image5Url == null) {
+                
+//                ThumbnailGenerator th = new ThumbnailGenerator();
                 errMsg = th.createThumbnail(absoluteFilePath, 
-                    absoluteFilePath.substring(0, absoluteFilePath.length()-4) + "-thumb.jpg", 200);
+                    absoluteFilePath.substring(0, 
+                        absoluteFilePath.length()-4) + "-thumb.jpg", 200);
             }
 
-            FacesMessage msg = new FacesMessage("Upload Success", event.getFile().getFileName()
-                    + " is uploaded. " + errMsg);
+            FacesMessage msg = new FacesMessage("Upload Success", 
+                    event.getFile().getFileName() + " is uploaded.");
             FacesContext.getCurrentInstance().addMessage(null, msg);
 
         } catch (IOException e) {
