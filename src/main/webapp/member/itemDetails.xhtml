@@ -62,10 +62,9 @@
             </p:layoutUnit>
 
             <p:layoutUnit id="centerPanel" position="center">         
-                <h:form id="item_form">
-                    <p:poll listener="#{homeNavBean.findItems(request.userPrincipal.name)}" update="highBid" interval="5" />
+                <h:form id="itemDetailFormMembr">
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                    <p:panelGrid cellpadding="4" style="width: 1000x;">
+                    <p:panelGrid id="itemDetailGridMembr" cellpadding="4" style="width: 1000x;">
                         <p:row>
                             <p:column colspan="3">
                                 <h2>#{homeNavBean.selectedAuctionItemDto.title}</h2>
@@ -75,11 +74,13 @@
                                     </h:outputText><br/>
                                     <h:outputText value="High Bid:" />&nbsp;&nbsp; 
                                     <h:outputText id="highBid" value="#{homeNavBean.selectedAuctionItemDto.highBid}" style="font-size: 1.25em; font-weight: bold;"/> &nbsp;&nbsp;
-                                    <h:outputText value="&nbsp;&nbsp;(#{homeNavBean.selectedAuctionItemDto.bidCount} bids)"/> &nbsp;&nbsp;
-                                    <p:inputText value="#{homeNavBean.selectedAuctionItemDto.placedBid}" size="15">
+                                    <h:outputText id="bidCount" value="&nbsp;&nbsp;(#{homeNavBean.selectedAuctionItemDto.bidCount} bids)"/> &nbsp;&nbsp;
+                                    <p:inputText id="bidAmt" value="#{homeNavBean.selectedAuctionItemDto.placedBid}" size="15">
                                         <f:validateDoubleRange minimum="#{homeNavBean.selectedAuctionItemDto.minBid}" maximum="5000"/>
                                     </p:inputText>&nbsp;&nbsp;
-                                    <p:commandButton value="Place Bid" action="#{homeNavBean.placeBid()}" ajax="false"/>
+                                    <p:watermark forElement="bidAmt" value="#{homeNavBean.selectedAuctionItemDto.minBid} minimum" />
+                                    <p:commandButton value="Place Bid" actionListener="#{homeNavBean.placeBid()}"
+                                                     update="itemDetailFormMembr"/>
                                 </p>
                             </p:column>
                         </p:row>
@@ -87,6 +88,26 @@
                         <p:row>
                             <p:column colspan="3">
                                 <h:outputText value="#{homeNavBean.selectedAuctionItemDto.description}" escape="false"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="3">
+                                <c:if test="#{homeNavBean.selectedAuctionItemDto.image1Url.length() > 0}">
+                                    <img src="#{homeNavBean.selectedAuctionItemDto.image1Url}" /><br/>
+                                </c:if>
+                                <c:if test="#{dhomeNavBean.selectedAuctionItemDto.image2Url.length() > 0}">
+                                    <img src="#{homeNavBean.selectedAuctionItemDto.image2Url}" /><br/>
+                                </c:if>
+                                <c:if test="#{homeNavBean.selectedAuctionItemDto.image3Url.length() > 0}">
+                                    <img src="#{homeNavBean.selectedAuctionItemDto.image3Url}" /><br/>
+                                </c:if>
+                                <c:if test="#{homeNavBean.selectedAuctionItemDto.image4Url.length() > 0}">
+                                    <img src="#{homeNavBean.selectedAuctionItemDto.image4Url}" /><br/>
+                                </c:if>
+                                <c:if test="#{homeNavBean.selectedAuctionItemDto.image5Url.length() > 0}">
+                                    <img src="#{homeNavBean.selectedAuctionItemDto.image5Url}" />
+                                </c:if>
                             </p:column>
                         </p:row>
                     </p:panelGrid>

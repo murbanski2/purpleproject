@@ -68,7 +68,7 @@ public class AuctionItemService implements IAuctionItemService {
         MemberSearch ms = new MemberSearch();
         ms.setSearchPhrase(searchPhrase);
         ms.setUserId(userId);
-        memSearchRepo.save(ms);
+        memSearchRepo.saveAndFlush(ms);
     }
 
     @Override

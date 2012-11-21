@@ -166,7 +166,7 @@ public class DonateBean implements Serializable {
             
             ThumbnailGenerator th = new ThumbnailGenerator();
             String errMsg = 
-                    th.createThumbnail(absoluteFilePath, absoluteFilePath, 550);            
+                    th.createThumbnail(absoluteFilePath, absoluteFilePath, 640);            
             
 //            String errMsg = "";
             if(image2Url == null && image3Url == null 

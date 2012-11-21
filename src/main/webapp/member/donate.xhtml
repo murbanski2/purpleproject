@@ -119,24 +119,6 @@
                                 <h:outputLabel value="Image URLs" style="font-weight: bold;" />
                             </p:column>
                             <p:column id="urlCol" colspan="2" width="600">
-                                <c:if test="#{donateBean.image1Url.length() > 0}">
-                                    #{donateBean.image1Url}<br/>
-                                </c:if>
-                                <c:if test="#{donateBean.image2Url.length() > 0}">
-                                    #{donateBean.image2Url}<br/>
-                                </c:if>
-                                <c:if test="#{donateBean.image3Url.length() > 0}">
-                                    #{donateBean.image3Url}<br/>
-                                </c:if>
-                                <c:if test="#{donateBean.image4Url.length() > 0}">
-                                    #{donateBean.image4Url}<br/>
-                                </c:if>
-                                <c:if test="#{donateBean.image5Url.length() > 0}">
-                                    #{donateBean.image5Url}<br/>
-                                </c:if>
-                                <c:if test="#{donateBean.image1Url.length() > 0}">
-                                    <br/>Copy and paste an image URL into the insert image tool in the editor. 
-                                </c:if>
                                 You may upload up to five (5) pictures of type *.jpg, *gif or .png,
                                 where the size of each picture file may not exceed 1 Mb (1,024 Kb).
                                 IMPORTANT: Please upload pictures one at a time. The first picture will be used to
@@ -151,7 +133,7 @@
                             <p:column colspan="2">
                                 <p:fileUpload fileUploadListener="#{donateBean.handleFileUpload}" multiple="false"
                                               allowTypes="/(\.|\/)(gif|jpe?g|png)$/"  sizeLimit="1048576"
-                                              update="growl @form" showButtons="false"/>
+                                              update="growl" showButtons="false"/>
                             </p:column>
                         </p:row>
 

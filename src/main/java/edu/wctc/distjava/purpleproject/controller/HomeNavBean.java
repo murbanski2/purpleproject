@@ -20,6 +20,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.event.SelectEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -29,7 +30,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.jsf.FacesContextUtils;
 import org.springframework.web.util.WebUtils;
-import org.primefaces.event.SelectEvent;
 
 /**
  * The is a Spring-managed JSF bean and the main entry point for the
@@ -56,37 +56,45 @@ public class HomeNavBean implements Serializable {
     public HomeNavBean() {
     }
     
-    public String placeBid() {
+    public void placeBid() {
         
         ctx = FacesContextUtils.getWebApplicationContext(
                 FacesContext.getCurrentInstance());          
         FacesContext context = FacesContext.getCurrentInstance();
-        
-        // No UserDetails instsance if anonymous
-        String username = SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal().toString();
-
-        if(username.contains("anonymous")) {
-            context.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Registration Required", "Sorry, you must be a registered user to place bids."));
-            return "foundItemsList";
-        }
+//        
+//        // No UserDetails instsance if anonymous
+//        String username = SecurityContextHolder.getContext()
+//                .getAuthentication().getPrincipal().toString();
+//
+//        if(username.contains("anonymous")) {
+//            context.addMessage(null,
+//                    new FacesMessage(FacesMessage.SEVERITY_WARN,
+//                    "Registration Required", "Sorry, you must be a registered user to place bids."));
+//            return "foundItemsList";
+//        }
         
         Bid bid = new Bid();
         bid.setItemId(selectedAuctionItemDto.getItemId());
         
         UserDetails userDetails = (UserDetails)SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal(); 
-        username = userDetails.getUsername();
+        String username = userDetails.getUsername();
 
         bid.setBidderId(username);
         bid.setAmount(new BigDecimal(selectedAuctionItemDto.getPlacedBid()));
         IAuctionItemService auctionSrv = 
                     (IAuctionItemService) ctx.getBean("auctionItemService");          
-       auctionSrv.saveBid(bid);
+        auctionSrv.saveBid(bid);
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        BigDecimal highestBid = 
+                auctionSrv.findHighestBidForItem(selectedAuctionItemDto.getItemId());
+        double hBid = highestBid == null ? 0 : highestBid.doubleValue();
+        selectedAuctionItemDto.setHighBid(nf.format(hBid));
+        selectedAuctionItemDto.setMinBid(hBid + .10);
+        Number count = auctionSrv.findBidCountForItem(selectedAuctionItemDto.getItemId());
+        selectedAuctionItemDto.setBidCount(count.toString());
        
-       return "index";
+//       return "/faces/member/itemDetails.xhtml?faces-redirect=true";
     }
     
     public void handleItemSelect(SelectEvent e) {
@@ -267,10 +275,14 @@ public class HomeNavBean implements Serializable {
                 rawData = auctionSrv.findAllLimited(MAX_RECORDS);
             }
         } catch(DataAccessException dae) {
-            LOG.error("Auction items could not be found due to: " + dae.getMessage());
+            LOG.error("Data Access Exception: " + dae.getMessage());
+            dae.printStackTrace();
             context.addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
                     "Search Error", "Sorry, the search failed. Please report to the webmaster."));
+        } catch(Exception e) {
+            LOG.error("Misc. HomeNavBean findItems exception:");
+            e.printStackTrace();
         }
         
         auctionItemsFound = new ArrayList<AuctionItemDto>(rawData.size());
@@ -281,6 +293,11 @@ public class HomeNavBean implements Serializable {
             dto = new AuctionItemDto();
             dto.setItemId(ai.getItemId());
             dto.setTitle(ai.getTitle());
+            dto.setImage1Url(ai.getImage1());
+            dto.setImage2Url(ai.getImage2());
+            dto.setImage3Url(ai.getImage3());
+            dto.setImage4Url(ai.getImage4());
+            dto.setImage5Url(ai.getImage5());
             dto.setDescription(ai.getDescription());
             dto.setThumbnail(ai.getImage1().substring(0, ai.getImage1().length()-4) + "-thumb.jpg");
             dto.setEndDate(ai.getEndDate());

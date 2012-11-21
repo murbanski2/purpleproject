@@ -26,7 +26,11 @@ public class AuctionItemDto implements Serializable {
     private double minBid;
     private double placedBid;
     private String bidCount;
-
+    private String image1Url;
+    private String image2Url;
+    private String image3Url;
+    private String image4Url;
+    private String image5Url;
     /**
      * Use JodaTime to calculate remaining time before auction ends
      * 
@@ -148,6 +152,46 @@ public class AuctionItemDto implements Serializable {
 
     public void setPlacedBid(double placedBid) {
         this.placedBid = placedBid;
+    }
+
+    public String getImage1Url() {
+        return image1Url;
+    }
+
+    public void setImage1Url(String image1Url) {
+        this.image1Url = image1Url;
+    }
+
+    public String getImage2Url() {
+        return image2Url;
+    }
+
+    public void setImage2Url(String image2Url) {
+        this.image2Url = image2Url;
+    }
+
+    public String getImage3Url() {
+        return image3Url;
+    }
+
+    public void setImage3Url(String image3Url) {
+        this.image3Url = image3Url;
+    }
+
+    public String getImage4Url() {
+        return image4Url;
+    }
+
+    public void setImage4Url(String image4Url) {
+        this.image4Url = image4Url;
+    }
+
+    public String getImage5Url() {
+        return image5Url;
+    }
+
+    public void setImage5Url(String image5Url) {
+        this.image5Url = image5Url;
     }
 
 }
