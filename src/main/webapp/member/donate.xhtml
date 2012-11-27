@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <h:outputStylesheet name="default.css" library="css" />
+        <h:outputStylesheet name="cssLayout.css" library="css" />
+        <link rel="SHORTCUT ICON" href="/#{msg['server.context.root']}/favicon.ico"/>
+
+        <title>bitBay Donate Auction Item</title>
+
+        <style type="text/css">
+            .ui-widget {
+                font-size: 100%;
+            }
+
+            .ui-datatable-scrollable-header2 {
+                height: 10px;
+            }
+
+
+            .ui-panel {
+                border:0px;
+            }
+
+            .ui-layout-north {
+                z-index:20 !important;
+                overflow:visible;
+            }
+
+            .ui-layout-north .ui-layout-unit-content {
+                overflow:visible;
+            }
+
+        </style>
+
+    </h:head>
+
+    <h:body>  
+        <p:growl id="growl" sticky="false" life="7500" showDetail="true" />
+        <p:layout id="homeLayout" fullPage="true">
+            <p:layoutUnit position="north" size="25">
+                <div align="left">
+                    <p:breadCrumb>
+                        <p:menuitem value="Categories" url="#" />
+                        <p:menuitem value="bitBay Home" url="/faces/index.xhtml" />
+                        <p:menuitem value="bitBay Member" url="/faces/member/index.xhtml" />
+                        <p:menuitem value="Donate Item" url="#" />
+                    </p:breadCrumb>
+                </div>
+            </p:layoutUnit>
+
+            <p:layoutUnit id="leftPanel" position="west" resizable="false" size="#{msg['nav.bar.width']}">
+                <ui:include src="/navBar.xhtml" />
+            </p:layoutUnit>
+
+            <p:layoutUnit id="centerPanel" position="center">         
+                <h:form id="donate_form">
+                    <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
+                    <p:panelGrid cellpadding="4" style="width: 1000px;">
+                        <p:row>
+                            <p:column colspan="3">
+                                <h2>Donate Some Stuff</h2>
+                                <p>You may use HTML tags in your text to format your content</p>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Auction Duration" style="font-weight: bold;" /></p:column>
+                            <p:column colspan="2">
+                                <p:panelGrid>
+                                    <p:row>
+                                        <p:column>
+                                            <p style="font-weight: bold;">Auction Start Date:<br/>
+                                            <p:calendar id="startDate" value="#{donateBean.startDate}" 
+                                                        mindate="#{donateBean.startDate}" pattern="MM/dd/yyyy HH:mm a" />
+                                            </p>
+                                        </p:column>
+                                        <p:column>
+                                            <p style="font-weight: bold;">Auction End Date:<br/>
+                                                <p:calendar id="endDate" value="#{donateBean.endDate}"
+                                                            mindate="#{donateBean.startDate}" pattern="MM/dd/yyyy HH:mm a" />
+                                            </p>
+                                        </p:column>
+                                    </p:row>
+                                </p:panelGrid>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Category" for="category" style="font-weight: bold;" /></p:column>
+                            <p:column>
+                                <p:selectOneMenu id="category" value="#{donateBean.selectedCategory}" 
+                                                 required="true">
+                                    <f:selectItem itemLabel="Select Category..." itemValue="" />
+                                    <f:selectItems value="#{appBean.categories}" />
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column><p:message for="desc"/></p:column>  
+                        </p:row>
+
+                        <p:row>
+                            <p:column><h:outputLabel value="Title" for="title" style="font-weight: bold;" /></p:column>
+                            <p:column>
+                                <p:inputText id="title" value="#{donateBean.title}" size="80"
+                                             required="true" label="Title" requiredMessage="Title is required"/>
+                            </p:column>
+                            <p:column><p:message for="title"/></p:column>  
+                        </p:row>
+
+                        <p:row>
+                            <p:column style="vertical-align: top;">
+                                <h:outputLabel value="Image URLs" style="font-weight: bold;" />
+                            </p:column>
+                            <p:column id="urlCol" colspan="2" width="600">
+                                You may upload up to five (5) pictures of type *.jpg, *gif or .png,
+                                where the size of each picture file may not exceed 1 Mb (1,024 Kb).
+                                IMPORTANT: Please upload pictures one at a time. The first picture will be used to
+                                create a thumbnail image that will appear on search result pages.
+                            </p:column> 
+                        </p:row>
+
+                        <p:row>
+                            <p:column style="vertical-align: top;">
+                                <h:outputLabel value="Upload Images" style="font-weight: bold;" />
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:fileUpload fileUploadListener="#{donateBean.handleFileUpload}" multiple="false"
+                                              allowTypes="/(\.|\/)(gif|jpe?g|png)$/"  sizeLimit="1048576"
+                                              update="growl" showButtons="false"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column style="vertical-align: top;">
+                                <h:outputLabel value="Description" for="desc" style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:editor id="desc" value="#{donateBean.description}" 
+                                          width="980" height="600" required="true" label="Description" 
+                                          requiredMessage="Description is required"/>
+                            </p:column>
+                            <p:column><p:message for="desc"/></p:column>  
+                        </p:row>
+
+                        <p:row>
+                            <p:column></p:column>  
+                            <p:column colspan="2">
+                                <p:commandButton action="#{donateBean.saveItem}" value="Donate It"/>
+                                <p:spacer width="10px"/>
+                                <p:commandButton action="#{donateBean.cancelDonation}" 
+                                                 value="Cancel" immediate="true" ajax="false"/>
+                            </p:column>
+                        </p:row>
+
+                    </p:panelGrid>
+                </h:form>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" size="50">
+                <ui:include src="/footer.xhtml" />
+            </p:layoutUnit>
+
+        </p:layout>
+    </h:body>
+
+</html>

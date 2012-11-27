@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!--
+    This is not a template client. This is just content that may be
+    included by a template client so that when the content changes you do
+    not need to change it in every client. Basically, this is global content.
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:panel header="Welcome #{request.userPrincipal.name == null ? 'Guest' : 'Back '.concat(request.userPrincipal.name)}">
+        <br/>
+        <p:calendar mode="inline" navigator="none" immediate="true" value="#{homeNavBean.currentDate}" readonly="true" />
+        <br/>
+    </p:panel>
+
+    <p:panel header="Navigation">
+        <h:form>
+            <p:tieredMenu>
+            <p:submenu label="Destinations" icon="ui-icon-extlink">
+                <p:menuitem value="Home" url="/faces/index.xhtml" />
+                <p:menuitem value="Administrators" url="/faces/admin/index.xhtml" />
+                <p:menuitem value="Members" url="/faces/member/index.xhtml" />
+                <p:menuitem value="Donate an Item" url="/faces/member/donate.xhtml" />
+            </p:submenu>
+            <p:submenu label="Popular Items" icon="ui-icon-search">
+                <p:menuitem value="Recent Donations" url="#" />
+                <p:menuitem value="Most Viewed" url="#" />
+                <p:menuitem value="Auction Time Expiring" url="#" />
+                <p:menuitem value="Highest Active Bids" url="#" />
+                <p:menuitem value="Lowest Active Bids" url="#" />
+            </p:submenu>
+            <p:submenu label="Support" icon="ui-icon-lightbulb">
+                <p:menuitem value="The Bidding Process" url="#" />
+                <p:menuitem value="How to Donate Items" url="#" />
+                <p:menuitem value="Problem Solving" url="#" />
+            </p:submenu>
+        </p:tieredMenu>
+        </h:form>
+        <br/>
+    </p:panel>
+
+    <p:panel header="About #{msg['app.name']}">
+        <h:panelGrid columns="1">
+            <h:outputText value="#{msg['app.version']}" />
+            <h:panelGroup>
+                <h:outputText value="#{msg['server.started']}:&lt;br/&gt;" escape="false"/>
+                <h:outputText value="#{appBean.startupDate}">
+                    <f:convertDateTime type="both" dateStyle="short" />
+                </h:outputText>
+            </h:panelGroup>
+            <h:outputText value="&nbsp;" escape="false"/>
+            
+            <h:outputText value="#{msg['navbar.copyright']}" escape="false" />
+            <h:outputText value="#{msg['mfg.name']}" escape="false" />
+            <h:outputText value="#{msg['mfg.address']}" />
+            <h:outputText value="#{msg['mfg.city.state.zip']}" />
+            <h:outputText value="#{msg['mfg.phone']}" />
+            <h:outputLink value="mailto:#{msg['webmaster.email']}">
+                <h:outputText value="#{msg['webmaster.email']}" />
+            </h:outputLink>
+        </h:panelGrid>
+    </p:panel>
+
+</ui:composition>

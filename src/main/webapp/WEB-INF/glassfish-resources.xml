@@ -8,16 +8,16 @@
          However, note that "java:app/" is mandatory. Make sure that the
          jndi-name is used in your "META-INF/persistence.xml" file.
     -->
-  <jdbc-resource enabled="true" jndi-name="java:app/jdbc/jsfshowcase" 
-                 object-type="user" pool-name="java:app/jsfshowcase_pool">
-        <description>The JNDI resource name for the jsfshowcase connection pool</description>
+  <jdbc-resource enabled="true" jndi-name="java:app/jdbc/bitbay_auction" 
+                 object-type="user" pool-name="java:app/bitbay_auction_pool">
+        <description>The JNDI resource name for the bitbay_auction connection pool</description>
   </jdbc-resource>
   
   <!-- Modify the pool name to suit. Make sure the pool-name referenced
        above matches this entry. Note that "java:app/" is mandatory. 
        Also modify the URL, user and password as necessary.
   -->
-  <jdbc-connection-pool name="java:app/jsfshowcase_pool" 
+  <jdbc-connection-pool name="java:app/bitbay_auction_pool" 
                         allow-non-component-callers="false" 
                         associate-with-thread="false" 
                         connection-creation-retry-attempts="0" 
@@ -39,7 +39,7 @@
                         statement-leak-reclaim="false" statement-leak-timeout-in-seconds="0" 
                         statement-timeout-in-seconds="-1" steady-pool-size="8" 
                         validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="false">
-    <property name="URL" value="jdbc:mysql://localhost:3306/jsfshowcase?zeroDateTimeBehavior=convertToNull"/>
+    <property name="URL" value="jdbc:mysql://localhost:3306/bitbay_auction?zeroDateTimeBehavior=convertToNull"/>
     <property name="User" value="root"/>
     <property name="Password" value="admin"/>
   </jdbc-connection-pool>

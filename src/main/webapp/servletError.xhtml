@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:sec="http://www.springframework.org/security/facelets/tags"
+>
+
+    <f:view contentType="text/html">
+        <h:head>
+            <h:outputStylesheet name="default.css" library="css" />
+            <h:outputStylesheet name="cssLayout.css" library="css" />
+            <link rel="SHORTCUT ICON" href="/#{msg['server.context.root']}/favicon.ico"/>
+
+            <title>bitBay Registration Verification Error</title>
+
+            <style type="text/css">
+                .ui-widget {
+                    font-size: 100%;
+                }
+
+                .ui-tabs-nav {
+                    background-color: transparent;
+                    background-image: none;
+                }
+
+                /*
+                .ui-growl {
+                    top: 350px;
+                    left: 600px;
+                }
+                */
+
+                .ui-datatable-scrollable-header2 {
+                    height: 10px;
+                }
+
+
+                .ui-panel {
+                    border:0px;
+                }
+
+                .ui-layout-north {
+                    z-index:20 !important;
+                    overflow:visible;
+                }
+
+                .ui-layout-north .ui-layout-unit-content {
+                    overflow:visible;
+                }
+            </style>
+        </h:head>
+
+        <h:body>  
+
+            <p:layout id="homeLayout" fullPage="true">
+
+                <p:layoutUnit position="north" size="25">
+                    <div align="left">
+                        <p:breadCrumb>
+                            <p:menuitem value="Categories" url="../index.xhtml" />
+                            <p:menuitem value="BIT Bay Home" url="../index.xhtml" />
+                            <p:menuitem value="Registration Verification Error" url="#" />
+                        </p:breadCrumb>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" resizable="false" size="#{msg['nav.bar.width']}">
+                    <ui:include src="navBar.xhtml" />
+                </p:layoutUnit>
+
+                <p:layoutUnit id="centerPanel" position="center">
+                    <h:form prependId="false" style="margin:90px 90px 90px 90px;">
+                        <h2>Registration Verification Failed.</h2>
+                        <p>
+                            The link provided to you recently in the Registration Verification
+                            email message contained an id value that cannot be found on our
+                            system. Please check that link you clicked on contained this id
+                            and try again. If you have further problems please contact
+                            <a href="mailto:bitbay.auction@gmail.com">bitbay.auction@gmail.com</a> 
+                            and paste your link into the message.
+                        </p>
+                        <p>
+                            <p:commandButton action="index" value="Back to Home Page" ajax="false"/>
+                        </p>
+                    </h:form>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="50">
+                    <ui:include src="footer.xhtml" />
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>
+

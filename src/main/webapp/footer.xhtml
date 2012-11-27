@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!--
+    importExport.xhtml
+
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cc="http://java.sun.com/jsf/composite"
+                xmlns:p="http://primefaces.org/ui">
+
+
+        <h:form id="footerForm">
+        <div align="center">
+            <h:panelGrid columns="5" cellspacing="2" columnClasses="centered">
+                    <p:commandLink action="/faces/index.xhtml?faces-redirect=true">
+                        <h:outputText value="Home" />
+                    </p:commandLink>
+                    <h:outputText value=" | "/>
+                    <p:commandLink actionListener="#{homeNavBean.logout}">
+                        <h:outputText value="Logout" />
+                    </p:commandLink>
+                    <h:outputText value=" | "/>
+                    <p:commandLink action="member/index?faces-redirect=true">
+                        <h:outputText value="Login" />
+                    </p:commandLink>
+            </h:panelGrid>
+            <h:outputText value="#{msg['page.footer.copyright']} &lt;a href='#'&gt;#{msg['page.footer.terms']}&lt;/a&gt; | &lt;a href='#'&gt;#{msg['page.footer.privacy']}&lt;/a&gt;" escape="false"/>
+        </div>
+        </h:form>
+
+</ui:composition>

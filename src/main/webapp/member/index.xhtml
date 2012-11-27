@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <h:outputStylesheet name="default.css" library="css" />
+        <h:outputStylesheet name="cssLayout.css" library="css" />
+        <link rel="SHORTCUT ICON" href="/#{msg['server.context.root']}/favicon.ico"/>
+
+        <title>bitBay Member Home</title>
+
+        <style type="text/css">
+            .ui-widget {
+                font-size: 100%;
+            }  
+
+            .ui-watermark {
+                color: #e3e3e3;
+            }
+
+            .hide-column-names table thead tr {
+                display: none;
+            }
+            
+            td.recentsearches {
+                background-color: #f5f3e5;
+            }
+            
+            .ui-panel {
+                border:0px;
+            }
+
+            .ui-layout-north {
+                z-index:20 !important;
+                overflow:visible;
+            }
+
+            .ui-layout-north .ui-layout-unit-content {
+                overflow:visible;
+            }
+
+
+        </style>
+
+    </h:head>
+
+    <h:body>  
+        <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
+        <p:layout id="homeLayout" fullPage="true">
+            <p:layoutUnit position="north" size="25">
+                <div align="left">
+                    <p:breadCrumb>
+                        <p:menuitem value="Categories" url="#" />
+                        <p:menuitem value="bitBay Home" url="/faces/index.xhtml" />
+                        <p:menuitem value="bitBay Member" url="#" />
+                    </p:breadCrumb>
+                </div>
+            </p:layoutUnit>
+
+            <p:layoutUnit id="leftPanel" position="west" resizable="false" size="#{msg['nav.bar.width']}">
+                <ui:include src="/navBar.xhtml" />
+            </p:layoutUnit>
+
+            <p:layoutUnit id="centerPanel" position="center">         
+                <h:form id="member_form">
+                    <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
+                    <p:panelGrid cellpadding="4" style="width: 720px; margin:4 auto;">
+                        <p:row>
+                            <p:column colspan="2" style="text-align: center;">
+                                <h2>Welcome Member. Please Donate Often.</h2>
+                                <p>We hope you're enjoying your user experience with
+                                    bitBay. Please remember what we're about, however,
+                                    which is funding our student IT club. Please consider
+                                    donating some stuff that you no longer need. Thanks
+                                    for using bitBay.
+                                </p>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:lineChart id="filled" value="#{appBean.categoryModel}" 
+                                             fill="true" title="Donations to Date" 
+                                             style="height:160px;margin-top:0px" 
+                                             yaxisLabel="Dollars" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:outputLabel for="searchTxt" value="Search for" style="font-size: larger;" />
+                                <p:spacer width="10px" />
+                                <p:inputText id="searchTxt" value="#{homeNavBean.searchPhrase}" size="35" style="font-size: larger;"/>
+                                <p:watermark for="searchTxt" value="my search terms" />
+                                <p:spacer width="8px" />                                
+                                <p:selectOneMenu value="#{homeNavBean.selectedCategory}" style="font-size: larger;position: relative;top: 9px;">
+                                    <f:selectItem itemLabel="Select Category..." itemValue="" />
+                                    <f:selectItems value="#{appBean.categories}" />
+                                </p:selectOneMenu>
+                                <p:spacer width="10px" />                                 
+                                <p:commandButton id="searchBtn" value="Go" action="#{homeNavBean.doItemSearch}" ajax="false" style="postion: relative;top: -2px;" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="vertical-align: top;">
+                                <div id="searchDiv">
+                                    <h3>Your Recent Searches</h3>
+                                    <c:forEach items="#{homeNavBean.recentSearches}" var="item">
+                                        <p>
+                                            <p:commandLink value="#{item.searchPhrase}" action="#{homeNavBean.redoMemberSearch(item.searchPhrase)}"/>
+                                        </p>
+                                    </c:forEach>
+                                </div>
+                            </p:column>
+                            <p:column style="vertical-align: top;">
+                                <div id="infoDiv">
+                                    <h3>Start Bidding or Donating</h3>
+                                    <p><h:outputLink value="donate.xhtml">
+                                            <h:outputText value="Donate Stuff" />
+                                        </h:outputLink></p>
+                                    <p>How to Donate Stuff on bitBay</p>
+                                    <p>How to Bid on an Item</p>
+                                </div>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" size="50">
+                <ui:include src="/footer.xhtml" />
+            </p:layoutUnit>
+
+        </p:layout>
+    </h:body>
+
+</html>

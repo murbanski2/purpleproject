@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <h:outputStylesheet name="default.css" library="css" />
+            <h:outputStylesheet name="cssLayout.css" library="css" />
+            <link rel="SHORTCUT ICON" href="/#{msg['server.context.root']}/favicon.ico"/>
+
+            <title>bitBay Login</title>
+
+            <style type="text/css">
+                .ui-widget {
+                    font-size: 100%;
+                }
+
+                .ui-watermark {
+                    color: #dddddd;
+                }
+
+                .ui-datatable-scrollable-header2 {
+                    height: 10px;
+                }
+
+
+                .ui-panel {
+                    border:0px;
+                }
+
+                .ui-layout-north {
+                    z-index:20 !important;
+                    overflow:visible;
+                }
+
+                .ui-layout-north .ui-layout-unit-content {
+                    overflow:visible;
+                }
+            </style>
+        </h:head>
+
+        <h:body>  
+
+            <p:layout id="homeLayout" fullPage="true">
+
+                <p:layoutUnit position="north" size="25">
+                    <div align="left">
+                        <p:breadCrumb>
+                            <p:menuitem value="Categories" url="index.xhtml" />
+                            <p:menuitem value="bitBay Home" url="index.xhtml" />
+                            <p:menuitem value="Login" url="#" />
+                        </p:breadCrumb>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" resizable="false" size="#{msg['nav.bar.width']}">
+                    <ui:include src="navBar.xhtml" />
+                </p:layoutUnit>
+
+                <p:layoutUnit id="centerPanel" position="center">
+                    <h:form id="loginForm" prependId="false" style="margin:90px 90px 90px 90px;">
+                        <p:growl id="growl" sticky="false" life="3000" showDetail="false" />
+                        <p:focus for="j_username"/>
+
+                        <p:panelGrid columns="1">
+                            <f:facet name="header">
+                                bitBay&trade; Authentication
+                            </f:facet>
+
+                            <p:watermark for="j_username" value="username@isp.com"/>                            
+                            <p:panelGrid columns="3">
+                                <h:outputLabel value="Email" for="j_username" />
+                                <p:inputText id="j_username" value="#{loginBean.username}" 
+                                             required="true" label="Email" requiredMessage="Email is required"
+                                             validatorMessage="Please use a valid email address">
+                                    <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                                </p:inputText>
+                                <p:message for="j_username"/>
+
+
+                                <h:outputLabel value="Password" for="j_password"/>
+                                <p:password id="j_password" value="#{loginBean.password}" feedback="false"
+                                            required="true" label="Password" requiredMessage="Password is required"
+                                            validatorMessage="Password must be at least 7 characters" />
+                                <p:message for="j_password"/>                                
+
+                                <h:outputText value=""/>
+                                <p:commandButton action="#{loginBean.doLogin()}" value="Login" ajax="false"/>
+                            </p:panelGrid>
+                        </p:panelGrid>
+                    </h:form>
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="50">
+                    <ui:include src="footer.xhtml" />
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>
+

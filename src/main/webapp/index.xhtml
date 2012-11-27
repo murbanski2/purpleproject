@@ -1,75 +1,189 @@
-<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<!--
-    ABOUT THIS PROJECT:
-
-    
--->
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:fn="http://java.sun.com/jsp/jstl/functions"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:cc="http://java.sun.com/jsf/composite"
-      xmlns:sec="http://www.springframework.org/security/facelets/tags"
-      xmlns:p="http://primefaces.org/ui"      
-      >
+      xmlns:p="http://primefaces.org/ui">
+
     <h:head>
-        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-        <meta name="Keywords" content="JSF WCTC JAVA"/>
-        <meta name="Description" content="A basic JSF v2 home page without a template"/>
-        <meta name="Robots" content="index,follow"/>
-
-        <title>Home</title>
-
         <h:outputStylesheet name="default.css" library="css" />
         <h:outputStylesheet name="cssLayout.css" library="css" />
-        <link rel="SHORTCUT ICON" href="/purpleproject/favicon.ico"/>
+        <h:outputScript name="jquery/jquery.js" library="primefaces" />
+        <h:outputScript library="js" name="sequence.jquery-min.js" />
+        <link rel="SHORTCUT ICON" href="/#{msg['server.context.root']}/favicon.ico"/>
+
+        <title>bitBay Home</title>
+
+        <style type="text/css">
+            .ui-widget {
+                font-size: 100%;
+            }
+
+            .ui-datatable-scrollable-header2 {
+                height: 10px;
+            }
+
+            .ui-watermark {
+                color: #e3e3e3;
+            }
+
+            .ui-panel {
+                border:0px;
+            }
+
+            .ui-layout-north {
+                z-index:20 !important;
+                overflow:visible;
+            }
+
+            .ui-layout-north .ui-layout-unit-content {
+                overflow:visible;
+            }
+
+        </style>
+
+        <link rel="stylesheet" type="text/css" media="screen" href="resources/css/sequencejs-theme.sliding-horizontal-parallax.css" />
+        <!--[if lt IE 9]><link rel="stylesheet" type="text/css" media="screen" href="resources/css/sequencejs-theme.sliding-horizontal-parallax-ie.css" /><![endif]-->
+
+
+        <script type="text/javascript">	
+            $(document).ready(function(){
+                var options = {		
+                    autoPlayDelay: 2000,
+                    hidePreloaderDelay: 0,
+                    nextButton: true,
+                    prevButton: true,
+                    hidePreloaderUsingCSS: false,						
+                    animateStartingFrameIn: true, 			
+                    transitionThreshold: 1000,
+                    pauseOnHover: true,
+                    customKeyEvents: {
+                        80: "pause"
+                    }
+                };
+                var sequence = $("#sequence").sequence(options).data("sequence");
+
+                sequence.afterLoaded = function(){
+                    $(".prev, .next").fadeIn(500);
+                }
+            })
+        </script>
     </h:head>
-    <h:body>
-        <h:form id="form1">
-            <h:dataTable id="empTable" rows="10" value="#{employeeSrv.namesHireDate}"
-                         var="emp" rowClasses="list-row-odd, list-row-even" width="60%">
-                <f:facet name="header">
-                    Employee List From JPA Projection Query
-                </f:facet>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="ID" />
-                    </f:facet>
-                    <h:outputText value="#{emp[0]}" />
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="Last Name" />
-                    </f:facet>
-                    <h:outputText value="#{emp[1]}" />
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="First Name" />
-                    </f:facet>
-                    <h:outputText value="#{emp[2]}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="Hire Date" />
-                    </f:facet>
-                    <h:outputText value="#{emp[3]}">
-                        <f:convertDateTime pattern="MM-dd-yy" />
-                    </h:outputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="Action" />
-                    </f:facet>
-                    <h:commandButton id="cmdDelete" value="Delete" action="#{employeeSrv.removeWithAudit(emp[0])}"/>
-                </h:column>
-            </h:dataTable>
-        </h:form>
+
+    <h:body>  
+        <p:growl id="growl" sticky="false" life="7500" showDetail="true" />
+        <p:layout id="homeLayout" fullPage="true">
+            <p:layoutUnit position="north" size="25">
+                <div align="left">
+                    <p:breadCrumb>
+                        <p:menuitem value="Categories" url="index.xhtml" />
+                        <p:menuitem value="bitBay Home" url="index.xhtml" />
+                    </p:breadCrumb>
+                </div>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="west" resizable="false" size="#{msg['nav.bar.width']}">
+                <ui:include src="/navBar.xhtml" />
+            </p:layoutUnit>
+
+            <p:layoutUnit id="centerPanel" position="center">         
+                <h:form id="home_form">
+                    <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
+                    <p:panelGrid cellpadding="4" style="width: 720px; margin:4 auto;">
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="searchTxt" value="Search for" style="font-size: larger;" />
+                                <p:spacer width="10px" />
+                                <p:inputText id="searchTxt" value="#{homeNavBean.searchPhrase}" size="24" style="font-size: larger;"/>
+                                <p:watermark for="searchTxt" value="my search terms" />
+                                <p:spacer width="8px" />                                
+                                <p:selectOneMenu value="#{homeNavBean.selectedCategory}" style="font-size: larger;position: relative;top: 9px;">
+                                    <f:selectItem itemLabel="Select Category..." itemValue="" />
+                                    <f:selectItems value="#{appBean.categories}" />
+                                </p:selectOneMenu>
+                                <p:spacer width="10px" />                                 
+                                <p:commandButton id="searchBtn" value="Go" action="#{homeNavBean.doItemSearch}" style="postion: relative;top: -2px;" ajax="false"/>
+                                <div style="position:relative;width:120px;height:15px;left:608px;top:-30px;">
+                                    <h:link value="Login" outcome="/member/index.xhtml"/><br/>
+                                    <h:link value="Create Account" outcome="registrationForm"/>
+                                </div>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <div id="header">
+                                    <div id="sequence">
+                                        <img class="prev" src="resources/images/bt-prev.png" alt="Previous" />
+                                        <img class="next" src="resources/images/bt-next.png" alt="Next" />
+                                        <ul>
+                                            <li>
+                                                <div class="info animate-in">
+                                                    <h2 class="seqTitle">Donate to bitBay&trade;</h2>
+                                                    <p>Donate your old stuff, or your time and expertise, to help fund the WCTC's IT Club</p>
+                                                </div>
+                                                <img class="sky animate-in" src="resources/images/bg-clouds.png" alt="Blue Sky" />
+                                                <img class="balloon animate-in" src="resources/images/gadgets_digi.png" height="50%" width="30%" alt="Gadgets" />
+                                            </li>
+                                            <li>
+                                                <div class="info">
+                                                    <h2 class="seqTitle">Make Your Bid</h2>
+                                                    <p>Get cool stuff in an auction format where you bid against others. All proceeds go to the WCTC IT Club.</p>
+                                                </div>
+                                                <img class="sky" src="resources/images/bg-clouds.png" alt="Blue Sky" />
+                                                <img class="aeroplane" src="resources/images/aeroplane.png" alt="Aeroplane" />
+                                            </li>
+                                            <li>
+                                                <div class="info">
+                                                    <h2 class="seqTitle">Win Cool Stuff</h2>
+                                                    <p>Congratulations. You had the winning bid. Give us the funds and we'll get you your stuff.</p>
+                                                </div>
+                                                <img class="sky" src="resources/images/bg-clouds.png" alt="Blue Sky" />
+                                                <img class="kite" src="resources/images/kite.png" alt="Kite" />
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </p:column>
+                        </p:row>
+                        <p:spacer height="10px"/>
+                        <p:row>
+                            <p:column>
+                                <p:lineChart id="filled" value="#{appBean.categoryModel}" 
+                                             fill="true" title="Donations to Date" 
+                                             style="height:110px;margin-top:0px" 
+                                             yaxisLabel="Dollars" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h2>Welcome to bitBay&trade;. The Auction Site That Benefits WCTC's IT Club</h2>
+                                <p style="font-size: medium;">
+                                    Everyone has stuff they no longer want or use. Now students, teachers,
+                                    administrators or anyone, really, can turn that stuff into cold, hard
+                                    cash that can help fund student IT clubs.
+                                </p>
+                                <p style="font-size: medium;">
+                                    It works like other popular auction sites, except that the sellers donate 
+                                    their proceeds to the IT club. The winning bidder pays 
+                                    the IT club and the IT club makes arrangements to get the stuff to the 
+                                    buyer. To get started as a bidder or seller, create an account. No credit 
+                                    card is necessary.
+                                </p>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" size="50">
+                <ui:include src="/footer.xhtml" />
+            </p:layoutUnit>
+
+        </p:layout>
     </h:body>
 
 </html>
-
