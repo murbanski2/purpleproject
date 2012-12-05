@@ -140,7 +140,7 @@ public class HomeNavBean implements Serializable {
                     .getContext().getAuthentication().getPrincipal(); 
             username = userDetails.getUsername();
             findItems(username);
-            return authenticatedDestination;
+            return anonymousDestination;
         }
     }
     

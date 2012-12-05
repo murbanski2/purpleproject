@@ -44,8 +44,6 @@
     </h:head>
 
     <h:body>  
-        <p:poll listener="#{homeNavBean.findItems(request.userPrincipal.name)}" update="highBid bidCount" interval="5" />
-        <p:growl id="growl" sticky="false" life="7500" showDetail="true" />
         <p:layout id="homeLayout" fullPage="true">
             <p:layoutUnit position="north" size="25">
                 <div align="left">
@@ -75,6 +73,7 @@
 
             <p:layoutUnit id="centerPanel" position="center">         
                 <h:form id="item_form" prependId="false">
+                    <p:poll listener="#{homeNavBean.findItems(request.userPrincipal.name)}" update="highBid bidCount" interval="5" />
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
                     <p:panelGrid id="itemDetailGrid" cellpadding="4" style="width: 1000px;">
                         <p:row>
@@ -91,8 +90,8 @@
                                                  disabled='#{sec:isAnonymous() ? "true": "false"}' size="15">
                                         <f:validateDoubleRange minimum="#{homeNavBean.selectedAuctionItemDto.minBid}" maximum="5000"/>
                                     </p:inputText>&nbsp;&nbsp;
-                                    <p:commandButton value="Place Bid" action="#{homeNavBean.placeBid()}" title="You must be registered to place bids"
-                                                     disabled='#{sec:isAnonymous() ? "true": "false"}' ajax="false"/>
+                                    <p:commandButton value="Place Bid" actionListener="#{homeNavBean.placeBid()}" title="You must be registered to place bids"
+                                                     disabled='#{sec:isAnonymous() ? "true": "false"}' update="highBid"/>
                                 </p>
                             </p:column>
                         </p:row>
