@@ -72,26 +72,28 @@
             </p:layoutUnit>
 
             <p:layoutUnit id="centerPanel" position="center">         
-                <h:form id="item_form" prependId="false">
-                    <p:poll listener="#{homeNavBean.findItems(request.userPrincipal.name)}" update="highBid bidCount" interval="5" />
+                <h:form id="item_form">
+                    <p:poll listener="#{homeNavBean.updateItemById()}" update="highBid bidCount" interval="5" />
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
                     <p:panelGrid id="itemDetailGrid" cellpadding="4" style="width: 1000px;">
                         <p:row>
                             <p:column colspan="3">
                                 <h2>#{homeNavBean.selectedAuctionItemDto.title}</h2>
-                                <p>Time left: #{homeNavBean.selectedAuctionItemDto.timeRemaining} 
+                                <p><span style='#{homeNavBean.selectedAuctionItemDto.timeRemaining.contains("Ended")? "color: red;":""}font-size: 1.15em;'>Time left: #{homeNavBean.selectedAuctionItemDto.timeRemaining}  
                                     <h:outputText value="#{homeNavBean.selectedAuctionItemDto.endDate}">
                                         <f:convertDateTime pattern="M/d hh:mm a"/>
-                                    </h:outputText><br/>
+                                    </h:outputText></span><br/>
                                     <h:outputText value="High Bid:" />&nbsp;&nbsp; 
                                     <h:outputText id="highBid" value="#{homeNavBean.selectedAuctionItemDto.highBid}" style="font-size: 1.25em; font-weight: bold;"/> &nbsp;&nbsp;
                                     <h:outputText id="bidCount" value="&nbsp;&nbsp;(#{homeNavBean.selectedAuctionItemDto.bidCount} bids)"/> &nbsp;&nbsp;
-                                    <p:inputText value="#{homeNavBean.selectedAuctionItemDto.placedBid}" title="You must be registered to place bids"
-                                                 disabled='#{sec:isAnonymous() ? "true": "false"}' size="15">
+                                    <p:inputText id="memberBid" value="#{homeNavBean.selectedAuctionItemDto.placedBid}" title="You must be registered to place bids"
+                                                 disabled='#{sec:isAnonymous() ? "true": homeNavBean.selectedAuctionItemDto.timeRemaining.contains("Ended")?"true":"false"}' size="15">
                                         <f:validateDoubleRange minimum="#{homeNavBean.selectedAuctionItemDto.minBid}" maximum="5000"/>
                                     </p:inputText>&nbsp;&nbsp;
-                                    <p:commandButton value="Place Bid" actionListener="#{homeNavBean.placeBid()}" title="You must be registered to place bids"
-                                                     disabled='#{sec:isAnonymous() ? "true": "false"}' update="highBid"/>
+                                    <p:commandButton value="Place Bid" actionListener="#{homeNavBean.placeBid()}" 
+                                                     title="You must be registered to place bids"
+                                                     disabled='#{sec:isAnonymous() ? "true": homeNavBean.selectedAuctionItemDto.timeRemaining.contains("Ended")?"true":"false"}' 
+                                                     update="highBid bidCount memberBid" ajax="false"/>
                                 </p>
                             </p:column>
                         </p:row>

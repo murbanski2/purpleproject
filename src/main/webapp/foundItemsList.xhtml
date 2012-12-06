@@ -133,7 +133,7 @@
                                         <f:facet name="header">
                                             <h:outputText value="Auction Ends" />
                                         </f:facet>
-                                        <h:outputText value="#{item.timeRemaining} left" style="font-size: 1.15em;" /><br/>
+                                        <h:outputText value="Time left: #{item.timeRemaining}" style='#{item.timeRemaining.contains("Ended")? "color: red;":""}font-size: 1.15em;' /><br/>
                                         <h:outputText value="#{item.endDate}">
                                             <f:convertDateTime pattern="M/d hh:mm a"/>
                                         </h:outputText>
