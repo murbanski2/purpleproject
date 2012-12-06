@@ -61,17 +61,6 @@ public class HomeNavBean implements Serializable {
         ctx = FacesContextUtils.getWebApplicationContext(
                 FacesContext.getCurrentInstance());          
         FacesContext context = FacesContext.getCurrentInstance();
-//        
-//        // No UserDetails instsance if anonymous
-//        String username = SecurityContextHolder.getContext()
-//                .getAuthentication().getPrincipal().toString();
-//
-//        if(username.contains("anonymous")) {
-//            context.addMessage(null,
-//                    new FacesMessage(FacesMessage.SEVERITY_WARN,
-//                    "Registration Required", "Sorry, you must be a registered user to place bids."));
-//            return "foundItemsList";
-//        }
         
         Bid bid = new Bid();
         bid.setItemId(selectedAuctionItemDto.getItemId());
@@ -128,8 +117,6 @@ public class HomeNavBean implements Serializable {
      * @return destination page
      */
     public String doItemSearch() {
-        String authenticatedDestination = "/member/foundItemsList";
-        String anonymousDestination = "/foundItemsList";
         
         // No UserDetails instsance if anonymous
         String username = SecurityContextHolder.getContext()
@@ -137,14 +124,14 @@ public class HomeNavBean implements Serializable {
 
         if(username.contains("anonymous")) {
             findItems(null);
-            return anonymousDestination;
+            return "/foundItemsList";
             
         } else {
             UserDetails userDetails = (UserDetails)SecurityContextHolder
                     .getContext().getAuthentication().getPrincipal(); 
             username = userDetails.getUsername();
             findItems(username);
-            return anonymousDestination;
+            return "/foundItemsList";
         }
     }
     
@@ -280,14 +267,14 @@ public class HomeNavBean implements Serializable {
                     (!searchPhrase.isEmpty() && !selectedCategory.isEmpty())) {
                 rawData = auctionSrv.findByCategoryAndSearchPhrase(
                                     selectedCategory, searchPhrase, MAX_RECORDS);
-                if(userId != null) {
+                if(userId != null && !userId.isEmpty()) {
                     auctionSrv.updateMembersRecentSearch(userId, searchPhrase);
                     recentSearches = auctionSrv.findRecentSearchesByUser(userId);
                 }
 
             } else if(searchPhrase != null && !searchPhrase.isEmpty()) {
                 rawData = auctionSrv.findBySearchPhrase(searchPhrase, MAX_RECORDS);
-                if(userId != null) {
+                if(userId != null && !userId.isEmpty()) {
                     auctionSrv.updateMembersRecentSearch(userId, searchPhrase);
                     recentSearches = auctionSrv.findRecentSearchesByUser(userId);
                 }

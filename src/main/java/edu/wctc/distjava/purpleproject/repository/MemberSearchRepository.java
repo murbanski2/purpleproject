@@ -19,4 +19,7 @@ public interface MemberSearchRepository extends JpaRepository<MemberSearch, Inte
     
     @Query("select ms from MemberSearch ms where ms.userId = ?1")
     List<MemberSearch> findByUserId(String userId);
+    
+    @Query("select ms from MemberSearch ms where ms.userId = ?1 and ms.searchPhrase = ?2")
+    List<MemberSearch> findByUserIdAndPhrase(String userId, String searchPhrase);
 }
