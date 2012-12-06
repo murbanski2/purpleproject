@@ -86,6 +86,19 @@ public class AuctionItemService implements IAuctionItemService {
         return query.getResultList();        
     }
     
+    /**
+     * Finds auction items by category and search phrase where the end date
+     * of the auction item + 7 days > the current date. This makes sure that
+     * the auction item displays for one week after the auction has ended. 
+     * <P>
+     * IMPORTANT: because JPA does not support date arithmetic, this method 
+     * uses a native sql query deesigned exclusively for MySql RDMS.
+     * 
+     * @param category
+     * @param phrase
+     * @param recCount - limits the returned record count
+     * @return 
+     */
     @Override
     public List<AuctionItem> findByCategoryAndSearchPhrase(String category, String phrase, int recCount) {
         String[] words = phrase.trim().split(" ");
@@ -105,6 +118,18 @@ public class AuctionItemService implements IAuctionItemService {
         return query.getResultList();
     }
 
+    /**
+     * Finds auction items by category where the end date
+     * of the auction item + 7 days > the current date. This makes sure that
+     * the auction item displays for one week after the auction has ended. 
+     * <P>
+     * IMPORTANT: because JPA does not support date arithmetic, this method 
+     * uses a native sql query deesigned exclusively for MySql RDMS.
+     * 
+     * @param category
+     * @param recCount - limits the returned record count
+     * @return 
+     */
     @Override
     public List<AuctionItem> findByCategory(String category, int recCount) {
         Query query = em.createNativeQuery(
@@ -128,6 +153,18 @@ public class AuctionItemService implements IAuctionItemService {
         return bidRepo.findBidCountForItem(itemId);
     }
 
+    /**
+     * Finds auction items by search phrase where the end date
+     * of the auction item + 7 days > the current date. This makes sure that
+     * the auction item displays for one week after the auction has ended. 
+     * <P>
+     * IMPORTANT: because JPA does not support date arithmetic, this method 
+     * uses a native sql query deesigned exclusively for MySql RDMS.
+     * 
+     * @param phrase
+     * @param recCount - limits the returned record count
+     * @return 
+     */
     @Override
     public List<AuctionItem> findBySearchPhrase(String phrase, int recCount) {
         String[] words = phrase.trim().split(" ");
@@ -146,6 +183,18 @@ public class AuctionItemService implements IAuctionItemService {
         return query.getResultList();
     }
 
+    /**
+     * Finds all auction items (limited by record count) where the end date
+     * of the auction item + 7 days > the current date. This makes sure that
+     * the auction item displays for one week after the auction has ended. 
+     * <P>
+     * IMPORTANT: because JPA does not support date arithmetic, this method 
+     * uses a native sql query deesigned exclusively for MySql RDMS.
+     * 
+     * @param recCount - limits the returned record count
+     * @return 
+     */
+    @Override
     public List<AuctionItem> findAllLimited(int recCount) {
         Query query = em.createNativeQuery("select * from auction_item ai where "
                 + "(ai.end_date + interval 7 day) > now() "
