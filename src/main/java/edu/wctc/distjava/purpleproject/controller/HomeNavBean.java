@@ -124,15 +124,15 @@ public class HomeNavBean implements Serializable {
 
         if(username.contains("anonymous")) {
             findItems(null);
-            return "/foundItemsList";
             
         } else {
             UserDetails userDetails = (UserDetails)SecurityContextHolder
                     .getContext().getAuthentication().getPrincipal(); 
             username = userDetails.getUsername();
             findItems(username);
-            return "/foundItemsList";
         }
+        
+        return "/foundItemsList";
     }
     
     public String showPopularByType(String key) {

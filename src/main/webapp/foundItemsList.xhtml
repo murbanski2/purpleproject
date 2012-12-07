@@ -88,7 +88,7 @@
                     <p:poll listener="#{homeNavBean.findItems(request.userPrincipal.name)}" 
                             update="itemsFoundDt" interval="2" />
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                    <p:panelGrid cellpadding="4" style="width: 720px; margin:4 auto;">
+                    <p:panelGrid cellpadding="4" style="width:100%; margin:4 auto;">
                        <sec:isAnonymous>
                             <p:row>
                                 <p:column colspan="2" style="text-align: center;">
@@ -127,19 +127,19 @@
                                              selectionMode="single" selection="#{homeNavBean.selectedAuctionItemDto}" 
                                              rowKey="#{item.itemId}">
                                     <p:ajax event="rowSelect" listener="#{homeNavBean.handleItemSelect}" />
-                                    <p:column>
+                                    <p:column style="width:30%;">
                                         <f:facet name="header">
                                             <h:outputText value="Max. Search Results: 200"/>
                                         </f:facet>
                                         <p:graphicImage url="#{item.thumbnail}"/>
                                     </p:column>
-                                    <p:column width="175" style="text-align: left;">
+                                    <p:column style="width:35%; text-align: left;">
                                         <f:facet name="header">
                                             <h:outputText value="Click for Details" />
                                         </f:facet>
                                         <h:outputText value="#{item.title}" style="font-size: 1.15em;" />
                                     </p:column>
-                                    <p:column width="100">
+                                    <p:column style="width:20%;">
                                         <f:facet name="header">
                                             <h:outputText value="Auction Ends" />
                                         </f:facet>
@@ -148,7 +148,7 @@
                                             <f:convertDateTime pattern="M/d hh:mm a"/>
                                         </h:outputText>
                                     </p:column>
-                                    <p:column width="50" style="text-align: right;">
+                                    <p:column style="width:15%; text-align: right;">
                                         <f:facet name="header">
                                             <h:outputText value="High Bid" />
                                         </f:facet>
