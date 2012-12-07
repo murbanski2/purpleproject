@@ -43,6 +43,15 @@
                 overflow:visible;
             }
 
+            .ui-layout-west {
+                z-index:20 !important;
+                overflow:visible;
+            }
+
+            .ui-layout-west .ui-layout-unit-content {
+                overflow:visible;
+            }
+
         </style>
 
         <link rel="stylesheet" type="text/css" media="screen" href="resources/css/sequencejs-theme.sliding-horizontal-parallax.css" />
@@ -74,7 +83,7 @@
     </h:head>
 
     <h:body>  
-        <p:growl id="growl" sticky="false" life="7500" showDetail="true" />
+        <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
         <p:layout id="homeLayout" fullPage="true">
             <p:layoutUnit position="north" size="25">
                 <div align="left">

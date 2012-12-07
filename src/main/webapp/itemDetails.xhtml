@@ -39,6 +39,15 @@
                 overflow:visible;
             }
 
+            .ui-layout-west {
+                z-index:20 !important;
+                overflow:visible;
+            }
+
+            .ui-layout-west .ui-layout-unit-content {
+                overflow:visible;
+            }
+
         </style>
 
     </h:head>
@@ -56,13 +65,13 @@
                         </p:breadCrumb>
                     </sec:isAnonymous>
                     <sec:isAuthenticated>
-                    <p:breadCrumb>
-                        <p:menuitem value="Categories" url="/faces/index.xhtml" />
-                        <p:menuitem value="bitBay Home" url="/faces/index.xhtml" />
-                        <p:menuitem value="bitBay Member" url="/faces/member/index.xhtml" />
-                        <p:menuitem value="Search Results" url="/faces/foundItemsList.xhtml" />
-                        <p:menuitem value="Auction Item" url="#" />
-                    </p:breadCrumb>
+                        <p:breadCrumb>
+                            <p:menuitem value="Categories" url="/faces/index.xhtml" />
+                            <p:menuitem value="bitBay Home" url="/faces/index.xhtml" />
+                            <p:menuitem value="bitBay Member" url="/faces/member/index.xhtml" />
+                            <p:menuitem value="Search Results" url="/faces/foundItemsList.xhtml" />
+                            <p:menuitem value="Auction Item" url="#" />
+                        </p:breadCrumb>
                     </sec:isAuthenticated>
                 </div>
             </p:layoutUnit>
@@ -80,9 +89,9 @@
                             <p:column colspan="3">
                                 <h2>#{homeNavBean.selectedAuctionItemDto.title}</h2>
                                 <p><span style='#{homeNavBean.selectedAuctionItemDto.timeRemaining.contains("Ended")? "color: red;":""}font-size: 1.15em;'>Time left: #{homeNavBean.selectedAuctionItemDto.timeRemaining}  
-                                    <h:outputText value="#{homeNavBean.selectedAuctionItemDto.endDate}">
-                                        <f:convertDateTime pattern="M/d hh:mm a"/>
-                                    </h:outputText></span><br/>
+                                        <h:outputText value="#{homeNavBean.selectedAuctionItemDto.endDate}">
+                                            <f:convertDateTime pattern="M/d hh:mm a"/>
+                                        </h:outputText></span><br/>
                                     <h:outputText value="High Bid:" />&nbsp;&nbsp; 
                                     <h:outputText id="highBid" value="#{homeNavBean.selectedAuctionItemDto.highBid}" style="font-size: 1.25em; font-weight: bold;"/> &nbsp;&nbsp;
                                     <h:outputText id="bidCount" value="&nbsp;&nbsp;(#{homeNavBean.selectedAuctionItemDto.bidCount} bids)"/> &nbsp;&nbsp;
@@ -102,7 +111,27 @@
                             <p:column colspan="3">
                                 <h:outputText value="#{homeNavBean.selectedAuctionItemDto.description}" escape="false"/>
                             </p:column>
-                        </p:row>                      
+                        </p:row>                
+
+                        <p:row>
+                            <p:column colspan="3">
+                                <c:if test="#{homeNavBean.selectedAuctionItemDto.image1Url.length() > 0}">
+                                    <img src="#{homeNavBean.selectedAuctionItemDto.image1Url}" /><br/><br/>
+                                </c:if>
+                                <c:if test="#{dhomeNavBean.selectedAuctionItemDto.image2Url.length() > 0}">
+                                    <img src="#{homeNavBean.selectedAuctionItemDto.image2Url}" /><br/><br/>
+                                </c:if>
+                                <c:if test="#{homeNavBean.selectedAuctionItemDto.image3Url.length() > 0}">
+                                    <img src="#{homeNavBean.selectedAuctionItemDto.image3Url}" /><br/><br/>
+                                </c:if>
+                                <c:if test="#{homeNavBean.selectedAuctionItemDto.image4Url.length() > 0}">
+                                    <img src="#{homeNavBean.selectedAuctionItemDto.image4Url}" /><br/><br/>
+                                </c:if>
+                                <c:if test="#{homeNavBean.selectedAuctionItemDto.image5Url.length() > 0}">
+                                    <img src="#{homeNavBean.selectedAuctionItemDto.image5Url}" />
+                                </c:if>
+                            </p:column>
+                        </p:row>                        
                     </p:panelGrid>
                 </h:form>
             </p:layoutUnit>

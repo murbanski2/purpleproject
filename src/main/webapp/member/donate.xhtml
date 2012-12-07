@@ -38,6 +38,15 @@
                 overflow:visible;
             }
 
+            .ui-layout-west {
+                z-index:20 !important;
+                overflow:visible;
+            }
+
+            .ui-layout-west .ui-layout-unit-content {
+                overflow:visible;
+            }
+
         </style>
 
     </h:head>
@@ -63,7 +72,7 @@
             <p:layoutUnit id="centerPanel" position="center">         
                 <h:form id="donate_form">
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                    <p:panelGrid cellpadding="4" style="width: 1000px;">
+                    <p:panelGrid cellpadding="4" style="width: 730px;">
                         <p:row>
                             <p:column colspan="3">
                                 <h2>Donate Some Stuff</h2>
@@ -143,7 +152,7 @@
                             </p:column>
                             <p:column>
                                 <p:editor id="desc" value="#{donateBean.description}" 
-                                          width="980" height="600" required="true" label="Description" 
+                                          width="610" height="600" required="true" label="Description" 
                                           requiredMessage="Description is required"/>
                             </p:column>
                             <p:column><p:message for="desc"/></p:column>  
