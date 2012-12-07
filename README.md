@@ -1,9 +1,12 @@
 About the Purple Project
 --------------------------
-This project is for instructor development only, with read access
-provided to students. Please do not modify this project in any
-way on GitHub if you are a student.
+NOTE: As of 12/7/2012 any branches created by students have been deleted 
+due to violation of read-only policy. In addition, to prevent future
+violations students have been placed in a "read only" team given 
+pull requests only for this project.
+
+This project is for instructor development only, with read-only access
+provided to students.
 
 The purpose of this project to to provide additional instructor
 examples, and ultimately, an instructor version of the team project.
-More to come...
