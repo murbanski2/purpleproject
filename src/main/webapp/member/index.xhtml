@@ -46,6 +46,15 @@
             }
 
 
+            .ui-layout-west {
+                z-index:20 !important;
+                overflow:visible;
+            }
+
+            .ui-layout-west .ui-layout-unit-content {
+                overflow:visible;
+            }
+
         </style>
 
     </h:head>
@@ -70,7 +79,7 @@
             <p:layoutUnit id="centerPanel" position="center">         
                 <h:form id="member_form">
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                    <p:panelGrid cellpadding="4" style="width: 720px; margin:4 auto;">
+                    <p:panelGrid cellpadding="4" style="width: 100%; margin:4 auto;">
                         <p:row>
                             <p:column colspan="2" style="text-align: center;">
                                 <h2>Welcome Member. Please Donate Often.</h2>
@@ -86,7 +95,7 @@
                             <p:column colspan="2">
                                 <p:lineChart id="filled" value="#{appBean.categoryModel}" 
                                              fill="true" title="Donations to Date" 
-                                             style="height:160px;margin-top:0px" 
+                                             style="height:160px; width:100%; margin-top:0px" 
                                              yaxisLabel="Dollars" />
                             </p:column>
                         </p:row>

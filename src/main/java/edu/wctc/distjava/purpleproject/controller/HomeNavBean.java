@@ -61,17 +61,6 @@ public class HomeNavBean implements Serializable {
         ctx = FacesContextUtils.getWebApplicationContext(
                 FacesContext.getCurrentInstance());          
         FacesContext context = FacesContext.getCurrentInstance();
-//        
-//        // No UserDetails instsance if anonymous
-//        String username = SecurityContextHolder.getContext()
-//                .getAuthentication().getPrincipal().toString();
-//
-//        if(username.contains("anonymous")) {
-//            context.addMessage(null,
-//                    new FacesMessage(FacesMessage.SEVERITY_WARN,
-//                    "Registration Required", "Sorry, you must be a registered user to place bids."));
-//            return "foundItemsList";
-//        }
         
         Bid bid = new Bid();
         bid.setItemId(selectedAuctionItemDto.getItemId());
@@ -90,7 +79,11 @@ public class HomeNavBean implements Serializable {
                 auctionSrv.findHighestBidForItem(selectedAuctionItemDto.getItemId());
         double hBid = highestBid == null ? 0 : highestBid.doubleValue();
         selectedAuctionItemDto.setHighBid(nf.format(hBid));
-        selectedAuctionItemDto.setMinBid(hBid + .10);
+        BigDecimal v1 = new BigDecimal(""+hBid);
+        BigDecimal v2 = new BigDecimal(".10");
+        v1 = v1.add(v2);
+        selectedAuctionItemDto.setMinBid(v1.doubleValue());
+        selectedAuctionItemDto.setPlacedBid(v1.doubleValue());
         Number count = auctionSrv.findBidCountForItem(selectedAuctionItemDto.getItemId());
         selectedAuctionItemDto.setBidCount(count.toString());
        
@@ -124,8 +117,6 @@ public class HomeNavBean implements Serializable {
      * @return destination page
      */
     public String doItemSearch() {
-        String authenticatedDestination = "/member/foundItemsList";
-        String anonymousDestination = "/foundItemsList";
         
         // No UserDetails instsance if anonymous
         String username = SecurityContextHolder.getContext()
@@ -133,15 +124,15 @@ public class HomeNavBean implements Serializable {
 
         if(username.contains("anonymous")) {
             findItems(null);
-            return anonymousDestination;
             
         } else {
             UserDetails userDetails = (UserDetails)SecurityContextHolder
                     .getContext().getAuthentication().getPrincipal(); 
             username = userDetails.getUsername();
             findItems(username);
-            return authenticatedDestination;
         }
+        
+        return "/foundItemsList";
     }
     
     public String showPopularByType(String key) {
@@ -234,13 +225,33 @@ public class HomeNavBean implements Serializable {
                         (IAuctionItemService) ctx.getBean("auctionItemService");          
             try {
                 recentSearches = auctionSrv.findRecentSearchesByUser(username);
-                LOG.debug("**** RECENT SEARCHES: " + recentSearches.toString());
             } catch(DataAccessException dae) { 
                 LOG.error("Recent member search query failed due to: " 
                         + dae.getMessage());
             }        
         }
         return recentSearches;
+    }
+    
+    public void updateItemById() {
+        ctx = FacesContextUtils.getWebApplicationContext(
+                FacesContext.getCurrentInstance());          
+        FacesContext context = FacesContext.getCurrentInstance();
+        IAuctionItemService auctionSrv = 
+                    (IAuctionItemService) ctx.getBean("auctionItemService");  
+        
+        Integer itemId = selectedAuctionItemDto.getItemId();
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        BigDecimal highestBid = 
+                    auctionSrv.findHighestBidForItem(itemId);
+        double bid = highestBid == null ? 0 : highestBid.doubleValue();
+        selectedAuctionItemDto.setHighBid(nf.format(bid));
+        BigDecimal v1 = new BigDecimal(""+bid);
+        BigDecimal v2 = new BigDecimal(".10");
+        v1 = v1.add(v2);
+        selectedAuctionItemDto.setMinBid(v1.doubleValue());
+        Number count = auctionSrv.findBidCountForItem(itemId);
+        selectedAuctionItemDto.setBidCount(count.toString());
     }
 
     public void findItems(String userId) {
@@ -256,14 +267,14 @@ public class HomeNavBean implements Serializable {
                     (!searchPhrase.isEmpty() && !selectedCategory.isEmpty())) {
                 rawData = auctionSrv.findByCategoryAndSearchPhrase(
                                     selectedCategory, searchPhrase, MAX_RECORDS);
-                if(userId != null) {
+                if(userId != null && !userId.isEmpty()) {
                     auctionSrv.updateMembersRecentSearch(userId, searchPhrase);
                     recentSearches = auctionSrv.findRecentSearchesByUser(userId);
                 }
 
             } else if(searchPhrase != null && !searchPhrase.isEmpty()) {
                 rawData = auctionSrv.findBySearchPhrase(searchPhrase, MAX_RECORDS);
-                if(userId != null) {
+                if(userId != null && !userId.isEmpty()) {
                     auctionSrv.updateMembersRecentSearch(userId, searchPhrase);
                     recentSearches = auctionSrv.findRecentSearchesByUser(userId);
                 }
@@ -304,8 +315,11 @@ public class HomeNavBean implements Serializable {
             BigDecimal highestBid = 
                     auctionSrv.findHighestBidForItem(ai.getItemId());
             double bid = highestBid == null ? 0 : highestBid.doubleValue();
+            BigDecimal v1 = new BigDecimal(""+bid);
+            BigDecimal v2 = new BigDecimal(".10");
+            v1 = v1.add(v2);
             dto.setHighBid(nf.format(bid));
-            dto.setMinBid(bid + .10);
+            dto.setMinBid(v1.doubleValue());
             Number count = auctionSrv.findBidCountForItem(ai.getItemId());
             dto.setBidCount(count.toString());
             auctionItemsFound.add(dto);

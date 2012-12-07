@@ -65,43 +65,81 @@ public class AuctionItemService implements IAuctionItemService {
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public void updateMembersRecentSearch(String userId, String searchPhrase) {
-        MemberSearch ms = new MemberSearch();
-        ms.setSearchPhrase(searchPhrase);
-        ms.setUserId(userId);
-        memSearchRepo.saveAndFlush(ms);
+        if(userId == null || userId.isEmpty()) return; // only save for members
+        List<MemberSearch> recs = 
+                memSearchRepo.findByUserIdAndPhrase(userId, searchPhrase);
+        if(recs.isEmpty()) {
+            MemberSearch ms = new MemberSearch();
+            ms.setSearchPhrase(searchPhrase);
+            ms.setUserId(userId);
+            memSearchRepo.saveAndFlush(ms);
+        }
     }
 
     @Override
     public List<MemberSearch> findRecentSearchesByUser(String userId) {
-        String sql = "select ms from MemberSearch ms where ms.userId = '"
-                +  userId + "' order by ms.searchId DESC";
+        String sql = "select ms from MemberSearch ms where ms.userId = ?1 "
+                     + " order by ms.searchId DESC";
         Query query = em.createQuery(sql);
+        query.setParameter(1, userId);
         query.setMaxResults(MAX_SEARCH_REDO);
         return query.getResultList();        
     }
     
+    /**
+     * Finds auction items by category and search phrase where the end date
+     * of the auction item + 7 days > the current date. This makes sure that
+     * the auction item displays for one week after the auction has ended. 
+     * <P>
+     * IMPORTANT: because JPA does not support date arithmetic, this method 
+     * uses a native sql query deesigned exclusively for MySql RDMS.
+     * 
+     * @param category
+     * @param phrase
+     * @param recCount - limits the returned record count
+     * @return 
+     */
     @Override
     public List<AuctionItem> findByCategoryAndSearchPhrase(String category, String phrase, int recCount) {
         String[] words = phrase.trim().split(" ");
-        String sql = "SELECT ai FROM AuctionItem ai WHERE "
-                + "(ai.catId.category = '" + category + "') AND (";
+        String sql = "SELECT ai.* FROM auction_item ai, category c WHERE "
+                + "(ai.cat_id = c.cat_id) AND (c.category = ?1) AND (";
         String sql2 = "";
         for (String s : words) {
             sql2 += "ai.title LIKE '%" + s + "%' OR ";
         }
         sql2 = sql2.substring(0, sql2.length() - 4);
-        sql += sql2 + ")";
-        Query query = em.createQuery(sql);
+        sql += sql2 + ") AND (ai.end_date + interval 7 day) > now() "
+                + "order by ai.start_date DESC";
+        Query query = em.createNativeQuery(sql,
+                edu.wctc.distjava.purpleproject.domain.AuctionItem.class);
+        query.setParameter(1, category);
         query.setMaxResults(recCount);
         return query.getResultList();
     }
 
+    /**
+     * Finds auction items by category where the end date
+     * of the auction item + 7 days > the current date. This makes sure that
+     * the auction item displays for one week after the auction has ended. 
+     * <P>
+     * IMPORTANT: because JPA does not support date arithmetic, this method 
+     * uses a native sql query deesigned exclusively for MySql RDMS.
+     * 
+     * @param category
+     * @param recCount - limits the returned record count
+     * @return 
+     */
     @Override
     public List<AuctionItem> findByCategory(String category, int recCount) {
-        Query query = em.createQuery(
-                "select ai from AuctionItem ai where ai.catId.category = '"
-                + category + "'");
+        Query query = em.createNativeQuery(
+                "select ai.* from auction_item ai, category c "
+                + "where ai.cat_id = c.cat_id AND c.category = ?1 "
+                + "AND (ai.end_date + interval 7 day) > now() "
+                + "order by ai.start_date DESC",
+                edu.wctc.distjava.purpleproject.domain.AuctionItem.class);
         query.setMaxResults(recCount);
+        query.setParameter(1, category);
         return query.getResultList();
     }
 
@@ -115,24 +153,54 @@ public class AuctionItemService implements IAuctionItemService {
         return bidRepo.findBidCountForItem(itemId);
     }
 
+    /**
+     * Finds auction items by search phrase where the end date
+     * of the auction item + 7 days > the current date. This makes sure that
+     * the auction item displays for one week after the auction has ended. 
+     * <P>
+     * IMPORTANT: because JPA does not support date arithmetic, this method 
+     * uses a native sql query deesigned exclusively for MySql RDMS.
+     * 
+     * @param phrase
+     * @param recCount - limits the returned record count
+     * @return 
+     */
     @Override
     public List<AuctionItem> findBySearchPhrase(String phrase, int recCount) {
         String[] words = phrase.trim().split(" ");
-        String sql = "SELECT ai FROM AuctionItem ai WHERE ";
+        String sql = "SELECT * FROM auction_item ai WHERE (";
         String sql2 = "";
         for (String s : words) {
             sql2 += "ai.title LIKE '%" + s + "%' OR ";
         }
         sql2 = sql2.substring(0, sql2.length() - 4);
         sql += sql2;
-        Query query = em.createQuery(sql);
+        sql += ") AND (ai.end_date + interval 7 day) > now() "
+                + "order by ai.start_date DESC";
+        Query query = em.createNativeQuery(sql,
+                edu.wctc.distjava.purpleproject.domain.AuctionItem.class);
         query.setMaxResults(recCount);
         return query.getResultList();
     }
 
+    /**
+     * Finds all auction items (limited by record count) where the end date
+     * of the auction item + 7 days > the current date. This makes sure that
+     * the auction item displays for one week after the auction has ended. 
+     * <P>
+     * IMPORTANT: because JPA does not support date arithmetic, this method 
+     * uses a native sql query deesigned exclusively for MySql RDMS.
+     * 
+     * @param recCount - limits the returned record count
+     * @return 
+     */
+    @Override
     public List<AuctionItem> findAllLimited(int recCount) {
-        Query query = em.createQuery("select ai from AuctionItem ai");
-        query.setMaxResults(recCount);
+        Query query = em.createNativeQuery("select * from auction_item ai where "
+                + "(ai.end_date + interval 7 day) > now() "
+        + "order by ai.start_date DESC", 
+                edu.wctc.distjava.purpleproject.domain.AuctionItem.class);
+         query.setMaxResults(recCount);
         return query.getResultList();
     }
 

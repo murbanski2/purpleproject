@@ -38,6 +38,15 @@
                 overflow:visible;
             }
 
+            .ui-layout-west {
+                z-index:20 !important;
+                overflow:visible;
+            }
+
+            .ui-layout-west .ui-layout-unit-content {
+                overflow:visible;
+            }
+
         </style>
         
     </h:head>
@@ -62,7 +71,7 @@
             <p:layoutUnit id="centerPanel" position="center">         
                 <h:form id="home_form">
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                    <p:panelGrid cellpadding="4" style="width: 760px; margin:4 auto;">
+                    <p:panelGrid cellpadding="4" style="width: 100%; margin:4 auto;">
                         
                         <p:row>
                             <p:column>

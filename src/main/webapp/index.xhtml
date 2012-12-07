@@ -43,6 +43,15 @@
                 overflow:visible;
             }
 
+            .ui-layout-west {
+                z-index:20 !important;
+                overflow:visible;
+            }
+
+            .ui-layout-west .ui-layout-unit-content {
+                overflow:visible;
+            }
+
         </style>
 
         <link rel="stylesheet" type="text/css" media="screen" href="resources/css/sequencejs-theme.sliding-horizontal-parallax.css" />
@@ -74,7 +83,7 @@
     </h:head>
 
     <h:body>  
-        <p:growl id="growl" sticky="false" life="7500" showDetail="true" />
+        <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
         <p:layout id="homeLayout" fullPage="true">
             <p:layoutUnit position="north" size="25">
                 <div align="left">
@@ -92,7 +101,7 @@
             <p:layoutUnit id="centerPanel" position="center">         
                 <h:form id="home_form">
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                    <p:panelGrid cellpadding="4" style="width: 720px; margin:4 auto;">
+                    <p:panelGrid cellpadding="4" style="width: 100%; margin:4 auto;">
                         <p:row>
                             <p:column>
                                 <p:outputLabel for="searchTxt" value="Search for" style="font-size: larger;" />
@@ -154,19 +163,19 @@
                             <p:column>
                                 <p:lineChart id="filled" value="#{appBean.categoryModel}" 
                                              fill="true" title="Donations to Date" 
-                                             style="height:110px;margin-top:0px" 
+                                             style="height:110px; width:100%; margin-top:0px" 
                                              yaxisLabel="Dollars" />
                             </p:column>
                         </p:row>
                         <p:row>
                             <p:column>
                                 <h2>Welcome to bitBay&trade;. The Auction Site That Benefits WCTC's IT Club</h2>
-                                <p style="font-size: medium;">
+                                <p style="font-size: 1.25em;">
                                     Everyone has stuff they no longer want or use. Now students, teachers,
                                     administrators or anyone, really, can turn that stuff into cold, hard
                                     cash that can help fund student IT clubs.
                                 </p>
-                                <p style="font-size: medium;">
+                                <p style="font-size: 1.25em;">
                                     It works like other popular auction sites, except that the sellers donate 
                                     their proceeds to the IT club. The winning bidder pays 
                                     the IT club and the IT club makes arrangements to get the stuff to the 

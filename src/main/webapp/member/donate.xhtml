@@ -38,6 +38,15 @@
                 overflow:visible;
             }
 
+            .ui-layout-west {
+                z-index:20 !important;
+                overflow:visible;
+            }
+
+            .ui-layout-west .ui-layout-unit-content {
+                overflow:visible;
+            }
+
         </style>
 
     </h:head>
@@ -63,7 +72,7 @@
             <p:layoutUnit id="centerPanel" position="center">         
                 <h:form id="donate_form">
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                    <p:panelGrid cellpadding="4" style="width: 1000px;">
+                    <p:panelGrid cellpadding="4" style="width: 100%;">
                         <p:row>
                             <p:column colspan="3">
                                 <h2>Donate Some Stuff</h2>
@@ -118,7 +127,7 @@
                             <p:column style="vertical-align: top;">
                                 <h:outputLabel value="Image URLs" style="font-weight: bold;" />
                             </p:column>
-                            <p:column id="urlCol" colspan="2" width="600">
+                            <p:column id="urlCol" colspan="2">
                                 You may upload up to five (5) pictures of type *.jpg, *gif or .png,
                                 where the size of each picture file may not exceed 1 Mb (1,024 Kb).
                                 IMPORTANT: Please upload pictures one at a time. The first picture will be used to
@@ -143,7 +152,7 @@
                             </p:column>
                             <p:column>
                                 <p:editor id="desc" value="#{donateBean.description}" 
-                                          width="980" height="600" required="true" label="Description" 
+                                          width="680" height="400" required="true" label="Description" 
                                           requiredMessage="Description is required"/>
                             </p:column>
                             <p:column><p:message for="desc"/></p:column>  

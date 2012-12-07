@@ -117,16 +117,7 @@ public class DonateBean implements Serializable {
     }
 
     public void handleFileUpload(FileUploadEvent event) {
-        ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
-        HttpServletRequest request = ((HttpServletRequest) extContext.getRequest());
-        int intPort = request.getServerPort();
-        String port = "";
-        if(intPort != 80) {
-            port = ":" + FacesUtils.getBundleKey("msg", "server.port.unsecured");
-        }
-        String filePathInDb = "http://" + request.getServerName() + port
-                + request.getContextPath() + "/imgvault/"
-                + event.getFile().getFileName();
+        String filePathInDb = "/imgvault/" + event.getFile().getFileName();
         String absoluteFilePath = "/auction/imgvault/"
                 + event.getFile().getFileName();
         File outFile = new File(absoluteFilePath);

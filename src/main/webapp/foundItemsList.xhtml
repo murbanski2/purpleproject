@@ -42,6 +42,15 @@
                 overflow:visible;
             }
 
+            .ui-layout-west {
+                z-index:20 !important;
+                overflow:visible;
+            }
+
+            .ui-layout-west .ui-layout-unit-content {
+                overflow:visible;
+            }
+
 
         </style>
 
@@ -76,23 +85,27 @@
 
             <p:layoutUnit id="centerPanel" position="center">         
                 <h:form id="search_form">
-                    <p:poll listener="#{homeNavBean.findItems(request.userPrincipal.name)}" update="itemsFoundDt" interval="5" />
+                    <p:poll listener="#{homeNavBean.findItems(request.userPrincipal.name)}" 
+                            update="itemsFoundDt" interval="2" />
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                    <p:panelGrid cellpadding="4" style="width: 720px; margin:4 auto;">
-                       <p:row>
-                           <p:column colspan="2" style="text-align: center;">
-                                <h2>Please Join bitBay&trad; to Donate and Get Great Stuff</h2>
-                                <p><p:commandButton value="Ok, Sign Me Up!" action="registrationForm"/></p>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column colspan="2">
-                                <p:lineChart id="filled" value="#{appBean.categoryModel}" 
-                                             fill="true" title="Donations to Date" 
-                                             style="height:160px;margin-top:0px" 
-                                             yaxisLabel="Dollars" />
-                            </p:column>
-                        </p:row>
+                    <p:panelGrid cellpadding="4" style="width:100%; margin:4 auto;">
+                       <sec:isAnonymous>
+                            <p:row>
+                                <p:column colspan="2" style="text-align: center;">
+                                     <h2>Please Join bitBay&trad; to Donate and Get Great Stuff</h2>
+                                     <p><p:commandButton value="Ok, Sign Me Up!" action="registrationForm"/></p>
+                                 </p:column>
+                             </p:row>
+                             <p:row>
+                                 <p:column colspan="2">
+                                     <p:lineChart id="filled" value="#{appBean.categoryModel}" 
+                                                  fill="true" title="Donations to Date" 
+                                                  style="height:160px;margin-top:0px" 
+                                                  yaxisLabel="Dollars" />
+                                 </p:column>
+                             </p:row>
+                        </sec:isAnonymous>
+
                         <p:row>
                             <p:column>
                                 <p:outputLabel for="searchTxt" value="Search for" style="font-size: larger;" />
@@ -114,28 +127,28 @@
                                              selectionMode="single" selection="#{homeNavBean.selectedAuctionItemDto}" 
                                              rowKey="#{item.itemId}">
                                     <p:ajax event="rowSelect" listener="#{homeNavBean.handleItemSelect}" />
-                                    <p:column>
+                                    <p:column style="width:30%;">
                                         <f:facet name="header">
                                             <h:outputText value="Max. Search Results: 200"/>
                                         </f:facet>
                                         <p:graphicImage url="#{item.thumbnail}"/>
                                     </p:column>
-                                    <p:column width="175" style="text-align: left;">
+                                    <p:column style="width:35%; text-align: left;">
                                         <f:facet name="header">
                                             <h:outputText value="Click for Details" />
                                         </f:facet>
                                         <h:outputText value="#{item.title}" style="font-size: 1.15em;" />
                                     </p:column>
-                                    <p:column width="100">
+                                    <p:column style="width:20%;">
                                         <f:facet name="header">
                                             <h:outputText value="Auction Ends" />
                                         </f:facet>
-                                        <h:outputText value="#{item.timeRemaining} left" style="font-size: 1.15em;" /><br/>
+                                        <h:outputText value="Time left: #{item.timeRemaining}" style='#{item.timeRemaining.contains("Ended")? "color: red;":""}font-size: 1.15em;' /><br/>
                                         <h:outputText value="#{item.endDate}">
                                             <f:convertDateTime pattern="M/d hh:mm a"/>
                                         </h:outputText>
                                     </p:column>
-                                    <p:column width="50" style="text-align: right;">
+                                    <p:column style="width:15%; text-align: right;">
                                         <f:facet name="header">
                                             <h:outputText value="High Bid" />
                                         </f:facet>
