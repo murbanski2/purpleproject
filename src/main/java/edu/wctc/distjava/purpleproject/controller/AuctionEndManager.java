@@ -18,16 +18,16 @@ public class AuctionEndManager {
     private final Logger LOG = LoggerFactory.getLogger(AuctionEndManager.class);
     private transient ApplicationContext ctx; // used to get Spring beans    
     
-    @PostConstruct
-    public void init() {
-        ctx = FacesContextUtils.getWebApplicationContext(
-                FacesContext.getCurrentInstance());
-    }
-    
-    
-    @Schedule(second="*/5", minute="*",hour="*", persistent=false)
-    public void doWork(){
-        LOG.debug("**** timer: output");
-    }
+//    @PostConstruct
+//    public void init() {
+//        ctx = FacesContextUtils.getWebApplicationContext(
+//                FacesContext.getCurrentInstance());
+//    }
+//    
+//    
+//    @Schedule(second="*/5", minute="*",hour="*", persistent=false)
+//    public void doWork(){
+//        LOG.debug("**** timer: output");
+//    }
 
 }

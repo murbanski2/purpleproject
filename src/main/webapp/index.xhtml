@@ -51,6 +51,23 @@
             .ui-layout-west .ui-layout-unit-content {
                 overflow:visible;
             }
+            
+            .nonOsxMetrics {
+                position:relative;
+                width:120px;
+                height:15px;
+                right:-635px;
+                top:-30px;
+            } 
+           
+            .osxMetrics {
+                position:relative;
+                width:120px;
+                height:15px;
+                right:-615px;
+                top:-30px;
+            } 
+
 
         </style>
 
@@ -78,7 +95,13 @@
                 sequence.afterLoaded = function(){
                     $(".prev, .next").fadeIn(500);
                 }
-            })
+                
+                if (navigator.appVersion.indexOf("Mac")!=-1) {
+                    document.getElementById("loginLink").className = "osxMetrics";
+                } else {
+                    document.getElementById("loginLink").className = "nonOsxMetrics";
+                }
+            });
         </script>
     </h:head>
 
@@ -115,7 +138,7 @@
                                 </p:selectOneMenu>
                                 <p:spacer width="10px" />                                 
                                 <p:commandButton id="searchBtn" value="Go" action="#{homeNavBean.doItemSearch}" style="postion: relative;top: -2px;" ajax="false"/>
-                                <div style="position:relative;width:120px;height:15px;left:608px;top:-30px;">
+                                <div id="loginLink">
                                     <h:link value="Login" outcome="/member/index.xhtml"/><br/>
                                     <h:link value="Create Account" outcome="registrationForm"/>
                                 </div>

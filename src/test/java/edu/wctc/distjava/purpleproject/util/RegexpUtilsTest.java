@@ -3,6 +3,7 @@ package edu.wctc.distjava.purpleproject.util;
 import com.google.common.base.Stopwatch;
 import static java.lang.String.format;
 import java.util.regex.Pattern;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +19,10 @@ public class RegexpUtilsTest {
     public static final String STRING_TO_MATCH = "something";
 
     /**
-     * Run performance test for cached vs. non-cached regular expressions.
+     * To run performance tests for cached vs. non-cached regular expressions
+     * you must comment out the Ignore annotation and run the test.
      */
+    @Ignore
     @Test
     public void testGetPattern() {
         runTestForManualCompilationAndOneUsingCache(1);
