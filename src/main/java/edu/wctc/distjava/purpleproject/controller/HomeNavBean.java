@@ -93,9 +93,9 @@ public class HomeNavBean implements Serializable {
         int index = auctionItemsFound.indexOf(selectedAuctionItemDto);
         auctionItemsFound.set(index, selectedAuctionItemDto);
        
-        PushContext pushContext = 
-                PushContextFactory.getDefault().getPushContext();
-        pushContext.push("/newbid", "push message");
+//        PushContext pushContext = 
+//                PushContextFactory.getDefault().getPushContext();
+//        pushContext.push("/newbid", "push message");
         
 //       return "/faces/member/itemDetails.xhtml?faces-redirect=true";
     }

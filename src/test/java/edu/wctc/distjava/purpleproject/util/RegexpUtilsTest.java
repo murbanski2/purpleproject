@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This test class is used for performance testing only.
+ * This test class is currently used for performance testing only.
  *
  * @author Marcin Grzejszczak. with modifications and addtions by Jim Lombardo
  */
@@ -20,11 +20,13 @@ public class RegexpUtilsTest {
 
     /**
      * To run performance tests for cached vs. non-cached regular expressions
-     * you must comment out the Ignore annotation and run the test.
+     * you must comment out the Ignore annotation and run the test. Remember,
+     * this is a performance test; not a unit test, so it shouldn't be run
+     * on every build.
      */
     @Ignore
     @Test
-    public void testGetPattern() {
+    public void testPeformance() {
         runTestForManualCompilationAndOneUsingCache(1);
         runTestForManualCompilationAndOneUsingCache(10);
         runTestForManualCompilationAndOneUsingCache(100);
