@@ -20,7 +20,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.push.PushContext;
+import org.primefaces.push.PushContextFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -86,7 +89,15 @@ public class HomeNavBean implements Serializable {
         selectedAuctionItemDto.setPlacedBid(v1.doubleValue());
         Number count = auctionSrv.findBidCountForItem(selectedAuctionItemDto.getItemId());
         selectedAuctionItemDto.setBidCount(count.toString());
+        
+        int index = auctionItemsFound.indexOf(selectedAuctionItemDto);
+        auctionItemsFound.set(index, selectedAuctionItemDto);
        
+        // Disabled until Primefaces Push can be fixed to work on Glassfish
+//        PushContext pushContext = 
+//                PushContextFactory.getDefault().getPushContext();
+//        pushContext.push("/newbid", "push message");
+        
 //       return "/faces/member/itemDetails.xhtml?faces-redirect=true";
     }
     

@@ -50,8 +50,6 @@
             .ui-layout-west .ui-layout-unit-content {
                 overflow:visible;
             }
-
-
         </style>
 
     </h:head>
@@ -161,6 +159,11 @@
                         </p:row>
                     </p:panelGrid>
                 </h:form>
+                
+<!--                <p:socket channel="/newbid">
+                    <p:ajax event="message" update="search_form:itemsFoundDt" />
+                </p:socket>-->
+                
             </p:layoutUnit>
 
             <p:layoutUnit position="south" size="50">
