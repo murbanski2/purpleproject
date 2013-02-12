@@ -93,6 +93,7 @@ public class HomeNavBean implements Serializable {
         int index = auctionItemsFound.indexOf(selectedAuctionItemDto);
         auctionItemsFound.set(index, selectedAuctionItemDto);
        
+        // Disabled until Primefaces Push can be fixed to work on Glassfish
 //        PushContext pushContext = 
 //                PushContextFactory.getDefault().getPushContext();
 //        pushContext.push("/newbid", "push message");
