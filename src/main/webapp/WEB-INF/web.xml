@@ -37,24 +37,27 @@
         <url-pattern>/regVerify.do</url-pattern>
     </servlet-mapping>
     
-<!--    <servlet>
+    <servlet>
         <servlet-name>Push Servlet</servlet-name>
         <servlet-class>org.primefaces.push.PushServlet</servlet-class>
         <init-param>
-         <param-name>org.atmosphere.websocket.maxTextMessageSize</param-name>
-         <param-value>0</param-value>
-      </init-param>
-      <init-param>
-            <param-name>org.atmosphere.cpr.broadcasterCacheClass</param-name>
-            <param-value>org.atmosphere.cache.HeaderBroadcasterCache</param-value>
+            <param-name>org.atmosphere.websocket.maxTextMessageSize</param-name>
+            <param-value>0</param-value>
         </init-param>
-        <load-on-startup>1</load-on-startup>
-        <async-supported>true</async-supported>
+        <init-param>
+            <param-name>org.atmosphere.cpr.sessionSupport</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>org.atmosphere.cpr.broadcasterCacheClass</param-name>
+            <param-value>org.atmosphere.cache.SessionBroadcasterCache</param-value>
+        </init-param>        
     </servlet>
+
     <servlet-mapping>
         <servlet-name>Push Servlet</servlet-name>
         <url-pattern>/primepush/*</url-pattern>
-    </servlet-mapping>    -->
+    </servlet-mapping>
         
     <!-- Security configuration -->
     <listener>
@@ -96,6 +99,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
 </web-app>

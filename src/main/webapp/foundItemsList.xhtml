@@ -150,8 +150,8 @@
                                         <f:facet name="header">
                                             <h:outputText value="High Bid" />
                                         </f:facet>
-                                        <h:outputText value="#{item.highBid}" style="font-size: 1.25em; font-weight: bold;"/><br/>
-                                        <h:outputText value="#{item.bidCount} bids" />
+                                        <h:outputText id="highBid#{item.itemId}" value="#{item.highBid}" style="font-size: 1.25em; font-weight: bold;"/><br/>
+                                        <h:outputText id="bidCount#{item.itemId}" value="#{item.bidCount} bids" />
                                     </p:column>
 
                                 </p:dataTable>

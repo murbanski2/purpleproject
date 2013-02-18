@@ -44,6 +44,7 @@
 
     <!-- Don't SSL encrypt static resources -->
     <sec:http pattern="/resources/**" security="none"/>
+    <sec:http pattern="/primepush/**" security="none"/>
 
     <sec:http auto-config="true" access-denied-page="/faces/accessDenied.xhtml">
             
