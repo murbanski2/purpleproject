@@ -94,11 +94,11 @@ public class HomeNavBean implements Serializable {
         auctionItemsFound.set(index, selectedAuctionItemDto);
        
         // Disabled until Primefaces Push can be fixed to work on Glassfish
-        PushContext pushContext = 
-                PushContextFactory.getDefault().getPushContext();
-        pushContext.push("/newbid", selectedAuctionItemDto.getHighBid() 
-                + "|" + selectedAuctionItemDto.getBidCount()
-                + "|" + selectedAuctionItemDto.getItemId().toString());
+//        PushContext pushContext = 
+//                PushContextFactory.getDefault().getPushContext();
+//        pushContext.push("/newbid", selectedAuctionItemDto.getHighBid() 
+//                + "|" + selectedAuctionItemDto.getBidCount()
+//                + "|" + selectedAuctionItemDto.getItemId().toString());
         
 //       return "/faces/member/itemDetails.xhtml?faces-redirect=true";
     }

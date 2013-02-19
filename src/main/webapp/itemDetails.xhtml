@@ -102,8 +102,9 @@
             </p:layoutUnit>
 
             <p:layoutUnit id="centerPanel" position="center">         
-                <p:socket onMessage="handleMessage" channel="/newbid" />
+                <!-- p:socket onMessage="handleMessage" channel="/newbid" / -->
                 <h:form id="item_form">
+                    <p:poll listener="#{homeNavBean.updateItemById()}" update="highBid bidCount" interval="2" />
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
                     <p:panelGrid id="itemDetailGrid" cellpadding="4" style="width: 1000px;">
                         <p:row>
