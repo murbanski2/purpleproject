@@ -20,7 +20,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.push.PushContext;
 import org.primefaces.push.PushContextFactory;
@@ -59,7 +58,7 @@ public class HomeNavBean implements Serializable {
     public HomeNavBean() {
     }
     
-    public void placeBid() {
+    public synchronized void placeBid(ActionEvent event) {
         
         ctx = FacesContextUtils.getWebApplicationContext(
                 FacesContext.getCurrentInstance());          
@@ -94,11 +93,17 @@ public class HomeNavBean implements Serializable {
         auctionItemsFound.set(index, selectedAuctionItemDto);
        
         // Disabled until Primefaces Push can be fixed to work on Glassfish
-//        PushContext pushContext = 
-//                PushContextFactory.getDefault().getPushContext();
-//        pushContext.push("/newbid", selectedAuctionItemDto.getHighBid() 
-//                + "|" + selectedAuctionItemDto.getBidCount()
-//                + "|" + selectedAuctionItemDto.getItemId().toString());
+        PushContext pushContext = 
+                PushContextFactory.getDefault().getPushContext();
+        
+        // format data as json
+        StringBuffer sb = new StringBuffer();
+        sb.append(selectedAuctionItemDto.getHighBid()).append(",");
+        sb.append(selectedAuctionItemDto.getBidCount()).append(",");
+        sb.append(selectedAuctionItemDto.getItemId());
+        
+        // now push it to all connected clients
+        pushContext.push("/newbid", sb.toString());
         
 //       return "/faces/member/itemDetails.xhtml?faces-redirect=true";
     }
@@ -160,8 +165,7 @@ public class HomeNavBean implements Serializable {
                     		context.getViewRoot().getLocale());
         String contextRoot = bundle.getString("server.context.root");
         try {
-            extContext.redirect("/" 
-                    + contextRoot + "/j_spring_security_logout");
+            extContext.redirect(contextRoot + "/j_spring_security_logout");
         } catch (IOException ex) {
             LOG.debug(HomeNavBean.class.getName() + ": " + ex.getMessage());
         }

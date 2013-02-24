@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -52,25 +53,23 @@
                 font-size: 1.25em; 
                 font-weight: bold;
             }
-            .bidCount {
-                
-            }
-
+   
         </style>
 
         <script type="text/javascript">
-                //<![CDATA[
-                function handleMessage(data) {
-                    var dataChunks = data.split("|");
-                    var highBid = dataChunks[0];
-                    var bidCount = dataChunks[1];
-                    var itemId = dataChunks[2];
-                    $('.highBid').html(highBid);
-                    var sBidCount = "&nbsp;&nbsp;(" + bidCount + " bids)";
-                    $('.bidCount').html(sBidCount);  
-                }
-                //]]> 
-            </script>
+            function handleMessage(data) {
+                var dataChunks = data.split(",");
+                var highBid = dataChunks[0];
+                var bidCount = dataChunks[1];
+                $('.highBid').html(highBid);
+                var sBidCount = "&nbsp;&nbsp;(" + bidCount + " bids)";
+                $('#bidCount').html(sBidCount);  
+                var nextBid = highBid.substring(1);
+                nextBid = parseFloat(nextBid) + .1;
+                // don't know why, but jquery reference doesn't work for this one
+                document.item_form.memberBid.value = nextBid;
+            }
+        </script>
     </h:head>
 
     <h:body>  
@@ -102,11 +101,10 @@
             </p:layoutUnit>
 
             <p:layoutUnit id="centerPanel" position="center">         
-                <!-- p:socket onMessage="handleMessage" channel="/newbid" / -->
-                <h:form id="item_form">
-                    <p:poll listener="#{homeNavBean.updateItemById()}" update="highBid bidCount" interval="2" />
+                <p:socket onMessage="handleMessage" channel="/newbid" />
+                <h:form id="item_form" prependId="false">
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                    <p:panelGrid id="itemDetailGrid" cellpadding="4" style="width: 1000px;">
+                    <p:panelGrid id="itemDetailGrid" style="width: 1000px;">
                         <p:row>
                             <p:column colspan="3">
                                 <h2>#{homeNavBean.selectedAuctionItemDto.title}</h2>
@@ -115,16 +113,16 @@
                                             <f:convertDateTime pattern="M/d hh:mm a"/>
                                         </h:outputText></span><br/>
                                     <h:outputText value="High Bid:" />&nbsp;&nbsp; 
-                                    <h:outputText id="highBid" styleClass="highBid" value="#{homeNavBean.selectedAuctionItemDto.highBid}"/> &nbsp;&nbsp;
-                                    <h:outputText id="bidCount" styleClass="bidCount" value="&nbsp;&nbsp;(#{homeNavBean.selectedAuctionItemDto.bidCount} bids)"/> &nbsp;&nbsp;
+                                    <h:outputText id="highBid" styleClass="highBid" value="#{homeNavBean.selectedAuctionItemDto.highBid}"/>&nbsp;&nbsp;
+                                    <h:outputText id="bidCount" value="&nbsp;&nbsp;(#{homeNavBean.selectedAuctionItemDto.bidCount} bids)"/>&nbsp;&nbsp;
                                     <p:inputText id="memberBid" value="#{homeNavBean.selectedAuctionItemDto.placedBid}" title="You must be registered to place bids"
                                                  disabled='#{sec:isAnonymous() ? "true": homeNavBean.selectedAuctionItemDto.timeRemaining.contains("Ended")?"true":"false"}' size="15">
                                         <f:validateDoubleRange minimum="#{homeNavBean.selectedAuctionItemDto.minBid}" maximum="5000"/>
                                     </p:inputText>&nbsp;&nbsp;
-                                    <p:commandButton value="Place Bid" actionListener="#{homeNavBean.placeBid()}" 
+                                    <p:commandButton value="Place Bid" actionListener="#{homeNavBean.placeBid(event)}" 
                                                      title="You must be registered to place bids"
                                                      disabled='#{sec:isAnonymous() ? "true": homeNavBean.selectedAuctionItemDto.timeRemaining.contains("Ended")?"true":"false"}' 
-                                                     update="highBid bidCount memberBid" ajax="false"/>
+                                                     update="memberBid" />
                                 </p>
                             </p:column>
                         </p:row>
