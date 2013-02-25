@@ -67,7 +67,7 @@
                 var nextBid = highBid.substring(1);
                 nextBid = parseFloat(nextBid) + .1;
                 // don't know why, but jquery reference doesn't work for this one
-                document.item_form.memberBid.value = nextBid;
+                document.item_form.memberBid.value = Math.round(nextBid*100)/100;
             }
         </script>
     </h:head>
@@ -80,7 +80,6 @@
                         <p:breadCrumb>
                             <p:menuitem value="Categories" url="/faces/index.xhtml" />
                             <p:menuitem value="bitBay Home" url="/faces/index.xhtml" />
-                            <p:menuitem value="Search Results" url="/faces/foundItemsList.xhtml" />
                             <p:menuitem value="Auction Item" url="#" />
                         </p:breadCrumb>
                     </sec:isAnonymous>
@@ -89,7 +88,6 @@
                             <p:menuitem value="Categories" url="/faces/index.xhtml" />
                             <p:menuitem value="bitBay Home" url="/faces/index.xhtml" />
                             <p:menuitem value="bitBay Member" url="/faces/member/index.xhtml" />
-                            <p:menuitem value="Search Results" url="/faces/foundItemsList.xhtml" />
                             <p:menuitem value="Auction Item" url="#" />
                         </p:breadCrumb>
                     </sec:isAuthenticated>

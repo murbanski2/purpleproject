@@ -53,6 +53,18 @@
             }
         </style>
 
+        <script type="text/javascript">
+            function handleMessage(data) {
+                var dataChunks = data.split(",");
+                var highBid = dataChunks[0];
+                var bidCount = dataChunks[1];
+                var rowId = dataChunks[2];
+                $(PrimeFaces.escapeClientId('search_form:itemsFoundDt:' + rowId + ':highBid')).html(highBid);
+                var sBidCount = bidCount + " bids)";
+                $(PrimeFaces.escapeClientId('search_form:itemsFoundDt:' + rowId + ':bidCount')).html(sBidCount);
+            }
+        </script>
+
     </h:head>
 
     <h:body>  
@@ -83,9 +95,8 @@
             </p:layoutUnit>
 
             <p:layoutUnit id="centerPanel" position="center">         
+                <p:socket onMessage="handleMessage" channel="/newbid" />
                 <h:form id="search_form">
-                    <p:poll listener="#{homeNavBean.findItems(request.userPrincipal.name)}" 
-                            update="itemsFoundDt" interval="2" />
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
                     <p:panelGrid style="width:100%; margin:4 auto;">
                        <sec:isAnonymous>
@@ -151,8 +162,8 @@
                                         <f:facet name="header">
                                             <h:outputText value="High Bid" />
                                         </f:facet>
-                                        <h:outputText id="highBid#{item.itemId}" value="#{item.highBid}" style="font-size: 1.25em; font-weight: bold;"/><br/>
-                                        <h:outputText id="bidCount#{item.itemId}" value="#{item.bidCount} bids" />
+                                        <h:outputText id="highBid" value="#{item.highBid}" style="font-size: 1.25em; font-weight: bold;"/><br/>
+                                        <h:outputText id="bidCount" value="#{item.bidCount} bids" />
                                     </p:column>
 
                                 </p:dataTable>

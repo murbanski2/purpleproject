@@ -100,7 +100,8 @@ public class HomeNavBean implements Serializable {
         StringBuffer sb = new StringBuffer();
         sb.append(selectedAuctionItemDto.getHighBid()).append(",");
         sb.append(selectedAuctionItemDto.getBidCount()).append(",");
-        sb.append(selectedAuctionItemDto.getItemId());
+        String rowId = "" + auctionItemsFound.indexOf(selectedAuctionItemDto);
+        sb.append(rowId);
         
         // now push it to all connected clients
         pushContext.push("/newbid", sb.toString());
