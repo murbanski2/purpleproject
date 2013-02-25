@@ -58,10 +58,19 @@
                 var dataChunks = data.split(",");
                 var highBid = dataChunks[0];
                 var bidCount = dataChunks[1];
-                var rowId = dataChunks[2];
-                $(PrimeFaces.escapeClientId('search_form:itemsFoundDt:' + rowId + ':highBid')).html(highBid);
                 var sBidCount = bidCount + " bids)";
-                $(PrimeFaces.escapeClientId('search_form:itemsFoundDt:' + rowId + ':bidCount')).html(sBidCount);
+                var itemId = dataChunks[2];
+                
+                $('.ui-datatable-data').children().each(function(index, element) {
+                    var row = element.getAttribute('data-rk');
+                    if(row == itemId) {
+                        var e1 = document.getElementById('search_form\:itemsFoundDt\:' + index + '\:highBid');
+                        e1.innerHTML = highBid;
+                        var e2 = document.getElementById('search_form\:itemsFoundDt\:' + index + '\:bidCount');
+                        e2.innerHTML = sBidCount;
+                    }
+                 });
+                
             }
         </script>
 
