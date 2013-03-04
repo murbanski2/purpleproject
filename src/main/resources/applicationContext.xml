@@ -9,7 +9,6 @@
        xmlns:lang="http://www.springframework.org/schema/lang"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:util="http://www.springframework.org/schema/util"
-       xmlns:p="http://www.springframework.org/schema/p"
        xmlns:task="http://www.springframework.org/schema/task"
        xmlns:sec="http://www.springframework.org/schema/security"
 
@@ -149,7 +148,7 @@
         <property name="host" value="smtp.gmail.com"/>
         <property name="username" value="bitbay.auction@gmail.com"/>
         <property name="password" value="work very h@rd"/>
-        <property name="port" value="25"/>
+        <property name="port" value="587"/>
         <property name="javaMailProperties">
             <props>
                 <!-- Use SMTP transport protocol -->

@@ -18,7 +18,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface BidRepository extends JpaRepository<Bid, Integer> {
     
     @Query("select MAX(b.amount) from Bid b where b.itemId = ?1")
-    BigDecimal findHighestBidForItem(Integer id);
+    BigDecimal findHighestBidAmtForItem(Integer id);
     
     @Query("select Count(*) from Bid b where b.itemId = ?1")
     Number findBidCountForItem(Integer id);

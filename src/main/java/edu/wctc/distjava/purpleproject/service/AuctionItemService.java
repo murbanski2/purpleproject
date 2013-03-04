@@ -161,8 +161,17 @@ public class AuctionItemService implements IAuctionItemService {
     }
 
     @Override
-    public BigDecimal findHighestBidForItem(Integer itemId) {
-        return bidRepo.findHighestBidForItem(itemId);
+    public BigDecimal findHighestBidAmtForItem(Integer itemId) {
+        return bidRepo.findHighestBidAmtForItem(itemId);
+    }
+
+    @Override
+    public Bid findHighestBidForItem(Integer itemId) {
+        Query query = em.createQuery("SELECT b from Bid b WHERE b.itemId = ?1 ORDER BY b.amount DESC");
+        query.setParameter(1, itemId);
+        query.setMaxResults(1);
+        Object objBid = query.getSingleResult();
+        return (objBid != null) ? (Bid)objBid : null;
     }
 
     @Override

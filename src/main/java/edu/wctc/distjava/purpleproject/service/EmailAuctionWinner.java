@@ -1,6 +1,7 @@
 package edu.wctc.distjava.purpleproject.service;
 
-import edu.wctc.distjava.purpleproject.domain.User;
+import edu.wctc.distjava.purpleproject.domain.AuctionItem;
+import edu.wctc.distjava.purpleproject.domain.Bid;
 import java.io.Serializable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,29 +30,32 @@ public class EmailAuctionWinner implements ISimpleMailSender, Serializable {
     private MailSender mailSender;
     @Autowired
     private SimpleMailMessage templateMessage;
+    @Autowired
+    IAuctionItemService auctionSrv;    
     
-    /**
-     * Uses Spring's SimleMailMessage technique to send a verification email
-     * to the candidate member who attempted registration on Bit Bay. This 
-     * email is necessary to prevent robots or scammers from registering. A 
-     * base64 encoded username is generated to hide details of the key used
-     * by the servlet to identify the user.
-     * 
-     * @param user - the candidate member who is the target of the email
-     */
     @Override
-    public void sendEmail(String userEmail, String[] ccEmails) throws MailException {
+    public void sendEmail(String userEmail, Object data) throws MailException {
+        // Collect auction info
+        AuctionItem item = (AuctionItem)data;
+        Bid bd = auctionSrv.findHighestBidForItem(item.getItemId());
+        
         // Create a thread safe "copy" of the template message and customize it
         SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
         msg.setTo(userEmail);
         
         // Override applicationContext.xml
-        msg.setSubject("Bit Bay Winning Bid Notice");
+        msg.setSubject("bitBay Auction Winning Bid Notice");
         // Also let the donator know
-        msg.setCc(ccEmails);
+        msg.setCc(item.getSellerId());
         
         // set the messsage
-        msg.setText("Congratulations, you had the winning bid. ");         
+        msg.setText("Congratulations, you had the winning bid for bitBay "
+                + "auction item: " + item.getTitle() + ".\n\nYour winning bid "
+                + "of $" + bd.getAmount().toString() + " should be paid by "
+                + "cash or check to BIT Club by mail or in person.\n\nOnce "
+                + "payment is received we'll provide you with the contact "
+                + "information for the person who donated the item so that "
+                + "you can make arrangements for delivery of the item.");         
         
         try {
             mailSender.send(msg);

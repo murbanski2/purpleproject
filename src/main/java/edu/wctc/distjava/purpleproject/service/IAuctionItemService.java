@@ -5,7 +5,6 @@ import edu.wctc.distjava.purpleproject.domain.Bid;
 import edu.wctc.distjava.purpleproject.domain.MemberSearch;
 import edu.wctc.distjava.purpleproject.repository.AuctionItemRepository;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface IAuctionItemService {
     
+    Bid findHighestBidForItem(Integer itemId);
+    
     List<AuctionItem> findByEndDatesToday();
     
     void saveBid(Bid bid);
@@ -24,7 +25,7 @@ public interface IAuctionItemService {
     
     void updateMembersRecentSearch(String userId, String searchPhrase);
 
-    BigDecimal findHighestBidForItem(Integer itemId);
+    BigDecimal findHighestBidAmtForItem(Integer itemId);
     
     Number findBidCountForItem(Integer itemId);
     

@@ -20,12 +20,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
-import org.springframework.mail.MailException;
 import org.springframework.mail.MailSendException;
 
 /**
- *
- * @author jlombardo
+ * This EJB is responsible for checking daily whether or not there are any
+ * auctions ending. When found a countdown timer is started for each one, with
+ * the end result being that an email message is sent exactly at the item's
+ * end date and time, to the winner, with a copy to the donator.
+ * <P>
+ * NOTE: a Spring intercepter is used to allow auto injection of Spring-managed
+ * beans. The Qualifier determines the implementation of the Strategy object.
+ * 
+ * @author  Jim Lombardo
+ * @version 1.00
  */
 @Singleton
 @Startup
@@ -44,8 +51,6 @@ public class AuctionEndManager {
     
     @PostConstruct
     public void init() {
-        // do this in case of server restart and during development
-        // when you don't want to wait a day for it to happen
         createCountdownTimers();
     }
 
@@ -58,11 +63,9 @@ public class AuctionEndManager {
     public void handleExpiringItem(Timer timer) {
         AuctionItem item = (AuctionItem) timer.getInfo();
         LOG.debug("*** handled expiring item: " + item.getTitle());
-        String winnerEmail = item.getWinBidderId();
-        String[] ccEmails = {item.getSellerId()};
         
         try {
-            getEmailService().sendEmail(winnerEmail,ccEmails);
+            getEmailService().sendEmail(item.getWinBidderId(),item);
         } catch (MailSendException ex) {
             LOG.debug(
                 "Winner email could not be sent due to: "

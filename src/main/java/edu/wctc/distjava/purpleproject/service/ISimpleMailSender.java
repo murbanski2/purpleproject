@@ -18,7 +18,7 @@ public interface ISimpleMailSender {
      *
      * @param user - the candidate member who is the target of the email
      */
-    void sendEmail(String userEmail, String[] ccEmails) throws MailException;
+    void sendEmail(String userEmail, Object data) throws MailException;
 
 
 

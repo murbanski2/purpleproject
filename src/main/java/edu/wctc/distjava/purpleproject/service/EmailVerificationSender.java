@@ -41,7 +41,7 @@ public class EmailVerificationSender implements ISimpleMailSender, Serializable 
      * @param user - the candidate member who is the target of the email
      */
     @Override
-    public void sendEmail(String userEmail, String[] ccEmails) throws MailException {
+    public void sendEmail(String userEmail, Object data) throws MailException {
         // Create a Base64 encode of the username
         byte[] encoded = Base64.encode(userEmail.getBytes()); 
         String base64Username = new String(encoded);

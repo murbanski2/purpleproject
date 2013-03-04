@@ -78,7 +78,7 @@ public class HomeNavBean implements Serializable {
         auctionSrv.saveBid(bid);
         NumberFormat nf = NumberFormat.getCurrencyInstance();
         BigDecimal highestBid = 
-                auctionSrv.findHighestBidForItem(selectedAuctionItemDto.getItemId());
+                auctionSrv.findHighestBidAmtForItem(selectedAuctionItemDto.getItemId());
         double hBid = highestBid == null ? 0 : highestBid.doubleValue();
         selectedAuctionItemDto.setHighBid(nf.format(hBid));
         BigDecimal v1 = new BigDecimal(""+hBid);
@@ -260,7 +260,7 @@ public class HomeNavBean implements Serializable {
         Integer itemId = selectedAuctionItemDto.getItemId();
         NumberFormat nf = NumberFormat.getCurrencyInstance();
         BigDecimal highestBid = 
-                    auctionSrv.findHighestBidForItem(itemId);
+                    auctionSrv.findHighestBidAmtForItem(itemId);
         double bid = highestBid == null ? 0 : highestBid.doubleValue();
         selectedAuctionItemDto.setHighBid(nf.format(bid));
         BigDecimal v1 = new BigDecimal(""+bid);
@@ -330,7 +330,7 @@ public class HomeNavBean implements Serializable {
             dto.setThumbnail(ai.getImage1().substring(0, ai.getImage1().length()-4) + "-thumb.jpg");
             dto.setEndDate(ai.getEndDate());
             BigDecimal highestBid = 
-                    auctionSrv.findHighestBidForItem(ai.getItemId());
+                    auctionSrv.findHighestBidAmtForItem(ai.getItemId());
             double bid = highestBid == null ? 0 : highestBid.doubleValue();
             BigDecimal v1 = new BigDecimal(""+bid);
             BigDecimal v2 = new BigDecimal(".10");
