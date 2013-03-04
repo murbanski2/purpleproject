@@ -2,8 +2,6 @@ package edu.wctc.distjava.purpleproject.service;
 
 import edu.wctc.distjava.purpleproject.domain.User;
 import org.springframework.mail.MailException;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
 
 /**
  * The general contract for Spring SimpleMailSender implementations.
@@ -20,7 +18,7 @@ public interface ISimpleMailSender {
      *
      * @param user - the candidate member who is the target of the email
      */
-    void sendUserEmailVerification(User user) throws MailException;
+    void sendEmail(String userEmail, String[] ccEmails) throws MailException;
 
 
 

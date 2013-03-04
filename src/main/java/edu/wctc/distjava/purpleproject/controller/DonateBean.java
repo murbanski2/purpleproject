@@ -96,7 +96,7 @@ public class DonateBean implements Serializable {
         
         IUserService userSrv = (IUserService) ctx.getBean("userService");
         User user = userSrv.findByUsername(username);
-        item.setSellerId(user);
+        item.setSellerId(user.getUsername());
         
         IAuctionItemService auctionSrv = (IAuctionItemService) ctx.getBean("auctionItemService");
         try {

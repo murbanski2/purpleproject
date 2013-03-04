@@ -7,7 +7,6 @@ package edu.wctc.distjava.purpleproject.servlet;
 import edu.wctc.distjava.purpleproject.domain.User;
 import edu.wctc.distjava.purpleproject.service.IUserService;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +17,6 @@ import org.springframework.jdbc.datasource.lookup.DataSourceLookupFailureExcepti
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.springframework.web.util.WebUtils;
 
 /**
  * This class is used to process the verification link sent via email to 

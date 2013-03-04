@@ -5,6 +5,7 @@ import edu.wctc.distjava.purpleproject.domain.Bid;
 import edu.wctc.distjava.purpleproject.domain.MemberSearch;
 import edu.wctc.distjava.purpleproject.repository.AuctionItemRepository;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author jlombardo
  */
 public interface IAuctionItemService {
+    
+    List<AuctionItem> findByEndDatesToday();
     
     void saveBid(Bid bid);
     

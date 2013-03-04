@@ -30,6 +30,7 @@
 
     <!-- child level logging for application -->
     <logger name="edu.wctc.distjava.purpleproject" level="DEBUG" />
+    <logger name="org.springframework" level="DEBUG" />
 
     <!-- root level logging (children can override) -->
     <root level="DEBUG">

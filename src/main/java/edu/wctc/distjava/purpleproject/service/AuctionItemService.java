@@ -7,7 +7,9 @@ import edu.wctc.distjava.purpleproject.repository.AuctionItemRepository;
 import edu.wctc.distjava.purpleproject.repository.BidRepository;
 import edu.wctc.distjava.purpleproject.repository.MemberSearchRepository;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.List;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -30,7 +32,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Jim Lombardo
  * @version 1.01
  */
-@Repository("auctionItemService")
+@Named
+@Repository
 @Transactional(readOnly = true)
 public class AuctionItemService implements IAuctionItemService {
     private static final long serialVersionUID = 1L;
@@ -47,6 +50,20 @@ public class AuctionItemService implements IAuctionItemService {
     private MemberSearchRepository memSearchRepo;
 
     public AuctionItemService() {
+    }
+    
+    @Override
+    public List<AuctionItem> findByEndDatesToday() {
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        today.set(Calendar.MILLISECOND, 0);
+        Calendar tomorrow = Calendar.getInstance();
+        tomorrow.setTimeInMillis(today.getTimeInMillis());
+        tomorrow.add(Calendar.DATE, 1);
+        return itemRepo
+                .findByEndDatesToday(today.getTime(), tomorrow.getTime());
     }
     
     @Override

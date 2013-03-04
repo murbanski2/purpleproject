@@ -10,21 +10,20 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
 
 /**
  * This Spring-managed bean is configured in applicationContext.xml and does
- * the job of sending the email message for new member verification purposes.
+ * the job of sending email messages to winner and donator.
  * 
  * @author  Jim Lombardo
  * @version 1.00
  */
-@Service("emailVerificationSender")
-@Qualifier("verification")
-public class EmailVerificationSender implements ISimpleMailSender, Serializable {
+@Service("emailAuctionWinner")
+@Qualifier("winner")
+public class EmailAuctionWinner implements ISimpleMailSender, Serializable {
     private static final long serialVersionUID = 1L;
-    private final Logger LOG = LoggerFactory.getLogger(EmailVerificationSender.class);
+    private final Logger LOG = LoggerFactory.getLogger(EmailAuctionWinner.class);
     
     @Autowired
     private MailSender mailSender;
@@ -42,33 +41,39 @@ public class EmailVerificationSender implements ISimpleMailSender, Serializable 
      */
     @Override
     public void sendEmail(String userEmail, String[] ccEmails) throws MailException {
-        // Create a Base64 encode of the username
-        byte[] encoded = Base64.encode(userEmail.getBytes()); 
-        String base64Username = new String(encoded);
-        
         // Create a thread safe "copy" of the template message and customize it
-        // See Spring config in applicationContext.xml
         SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
         msg.setTo(userEmail);
-
-        msg.setText("Thank you for registering with bitBay(tm), the unique "
-                + "auction site that benefits WCTC's IT student club. This email is "
-                + "being sent to you to verify your intent to join bitBay. "
-                + "To complete the registration process for user email [" 
-                + userEmail + "], please click on the link below."
-                + "\n\nCAUTION: if you did not register with bitBay, somebody "
-                + "else is trying use your email to scam the system. Please "
-                + "do not click on the link below unless you intend to confirm "
-                + "your registraiton with bitBay.\n\n"
-                + "Here's the link to complete the registraiton process: \n\n"
-                + "http://localhost:8080/bitbay/regVerify.do?id=" + base64Username);
+        
+        // Override applicationContext.xml
+        msg.setSubject("Bit Bay Winning Bid Notice");
+        // Also let the donator know
+        msg.setCc(ccEmails);
+        
+        // set the messsage
+        msg.setText("Congratulations, you had the winning bid. ");         
         
         try {
             mailSender.send(msg);
-        } catch(NullPointerException npe) {
-            throw new MailSendException(
-                    "Email send error from EmailVerificationSender");
+        } catch(NullPointerException ex) {
+            throw new MailSendException(ex.getMessage());
         }
+    }
+
+    public MailSender getMailSender() {
+        return mailSender;
+    }
+
+    public void setMailSender(MailSender mailSender) {
+        this.mailSender = mailSender;
+    }
+
+    public SimpleMailMessage getTemplateMessage() {
+        return templateMessage;
+    }
+
+    public void setTemplateMessage(SimpleMailMessage templateMessage) {
+        this.templateMessage = templateMessage;
     }
     
     
