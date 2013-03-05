@@ -30,7 +30,7 @@ CREATE TABLE `member_search` (
   `search_phrase` varchar(180) DEFAULT NULL,
   `category` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`search_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `member_search` (
 
 LOCK TABLES `member_search` WRITE;
 /*!40000 ALTER TABLE `member_search` DISABLE KEYS */;
-INSERT INTO `member_search` VALUES (1,'admin@isp.com','logo art',NULL),(2,'admin@isp.com','test title',NULL),(3,'member@isp.com','Martin guitar',NULL),(4,'member@isp.com','Martin guitar',NULL),(5,'member@isp.com','Fender Guitar',NULL);
+INSERT INTO `member_search` VALUES (66,'member@isp.com','golf',NULL),(67,'member@isp.com','photos',NULL);
 /*!40000 ALTER TABLE `member_search` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-11-19  4:19:46
+-- Dump completed on 2013-03-05 15:55:03

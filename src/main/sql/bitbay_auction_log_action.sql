@@ -26,10 +26,10 @@ DROP TABLE IF EXISTS `log_action`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `log_action` (
   `log_id` int(11) NOT NULL AUTO_INCREMENT,
-  `rec_id` varchar(32) DEFAULT NULL,
+  `rec_id` int(11) DEFAULT NULL,
   `action` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`log_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,6 @@ CREATE TABLE `log_action` (
 
 LOCK TABLES `log_action` WRITE;
 /*!40000 ALTER TABLE `log_action` DISABLE KEYS */;
-INSERT INTO `log_action` VALUES (1,'6','Employee deleted.'),(2,'7','Employee deleted.'),(3,'3','Employee deleted.');
 /*!40000 ALTER TABLE `log_action` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-11-19  4:19:46
+-- Dump completed on 2013-03-05 15:55:03
