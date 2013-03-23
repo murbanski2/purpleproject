@@ -32,8 +32,8 @@ public class AdminMemberBean implements Serializable {
     
     public AdminMemberBean() {
         memberTypes = new ArrayList<String>();
-        memberTypes.add("Active");
-        memberTypes.add("Inactive");
+        memberTypes.add("Enabled");
+        memberTypes.add("Disabled");
         memberTypes.add("Administrator");
     }
     
@@ -48,9 +48,9 @@ public class AdminMemberBean implements Serializable {
             membersFound.add(userSrv.findByUsername(userName));
             
         } else {
-            if(selectedType.equals("Active")) {
+            if(selectedType.equals("Enabled")) {
                 membersFound = userSrv.findByEnabled(true);
-            } else if(selectedType.equals("Inactive")) {
+            } else if(selectedType.equals("Disabled")) {
                 membersFound = userSrv.findByEnabled(false);
             } else {
                 
