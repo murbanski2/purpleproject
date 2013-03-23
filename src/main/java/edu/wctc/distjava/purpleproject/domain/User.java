@@ -1,16 +1,21 @@
 package edu.wctc.distjava.purpleproject.domain;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -78,8 +83,11 @@ public class User implements Serializable {
     @Size(max = 45)
     @Column(name = "last_name")
     private String lastName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "username")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "username", fetch=FetchType.EAGER)
     private Collection<Authority> authoritiesCollection;
+    @Column(name = "date_verified")
+    @Temporal(TemporalType.DATE)
+    private Date dateVerified;
 
     public User() {
     }
@@ -210,6 +218,15 @@ public class User implements Serializable {
         }
         return true;
     }
+
+    public Date getDateVerified() {
+        return dateVerified;
+    }
+
+    public void setDateVerified(Date dateVerified) {
+        this.dateVerified = dateVerified;
+    }
+
 
     @Override
     public String toString() {

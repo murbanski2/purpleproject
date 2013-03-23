@@ -7,6 +7,8 @@ package edu.wctc.distjava.purpleproject.servlet;
 import edu.wctc.distjava.purpleproject.domain.User;
 import edu.wctc.distjava.purpleproject.service.IUserService;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -68,6 +70,7 @@ public class RegistrationVerifier extends HttpServlet {
                 throw new DataSourceLookupFailureException("Sorry, that user is not in our system");
             }
             user.setEnabled(true);
+            user.setDateVerified(new Date());
             userSrv.saveAndFlush(user);
                         
         } catch(DataAccessException dae) {

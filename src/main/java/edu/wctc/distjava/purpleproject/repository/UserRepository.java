@@ -3,6 +3,7 @@ package edu.wctc.distjava.purpleproject.repository;
 import edu.wctc.distjava.purpleproject.domain.User;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 /**
  * This is a Spring Data JPA interface contract that serves the proxy
  * mechanism of the Spring-Data-JPA API to automatically generate data access
@@ -16,4 +17,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface UserRepository extends JpaRepository<User, String> {
     
+    @Query("select u from User u where u.enabled = ?1")
+    List<User> findByEnabled(boolean enabled);
+    
+
 }

@@ -130,7 +130,7 @@
                             </p:column>
                             <p:column id="urlCol" colspan="2">
                                 You may upload up to five (5) pictures of type *.jpg, *gif or .png,
-                                where the size of each picture file may not exceed 1 Mb (1,024 Kb).
+                                where the size of each picture file may not exceed 2 Mb (2,048 Kb).
                                 IMPORTANT: Please upload pictures one at a time. The first picture will be used to
                                 create a thumbnail image that will appear on search result pages.
                             </p:column> 
@@ -142,7 +142,9 @@
                             </p:column>
                             <p:column colspan="2">
                                 <p:fileUpload fileUploadListener="#{donateBean.handleFileUpload}" multiple="false"
-                                              allowTypes="/(\.|\/)(gif|jpe?g|png)$/"  sizeLimit="1048576"
+                                              allowTypes="/(\.|\/)(gif|jpe?g|png)$/"  sizeLimit="2097152" 
+                                              invalidFileMessage="Sorry, only files of type .jpg, .png or .gif are allowed" 
+                                              invalidSizeMessage="Sorry, files are limited in size to 2 Mb" 
                                               update="growl" showButtons="false"/>
                             </p:column>
                         </p:row>

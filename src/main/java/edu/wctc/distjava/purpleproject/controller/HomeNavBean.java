@@ -136,7 +136,7 @@ public class HomeNavBean implements Serializable {
      */
     public String doItemSearch() {
         
-        // No UserDetails instsance if anonymous
+        // No UserDetails instance if anonymous
         String username = SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal().toString();
 

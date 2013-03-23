@@ -1,7 +1,9 @@
 package edu.wctc.distjava.purpleproject.service;
 
+import edu.wctc.distjava.purpleproject.domain.Authority;
 import edu.wctc.distjava.purpleproject.domain.User;
 import edu.wctc.distjava.purpleproject.repository.UserRepository;
+import java.util.List;
 import javax.persistence.EntityManager;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,4 +31,8 @@ public interface IUserService {
     UserRepository getUserRepo();
     
     void setUserRepo(UserRepository userRepo);
+    
+    List<Authority> findAuthoritiesByUsername(String username);
+    
+    List<User> findByEnabled(boolean enabled);
 }
