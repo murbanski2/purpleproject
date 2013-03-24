@@ -1,6 +1,7 @@
 package edu.wctc.distjava.purpleproject.controller;
 
 import edu.wctc.distjava.purpleproject.domain.AuctionItem;
+import edu.wctc.distjava.purpleproject.domain.PopularItemDto;
 import edu.wctc.distjava.purpleproject.domain.User;
 import edu.wctc.distjava.purpleproject.service.IAuctionItemService;
 import edu.wctc.distjava.purpleproject.service.IUserService;
@@ -9,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import org.primefaces.event.RowEditEvent;
 import org.slf4j.Logger;
@@ -35,7 +37,10 @@ public class AdminBean implements Serializable {
     private User selectedMember;
     private String expireType;
     private List<String> expireTypes;
+    private String popularType;
+    private List<String> popularTypes;
     private List<AuctionItem> itemsFound;
+    private List<PopularItemDto> popularItemsFound;
     
     public AdminBean() {
         memberTypes = new ArrayList<String>();
@@ -48,11 +53,28 @@ public class AdminBean implements Serializable {
         expireTypes.add("This Week");
         expireTypes.add("This Month");
         
+        popularTypes = new ArrayList<String>();
+        popularTypes.add("Curently Active");
+        popularTypes.add("All Time");
+        
         ctx = FacesContextUtils.getWebApplicationContext(
                 FacesContext.getCurrentInstance()); 
     }
     
-    public String doItemByExpireTypeSearch() {
+    public void doItemByPopularitySearch(ActionEvent event) {
+        final boolean ACTIVE = false;
+        final boolean ALL_TIME = true;
+        IAuctionItemService aucSrv = 
+                    (IAuctionItemService) ctx.getBean("auctionItemService");
+        
+        if(popularType.equals("Currently Active")) {
+            popularItemsFound = aucSrv.findByMostPopular(ACTIVE);
+        } else {
+            popularItemsFound = aucSrv.findByMostPopular(ALL_TIME);
+        }
+    }
+    
+    public void doItemByExpireTypeSearch(ActionEvent event) {
         IAuctionItemService aucSrv = 
                     (IAuctionItemService) ctx.getBean("auctionItemService");
         
@@ -63,11 +85,9 @@ public class AdminBean implements Serializable {
         } else {
             itemsFound = aucSrv.findByEndDatesThisMonth();
         }
-        
-        return null; // destination = same page
     }
     
-    public String doMemberSearch() {
+    public void doMemberSearch(ActionEvent event) {
         // We could inject this as a class property, but that would
         // use memory inefficiently. This way we only have a local variable
         IUserService userSrv = 
@@ -85,10 +105,7 @@ public class AdminBean implements Serializable {
             } else {
                 membersFound = userSrv.findUsersByAuthority("ROLE_ADMIN");
             }
-
         }
-        
-        return null; // destination = same page
     }
     
     public void handleMemberUpdate(RowEditEvent event) {
@@ -168,6 +185,30 @@ public class AdminBean implements Serializable {
 
     public void setItemsFound(List<AuctionItem> itemsFound) {
         this.itemsFound = itemsFound;
+    }
+
+    public String getPopularType() {
+        return popularType;
+    }
+
+    public void setPopularType(String popularType) {
+        this.popularType = popularType;
+    }
+
+    public List<String> getPopularTypes() {
+        return popularTypes;
+    }
+
+    public void setPopularTypes(List<String> popularTypes) {
+        this.popularTypes = popularTypes;
+    }
+
+    public List<PopularItemDto> getPopularItemsFound() {
+        return popularItemsFound;
+    }
+
+    public void setPopularItemsFound(List<PopularItemDto> popularItemsFound) {
+        this.popularItemsFound = popularItemsFound;
     }
 
     

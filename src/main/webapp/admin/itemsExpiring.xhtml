@@ -78,7 +78,8 @@
                             <p:column>
                                 <h2>Auciton Items Expiring Report</h2>
                                 <p>Use the search form to select a range of auction item expiration options 
-                                   from the drop-down menu.
+                                   from the drop-down menu. Some browsers do not handle the submit button on the 
+                                   first click (Chrome does!, Firefox doesn't!). You may have to click the Go button twice.
                                 </p>
                             </p:column>
                         </p:row>
@@ -91,30 +92,30 @@
                                     <f:selectItems value="#{adminBean.expireTypes}" />
                                 </p:selectOneMenu>
                                 <p:spacer width="10px" />                                 
-                                <p:commandButton id="searchBtn" value="Go" action="#{adminBean.doItemByExpireTypeSearch}" update="itemsFoundDt" style="postion: relative;top: -2px;" />
+                                <p:commandButton id="searchBtn" value="Go" actionListener="#{adminBean.doItemByExpireTypeSearch}" update="itemsFoundDt" style="postion: relative;top: -2px;" />
                             </p:column>
                         </p:row>
                         <p:row>
                             <p:column>
                                 <p:dataTable id="itemsFoundDt" var="item" value="#{adminBean.itemsFound}">
 
-                                    <p:column style="width:10%; text-align: left;">
+                                    <p:column style="width:8%; text-align: left;">
                                         <f:facet name="header">
                                             <h:outputText value="ID"/>
                                         </f:facet>
                                         <h:outputText value="#{item.itemId}"/>
                                     </p:column>
-                                    <p:column style="width:70%; text-align: left;">
+                                    <p:column style="width:52%; text-align: left;">
                                         <f:facet name="header">
                                             <h:outputText value="Title" />
                                         </f:facet>
                                         <h:outputText value="#{item.title}"/>
                                     </p:column>
-                                    <p:column style="width:70%; text-align: left;">
+                                    <p:column style="width:20%; text-align: left;">
                                         <f:facet name="header">
                                             <h:outputText value="Donar" />
                                         </f:facet>
-                                        <h:outputText value="#{item.sellerId}"/>
+                                        <h:outputText value="#{item.sellerId.username}"/>
                                     </p:column>
                                     <p:column style="width:20%; text-align: right;">
                                         <f:facet name="header">

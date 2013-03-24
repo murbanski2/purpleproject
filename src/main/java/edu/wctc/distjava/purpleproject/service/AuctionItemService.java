@@ -3,11 +3,14 @@ package edu.wctc.distjava.purpleproject.service;
 import edu.wctc.distjava.purpleproject.domain.AuctionItem;
 import edu.wctc.distjava.purpleproject.domain.Bid;
 import edu.wctc.distjava.purpleproject.domain.MemberSearch;
+import edu.wctc.distjava.purpleproject.domain.PopularItemDto;
 import edu.wctc.distjava.purpleproject.repository.AuctionItemRepository;
 import edu.wctc.distjava.purpleproject.repository.BidRepository;
 import edu.wctc.distjava.purpleproject.repository.MemberSearchRepository;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -51,6 +54,35 @@ public class AuctionItemService implements IAuctionItemService {
     private MemberSearchRepository memSearchRepo;
 
     public AuctionItemService() {
+    }
+    
+    @Override
+    public List<PopularItemDto> findByMostPopular(boolean forAllTime) {
+        Date now = new Date();
+        List<PopularItemDto> items = new ArrayList<PopularItemDto>();
+        List<Object[]> bidsByItemId = itemRepo.getBidCountByItemId();
+        // get total count of records
+        int recCount = bidsByItemId.size();
+        // now calc top third
+        recCount /= 3;
+        
+        for(int i=0; i < recCount; i++) {
+            Object[] aItem = bidsByItemId.get(i);
+            Integer itemId = (Integer)aItem[0];
+            AuctionItem item = itemRepo.findOne(new Integer(itemId));
+            PopularItemDto dto = new PopularItemDto(
+                        itemId, (Long)aItem[1],
+                        item.getTitle(), item.getStartDate(), 
+                        item.getEndDate(), item.getSellerId().getUsername()
+                    );
+            if(!forAllTime && now.before(item.getEndDate())) {
+                items.add(dto);
+            } else if(forAllTime) {
+                items.add(dto);
+            }
+        }
+        
+        return items;
     }
     
     @Override
