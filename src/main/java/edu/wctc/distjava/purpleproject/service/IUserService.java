@@ -32,7 +32,7 @@ public interface IUserService {
     
     void setUserRepo(UserRepository userRepo);
     
-    List<Authority> findAuthoritiesByUsername(String username);
+    List<User> findUsersByAuthority(String authority);
     
     List<User> findByEnabled(boolean enabled);
 }

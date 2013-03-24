@@ -101,10 +101,12 @@
                             <p:column>
                                 <p:dataTable id="itemsFoundDt" var="member" value="#{adminMemberBean.membersFound}"
                                              selectionMode="single" selection="#{adminMemberBean.selectedMember}" 
-                                             rowKey="#{member.username}">
-                                    <p:ajax event="rowSelect" listener="#{adminMemberBean.handleMemberSelect}" />
+                                             editable="true" rowKey="#{member.username}">
+                                    
+<!--                                    <p:ajax event="rowSelect" listener="#{adminMemberBean.handleMemberSelect}" />-->
+                                    <p:ajax event="rowEdit" listener="#{adminMemberBean.handleMemberUpdate}" update=":adminMembers_form:growl" />
 
-                                    <p:column style="width:30%; text-align: left;">
+                                    <p:column style="width:25%; text-align: left;">
                                         <f:facet name="header">
                                             <h:outputText value="User Name"/>
                                         </f:facet>
@@ -136,7 +138,7 @@
                                         </f:facet>
                                         <h:outputText value="#{member.phone}"/>
                                     </p:column>
-                                    <p:column headerText="Enabled" style="width:5%; text-align: center;">
+                                    <p:column headerText="Enabled" style="width:10%; text-align: center;">
                                         <p:cellEditor>
                                             <f:facet name="output">
                                                 <p:selectBooleanCheckbox value="#{member.enabled}"/>

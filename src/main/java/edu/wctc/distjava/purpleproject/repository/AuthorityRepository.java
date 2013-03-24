@@ -20,4 +20,7 @@ public interface AuthorityRepository extends JpaRepository<Authority, Integer> {
     
     @Query("select a from Authority a where a.username = ?1")
     List<Authority> findByUserName(String userName);
+    
+    @Query("SELECT a FROM Authority a WHERE a.authority = ?1")
+    List<Authority> findByAuthority(String authority);
 }

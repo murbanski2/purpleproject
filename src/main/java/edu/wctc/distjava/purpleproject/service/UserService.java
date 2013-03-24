@@ -5,6 +5,7 @@ import edu.wctc.distjava.purpleproject.domain.User;
 import edu.wctc.distjava.purpleproject.repository.AuthorityRepository;
 import edu.wctc.distjava.purpleproject.repository.UserRepository;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -69,8 +70,13 @@ public class UserService implements IUserService, Serializable {
     }
     
     @Override
-    public List<Authority> findAuthoritiesByUsername(String username) {
-        return authRepo.findByUserName(username);
+    public List<User> findUsersByAuthority(String authority) {
+        List<Authority> authorities = authRepo.findByAuthority(authority);
+        List<User> users = new ArrayList<User>();
+        for(Authority a : authorities) {
+            users.add(a.getUsername());
+        }
+        return users;
     }
 
     @Override
