@@ -19,6 +19,10 @@ public interface IAuctionItemService {
     
     List<AuctionItem> findByEndDatesToday();
     
+    List<AuctionItem> findByEndDatesThisWeek();
+    
+    List<AuctionItem> findByEndDatesThisMonth();
+    
     void saveBid(Bid bid);
     
     AuctionItem findById(Integer id);

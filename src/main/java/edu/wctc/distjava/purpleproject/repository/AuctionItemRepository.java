@@ -23,4 +23,7 @@ public interface AuctionItemRepository extends JpaRepository<AuctionItem, Intege
     
     @Query("select i from AuctionItem i where i.endDate >= ?1 and i.endDate < ?2 order by i.endDate")
     List<AuctionItem> findByEndDatesToday(Date today, Date tomorrow);
+    
+    @Query("select i from AuctionItem i where i.endDate >= ?1 and i.endDate <= ?2 order by i.endDate")
+    List<AuctionItem> findWithinDateRange(Date startDate, Date endDate);
 }

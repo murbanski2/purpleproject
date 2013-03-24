@@ -1,5 +1,6 @@
 package edu.wctc.distjava.purpleproject.controller;
 
+import edu.wctc.distjava.purpleproject.domain.AuctionItem;
 import edu.wctc.distjava.purpleproject.domain.User;
 import edu.wctc.distjava.purpleproject.service.IAuctionItemService;
 import edu.wctc.distjava.purpleproject.service.IUserService;
@@ -23,26 +24,52 @@ import org.springframework.web.jsf.FacesContextUtils;
  */
 @Named
 @Scope("session")
-public class AdminMemberBean implements Serializable {
+public class AdminBean implements Serializable {
     private static final long serialVersionUID = 1L;
-    private final Logger LOG = LoggerFactory.getLogger(AdminMemberBean.class);
+    private final Logger LOG = LoggerFactory.getLogger(AdminBean.class);
     private transient ApplicationContext ctx; // used to get Spring beans 
     private String userName;
     private String selectedType;
     private List<String> memberTypes;
     private List<User> membersFound;
     private User selectedMember;
+    private String expireType;
+    private List<String> expireTypes;
+    private List<AuctionItem> itemsFound;
     
-    public AdminMemberBean() {
+    public AdminBean() {
         memberTypes = new ArrayList<String>();
         memberTypes.add("Enabled");
         memberTypes.add("Disabled");
         memberTypes.add("Administrator");
+        
+        expireTypes = new ArrayList<String>();
+        expireTypes.add("Today");
+        expireTypes.add("This Week");
+        expireTypes.add("This Month");
+        
         ctx = FacesContextUtils.getWebApplicationContext(
                 FacesContext.getCurrentInstance()); 
     }
     
+    public String doItemByExpireTypeSearch() {
+        IAuctionItemService aucSrv = 
+                    (IAuctionItemService) ctx.getBean("auctionItemService");
+        
+        if(expireType.equals("Today")) {
+            itemsFound = aucSrv.findByEndDatesToday();
+        } else if(expireType.equals("This Week")) {
+            itemsFound = aucSrv.findByEndDatesThisWeek();
+        } else {
+            itemsFound = aucSrv.findByEndDatesThisMonth();
+        }
+        
+        return null; // destination = same page
+    }
+    
     public String doMemberSearch() {
+        // We could inject this as a class property, but that would
+        // use memory inefficiently. This way we only have a local variable
         IUserService userSrv = 
                     (IUserService) ctx.getBean("userService");
         membersFound = new ArrayList<User>();
@@ -61,7 +88,7 @@ public class AdminMemberBean implements Serializable {
 
         }
         
-        return null;
+        return null; // destination = same page
     }
     
     public void handleMemberUpdate(RowEditEvent event) {
@@ -117,6 +144,30 @@ public class AdminMemberBean implements Serializable {
 
     public void setSelectedMember(User selectedMember) {
         this.selectedMember = selectedMember;
+    }
+
+    public String getExpireType() {
+        return expireType;
+    }
+
+    public void setExpireType(String expireType) {
+        this.expireType = expireType;
+    }
+
+    public List<String> getExpireTypes() {
+        return expireTypes;
+    }
+
+    public void setExpireTypes(List<String> expireTypes) {
+        this.expireTypes = expireTypes;
+    }
+
+    public List<AuctionItem> getItemsFound() {
+        return itemsFound;
+    }
+
+    public void setItemsFound(List<AuctionItem> itemsFound) {
+        this.itemsFound = itemsFound;
     }
 
     

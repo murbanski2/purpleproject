@@ -14,7 +14,7 @@
         <h:outputStylesheet name="cssLayout.css" library="css" />
         <link rel="SHORTCUT ICON" href="/#{msg['server.context.root']}/favicon.ico"/>
 
-        <title>bitBay Administrator Home</title>
+        <title>bitBay Administrator :: Member Management</title>
 
         <style type="text/css">
             .ui-widget {
@@ -86,25 +86,24 @@
                             <p:column>
                                 <p:outputLabel for="searchTxt" value="Search for" style="font-size: larger;" />
                                 <p:spacer width="10px" />
-                                <p:inputText id="searchTxt" value="#{adminMemberBean.userName}" size="35" style="font-size: larger;"/>
+                                <p:inputText id="searchTxt" value="#{adminBean.userName}" size="35" style="font-size: larger;"/>
                                 <p:watermark for="searchTxt" value="user name (email)" />
                                 <p:spacer width="8px" />                                
-                                <p:selectOneMenu value="#{adminMemberBean.selectedType}" style="font-size: larger;position: relative;top: 9px;">
+                                <p:selectOneMenu value="#{adminBean.selectedType}" style="font-size: larger;position: relative;top: 9px;">
                                     <f:selectItem itemLabel="Select Member Type..." itemValue="" />
-                                    <f:selectItems value="#{adminMemberBean.memberTypes}" />
+                                    <f:selectItems value="#{adminBean.memberTypes}" />
                                 </p:selectOneMenu>
                                 <p:spacer width="10px" />                                 
-                                <p:commandButton id="searchBtn" value="Go" action="#{adminMemberBean.doMemberSearch}" update="itemsFoundDt" style="postion: relative;top: -2px;" />
+                                <p:commandButton id="searchBtn" value="Go" action="#{adminBean.doMemberSearch}" update="itemsFoundDt" style="postion: relative;top: -2px;" />
                             </p:column>
                         </p:row>
                         <p:row>
                             <p:column>
-                                <p:dataTable id="itemsFoundDt" var="member" value="#{adminMemberBean.membersFound}"
-                                             selectionMode="single" selection="#{adminMemberBean.selectedMember}" 
+                                <p:dataTable id="itemsFoundDt" var="member" value="#{adminBean.membersFound}"
+                                             selectionMode="single" selection="#{adminBean.selectedMember}" 
                                              editable="true" rowKey="#{member.username}">
                                     
-<!--                                    <p:ajax event="rowSelect" listener="#{adminMemberBean.handleMemberSelect}" />-->
-                                    <p:ajax event="rowEdit" listener="#{adminMemberBean.handleMemberUpdate}" update=":adminMembers_form:growl" />
+                                    <p:ajax event="rowEdit" listener="#{adminBean.handleMemberUpdate}" update=":adminMembers_form:growl" />
 
                                     <p:column style="width:25%; text-align: left;">
                                         <f:facet name="header">

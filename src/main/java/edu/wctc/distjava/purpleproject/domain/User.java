@@ -86,7 +86,7 @@ public class User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "username", fetch=FetchType.EAGER)
     private Collection<Authority> authoritiesCollection;
     @Column(name = "date_verified")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateVerified;
 
     public User() {

@@ -13,6 +13,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,37 @@ public class AuctionItemService implements IAuctionItemService {
     private MemberSearchRepository memSearchRepo;
 
     public AuctionItemService() {
+    }
+    
+    @Override
+    public List<AuctionItem> findByEndDatesThisMonth() {
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        today.set(Calendar.MILLISECOND, 0);
+        // Using Jodatime library
+        DateTime dt = new DateTime();
+ 		DateTime monthsEnd = dt.dayOfMonth().withMaximumValue();
+        return itemRepo
+                .findWithinDateRange(today.getTime(), monthsEnd.toDate());
+    }
+    
+    @Override
+    public List<AuctionItem> findByEndDatesThisWeek() {
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        today.set(Calendar.MILLISECOND, 0);
+        Calendar weeksEnd = Calendar.getInstance();
+        weeksEnd.setTimeInMillis(today.getTimeInMillis());
+        weeksEnd.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        weeksEnd.set(Calendar.HOUR, 23);
+        weeksEnd.set(Calendar.MINUTE, 59);
+        weeksEnd.set(Calendar.SECOND, 59);
+        return itemRepo
+                .findWithinDateRange(today.getTime(), weeksEnd.getTime());
     }
     
     @Override

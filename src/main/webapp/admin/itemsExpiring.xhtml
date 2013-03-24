@@ -14,7 +14,7 @@
         <h:outputStylesheet name="cssLayout.css" library="css" />
         <link rel="SHORTCUT ICON" href="/#{msg['server.context.root']}/favicon.ico"/>
 
-        <title>bitBay Administrator Home</title>
+        <title>bitBay Administrator :: Items Expiring</title>
 
         <style type="text/css">
             .ui-widget {
@@ -49,7 +49,7 @@
             }
 
         </style>
-        
+
     </h:head>
 
     <h:body>  
@@ -60,7 +60,8 @@
                     <p:breadCrumb>
                         <p:menuitem value="Categories" url="#" />
                         <p:menuitem value="bitBay Home" url="/faces/index.xhtml" />
-                        <p:menuitem value="bitBay Administration" url="#" />
+                        <p:menuitem value="bitBay Administration" url="/faces/admin/index.xhtml" />
+                        <p:menuitem value="Items Expiring" url="#" />
                     </p:breadCrumb>
                 </div>
             </p:layoutUnit>
@@ -70,51 +71,61 @@
             </p:layoutUnit>
 
             <p:layoutUnit id="centerPanel" position="center">         
-                <h:form id="admin_form">
+                <h:form id="adminMembers_form">
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
                     <p:panelGrid style="width: 100%; margin:4 auto;">
                         <p:row>
-                            <p:column colspan="2">
-                                <h2>Welcome Back Administrator</h2>
-                                <p>From this page you can perform numerous administrative tasks and run reports. 
-                                    It's important to setup and stick to a regular set of tasks to be performed 
-                                    daily, weekly or monthly as needed.
+                            <p:column>
+                                <h2>Auciton Items Expiring Report</h2>
+                                <p>Use the search form to select a range of auction item expiration options 
+                                   from the drop-down menu.
                                 </p>
                             </p:column>
                         </p:row>
                         <p:row>
-                            <p:column colspan="2">
-                                <p:outputLabel for="searchTxt" value="Search for" style="font-size: larger;" />
+                            <p:column>
+                                <p:outputLabel for="searchTxt" value="Search for Items Expring" style="font-size: larger;" />
                                 <p:spacer width="10px" />
-                                <p:inputText id="searchTxt" value="#{homeNavBean.searchPhrase}" size="35" style="font-size: larger;"/>
-                                <p:watermark for="searchTxt" value="my search terms" />
-                                <p:spacer width="8px" />                                
-                                <p:selectOneMenu value="#{homeNavBean.selectedCategory}" style="font-size: larger;position: relative;top: 9px;">
-                                    <f:selectItem itemLabel="Select Category..." itemValue="" />
-                                    <f:selectItems value="#{appBean.categories}" />
+                                <p:selectOneMenu id="searchTxt" value="#{adminBean.expireType}" style="font-size: larger;position: relative;top: 9px;">
+                                    <f:selectItem itemLabel="Select Expire Type..." itemValue="" />
+                                    <f:selectItems value="#{adminBean.expireTypes}" />
                                 </p:selectOneMenu>
                                 <p:spacer width="10px" />                                 
-                                <p:commandButton id="searchBtn" value="Go" action="#{homeNavBean.doItemSearch}" ajax="false" style="postion: relative;top: -2px;" />
+                                <p:commandButton id="searchBtn" value="Go" action="#{adminBean.doItemByExpireTypeSearch}" update="itemsFoundDt" style="postion: relative;top: -2px;" />
                             </p:column>
                         </p:row>
                         <p:row>
-                            <p:column style="vertical-align: top;">
-                                <div id="searchDiv">
-                                    <h3>Maintenance Activities</h3>
-                                    <p><p:commandLink value="Manage Member Accounts" action="manageMembers"/></p>
-                                    <p>Manage Auction Items</p>
-                                    <p>Send Maintenance Notice</p>
-                                    <p>Purge Images (Inactive)</p>
-                                </div>
-                            </p:column>
-                            <p:column style="vertical-align: top;">
-                                <div id="infoDiv">
-                                    <h3>Reports</h3>
-                                    <p><p:commandLink value="Auction Items Expiring" action="itemsExpiring"/></p>
-                                    <p>Revenue By Period</p>
-                                    <p>Most Popular Items (Active)</p>
-                                    <p>Most Popular Items (All Time)</p>
-                                </div>
+                            <p:column>
+                                <p:dataTable id="itemsFoundDt" var="item" value="#{adminBean.itemsFound}">
+
+                                    <p:column style="width:10%; text-align: left;">
+                                        <f:facet name="header">
+                                            <h:outputText value="ID"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.itemId}"/>
+                                    </p:column>
+                                    <p:column style="width:70%; text-align: left;">
+                                        <f:facet name="header">
+                                            <h:outputText value="Title" />
+                                        </f:facet>
+                                        <h:outputText value="#{item.title}"/>
+                                    </p:column>
+                                    <p:column style="width:70%; text-align: left;">
+                                        <f:facet name="header">
+                                            <h:outputText value="Donar" />
+                                        </f:facet>
+                                        <h:outputText value="#{item.sellerId}"/>
+                                    </p:column>
+                                    <p:column style="width:20%; text-align: right;">
+                                        <f:facet name="header">
+                                            <h:outputText value="Expiring" />
+                                        </f:facet>
+                                        <h:outputText value="#{item.endDate}">
+                                            <f:convertDateTime pattern="M/d/yyyy hh:mm:ss a"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    
+                                </p:dataTable>
                             </p:column>
                         </p:row>
                     </p:panelGrid>
