@@ -194,4 +194,12 @@ public class AuctionItemDto implements Serializable {
         this.image5Url = image5Url;
     }
 
+    @Override
+    public String toString() {
+        return "AuctionItemDto{" + "itemId=" + itemId + ", title=" + title 
+                + ", endDate=" + endDate + ", highBid=" + highBid 
+                + ", minBid=" + minBid + ", placedBid=" + placedBid 
+                + ", bidCount=" + bidCount + '}';
+    }
+
 }

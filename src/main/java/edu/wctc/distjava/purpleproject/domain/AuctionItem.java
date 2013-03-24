@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -92,14 +93,14 @@ public class AuctionItem implements Serializable {
     @Size(max = 255)
     @Column(name = "comments")
     private String comments;
-    @Size(max = 50)
-    @Column(name = "seller_id")
-    private String sellerId;
+    @JoinColumn(name = "seller_id", referencedColumnName = "username")
+    @ManyToOne(fetch=FetchType.EAGER)
+    private User sellerId;
     @JoinColumn(name = "cat_id", referencedColumnName = "cat_id")
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     private Category catId;
-    @OneToMany(mappedBy = "itemId")
-    private Collection<Bid> bidCollection;
+//    @OneToMany(mappedBy = "itemId")
+//    private Collection<Bid> bidCollection;
 
     public AuctionItem() {
     }
@@ -220,11 +221,11 @@ public class AuctionItem implements Serializable {
         this.comments = comments;
     }
 
-    public String getSellerId() {
+    public User getSellerId() {
         return sellerId;
     }
 
-    public void setSellerId(String sellerId) {
+    public void setSellerId(User sellerId) {
         this.sellerId = sellerId;
     }
 
@@ -237,14 +238,14 @@ public class AuctionItem implements Serializable {
         this.catId = catId;
     }
 
-    @XmlTransient
-    public Collection<Bid> getBidCollection() {
-        return bidCollection;
-    }
-
-    public void setBidCollection(Collection<Bid> bidCollection) {
-        this.bidCollection = bidCollection;
-    }
+//    @XmlTransient
+//    public Collection<Bid> getBidCollection() {
+//        return bidCollection;
+//    }
+//
+//    public void setBidCollection(Collection<Bid> bidCollection) {
+//        this.bidCollection = bidCollection;
+//    }
 
     @Override
     public int hashCode() {

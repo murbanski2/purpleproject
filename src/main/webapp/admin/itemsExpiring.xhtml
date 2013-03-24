@@ -14,7 +14,7 @@
         <h:outputStylesheet name="cssLayout.css" library="css" />
         <link rel="SHORTCUT ICON" href="/#{msg['server.context.root']}/favicon.ico"/>
 
-        <title>bitBay Administrator :: Member Management</title>
+        <title>bitBay Administrator :: Items Expiring</title>
 
         <style type="text/css">
             .ui-widget {
@@ -61,7 +61,7 @@
                         <p:menuitem value="Categories" url="#" />
                         <p:menuitem value="bitBay Home" url="/faces/index.xhtml" />
                         <p:menuitem value="bitBay Administration" url="/faces/admin/index.xhtml" />
-                        <p:menuitem value="Member Search" url="#" />
+                        <p:menuitem value="Items Expiring" url="#" />
                     </p:breadCrumb>
                 </div>
             </p:layoutUnit>
@@ -76,81 +76,56 @@
                     <p:panelGrid style="width: 100%; margin:4 auto;">
                         <p:row>
                             <p:column>
-                                <h2>Manage Member Information</h2>
-                                <p>Use the search form to select a specific member by user name (email) or 
-                                    leave blank and select a member type from the drop-down menu. Some browsers do not handle the submit button on the 
+                                <h2>Auciton Items Expiring Report</h2>
+                                <p>Use the search form to select a range of auction item expiration options 
+                                   from the drop-down menu. Some browsers do not handle the submit button on the 
                                    first click (Chrome does!, Firefox doesn't!). You may have to click the Go button twice.
                                 </p>
                             </p:column>
                         </p:row>
                         <p:row>
                             <p:column>
-                                <p:outputLabel for="searchTxt" value="Search for" style="font-size: larger;" />
+                                <p:outputLabel for="searchTxt" value="Search for Items Expring" style="font-size: larger;" />
                                 <p:spacer width="10px" />
-                                <p:inputText id="searchTxt" value="#{adminBean.userName}" size="35" style="font-size: larger;"/>
-                                <p:watermark for="searchTxt" value="user name (email)" />
-                                <p:spacer width="8px" />                                
-                                <p:selectOneMenu value="#{adminBean.selectedType}" style="font-size: larger;position: relative;top: 9px;">
-                                    <f:selectItem itemLabel="Select Member Type..." itemValue="" />
-                                    <f:selectItems value="#{adminBean.memberTypes}" />
+                                <p:selectOneMenu id="searchTxt" value="#{adminBean.expireType}" style="font-size: larger;position: relative;top: 9px;">
+                                    <f:selectItem itemLabel="Select Expire Type..." itemValue="" />
+                                    <f:selectItems value="#{adminBean.expireTypes}" />
                                 </p:selectOneMenu>
                                 <p:spacer width="10px" />                                 
-                                <p:commandButton id="searchBtn" value="Go" actionListener="#{adminBean.doMemberSearch}" update="itemsFoundDt" style="postion: relative;top: -2px;" />
+                                <p:commandButton id="searchBtn" value="Go" actionListener="#{adminBean.doItemByExpireTypeSearch}" update="itemsFoundDt" style="postion: relative;top: -2px;" />
                             </p:column>
                         </p:row>
                         <p:row>
                             <p:column>
-                                <p:dataTable id="itemsFoundDt" var="member" value="#{adminBean.membersFound}"
-                                             selectionMode="single" selection="#{adminBean.selectedMember}" 
-                                             editable="true" rowKey="#{member.username}">
-                                    
-                                    <p:ajax event="rowEdit" listener="#{adminBean.handleMemberUpdate}" update=":adminMembers_form:growl" />
+                                <p:dataTable id="itemsFoundDt" var="item" value="#{adminBean.itemsFound}">
 
-                                    <p:column style="width:25%; text-align: left;">
+                                    <p:column style="width:8%; text-align: left;">
                                         <f:facet name="header">
-                                            <h:outputText value="User Name"/>
+                                            <h:outputText value="ID"/>
                                         </f:facet>
-                                        <h:outputText value="#{member.username}"/>
+                                        <h:outputText value="#{item.itemId}"/>
                                     </p:column>
-                                    <p:column style="width:10%; text-align: right;">
+                                    <p:column style="width:52%; text-align: left;">
                                         <f:facet name="header">
-                                            <h:outputText value="Member Since" />
+                                            <h:outputText value="Title" />
                                         </f:facet>
-                                        <h:outputText value="#{member.dateVerified}">
-                                            <f:convertDateTime pattern="M/d/yyyy"/>
-                                        </h:outputText>
+                                        <h:outputText value="#{item.title}"/>
                                     </p:column>
                                     <p:column style="width:20%; text-align: left;">
                                         <f:facet name="header">
-                                            <h:outputText value="City" />
+                                            <h:outputText value="Donar" />
                                         </f:facet>
-                                        <h:outputText value="#{member.city}"/>
+                                        <h:outputText value="#{item.sellerId.username}"/>
                                     </p:column>
-                                    <p:column style="width:10%; text-align: left;">
+                                    <p:column style="width:20%; text-align: right;">
                                         <f:facet name="header">
-                                            <h:outputText value="State" />
+                                            <h:outputText value="Expiring" />
                                         </f:facet>
-                                        <h:outputText value="#{member.state}"/>
+                                        <h:outputText value="#{item.endDate}">
+                                            <f:convertDateTime pattern="M/d/yyyy hh:mm:ss a"/>
+                                        </h:outputText>
                                     </p:column>
-                                    <p:column style="width:15%; text-align: left;">
-                                        <f:facet name="header">
-                                            <h:outputText value="Phone" />
-                                        </f:facet>
-                                        <h:outputText value="#{member.phone}"/>
-                                    </p:column>
-                                    <p:column headerText="Enabled" style="width:10%; text-align: center;">
-                                        <p:cellEditor>
-                                            <f:facet name="output">
-                                                <p:selectBooleanCheckbox value="#{member.enabled}"/>
-                                            </f:facet>
-                                            <f:facet name="input">
-                                                <p:selectBooleanCheckbox value="#{member.enabled}"/>
-                                            </f:facet>
-                                        </p:cellEditor>
-                                    </p:column>
-                                    <p:column style="width:10%; text-align: center;">
-                                        <p:rowEditor />
-                                    </p:column>
+                                    
                                 </p:dataTable>
                             </p:column>
                         </p:row>

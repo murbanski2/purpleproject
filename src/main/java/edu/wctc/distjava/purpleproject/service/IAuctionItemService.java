@@ -3,6 +3,7 @@ package edu.wctc.distjava.purpleproject.service;
 import edu.wctc.distjava.purpleproject.domain.AuctionItem;
 import edu.wctc.distjava.purpleproject.domain.Bid;
 import edu.wctc.distjava.purpleproject.domain.MemberSearch;
+import edu.wctc.distjava.purpleproject.domain.PopularItemDto;
 import edu.wctc.distjava.purpleproject.repository.AuctionItemRepository;
 import java.math.BigDecimal;
 import java.util.List;
@@ -14,10 +15,15 @@ import org.springframework.transaction.annotation.Transactional;
  * @author jlombardo
  */
 public interface IAuctionItemService {
+    List<PopularItemDto> findByMostPopular(boolean isActive);
     
     Bid findHighestBidForItem(Integer itemId);
     
     List<AuctionItem> findByEndDatesToday();
+    
+    List<AuctionItem> findByEndDatesThisWeek();
+    
+    List<AuctionItem> findByEndDatesThisMonth();
     
     void saveBid(Bid bid);
     
