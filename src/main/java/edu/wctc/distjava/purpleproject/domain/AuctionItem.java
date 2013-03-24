@@ -40,7 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AuctionItem.findByImage4", query = "SELECT a FROM AuctionItem a WHERE a.image4 = :image4"),
     @NamedQuery(name = "AuctionItem.findByImage5", query = "SELECT a FROM AuctionItem a WHERE a.image5 = :image5"),
     @NamedQuery(name = "AuctionItem.findByStartDate", query = "SELECT a FROM AuctionItem a WHERE a.startDate = :startDate"),
-    @NamedQuery(name = "AuctionItem.findByEndDate", query = "SELECT a FROM AuctionItem a WHERE a.endDate = :endDate"),
+    @NamedQuery(name = "AuctionItem.findByEndDate", query = "SELECT a FROM AuctionItem a WHERE a.endDate >= ?1 and a.endDate < ?2"),
     @NamedQuery(name = "AuctionItem.findByWinBidderId", query = "SELECT a FROM AuctionItem a WHERE a.winBidderId = :winBidderId"),
     @NamedQuery(name = "AuctionItem.findByPayment", query = "SELECT a FROM AuctionItem a WHERE a.payment = :payment"),
     @NamedQuery(name = "AuctionItem.findByPayDate", query = "SELECT a FROM AuctionItem a WHERE a.payDate = :payDate"),
@@ -92,9 +92,9 @@ public class AuctionItem implements Serializable {
     @Size(max = 255)
     @Column(name = "comments")
     private String comments;
-    @JoinColumn(name = "seller_id", referencedColumnName = "username")
-    @ManyToOne
-    private User sellerId;
+    @Size(max = 50)
+    @Column(name = "seller_id")
+    private String sellerId;
     @JoinColumn(name = "cat_id", referencedColumnName = "cat_id")
     @ManyToOne
     private Category catId;
@@ -220,13 +220,14 @@ public class AuctionItem implements Serializable {
         this.comments = comments;
     }
 
-    public User getSellerId() {
+    public String getSellerId() {
         return sellerId;
     }
 
-    public void setSellerId(User sellerId) {
+    public void setSellerId(String sellerId) {
         this.sellerId = sellerId;
     }
+
 
     public Category getCatId() {
         return catId;

@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -72,7 +73,7 @@
             <p:layoutUnit id="centerPanel" position="center">         
                 <h:form id="donate_form">
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                    <p:panelGrid cellpadding="4" style="width: 100%;">
+                    <p:panelGrid style="width: 100%;">
                         <p:row>
                             <p:column colspan="3">
                                 <h2>Donate Some Stuff</h2>
@@ -129,7 +130,7 @@
                             </p:column>
                             <p:column id="urlCol" colspan="2">
                                 You may upload up to five (5) pictures of type *.jpg, *gif or .png,
-                                where the size of each picture file may not exceed 1 Mb (1,024 Kb).
+                                where the size of each picture file may not exceed 2 Mb (2,048 Kb).
                                 IMPORTANT: Please upload pictures one at a time. The first picture will be used to
                                 create a thumbnail image that will appear on search result pages.
                             </p:column> 
@@ -141,7 +142,9 @@
                             </p:column>
                             <p:column colspan="2">
                                 <p:fileUpload fileUploadListener="#{donateBean.handleFileUpload}" multiple="false"
-                                              allowTypes="/(\.|\/)(gif|jpe?g|png)$/"  sizeLimit="1048576"
+                                              allowTypes="/(\.|\/)(gif|jpe?g|png)$/"  sizeLimit="2097152" 
+                                              invalidFileMessage="Sorry, only files of type .jpg, .png or .gif are allowed" 
+                                              invalidSizeMessage="Sorry, files are limited in size to 2 Mb" 
                                               update="growl" showButtons="false"/>
                             </p:column>
                         </p:row>
@@ -152,7 +155,7 @@
                             </p:column>
                             <p:column>
                                 <p:editor id="desc" value="#{donateBean.description}" 
-                                          width="680" height="400" required="true" label="Description" 
+                                          width="680" height="400" required="true"  
                                           requiredMessage="Description is required"/>
                             </p:column>
                             <p:column><p:message for="desc"/></p:column>  

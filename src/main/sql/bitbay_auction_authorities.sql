@@ -31,7 +31,7 @@ CREATE TABLE `authorities` (
   PRIMARY KEY (`authorities_id`),
   UNIQUE KEY `ix_auth_username` (`username`,`authority`),
   CONSTRAINT `fk_authorities_users` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `authorities` (
 
 LOCK TABLES `authorities` WRITE;
 /*!40000 ALTER TABLE `authorities` DISABLE KEYS */;
-INSERT INTO `authorities` VALUES ('admin@isp.com','ROLE_ADMIN',35),('admin@isp.com','ROLE_MEMBER',34),('jlombardo@wi.rr.com','ROLE_MEMBER',37),('member@isp.com','ROLE_MEMBER',11);
+INSERT INTO `authorities` VALUES ('admin@isp.com','ROLE_ADMIN',35),('admin@isp.com','ROLE_MEMBER',34),('asdf@asdf.asdf','ROLE_MEMBER',38),('jlombardo@wi.rr.com','ROLE_MEMBER',37),('member@isp.com','ROLE_MEMBER',11),('OMagas150@teleworm.us','ROLE_MEMBER',39);
 /*!40000 ALTER TABLE `authorities` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-11-19  4:19:46
+-- Dump completed on 2013-03-05 15:55:03

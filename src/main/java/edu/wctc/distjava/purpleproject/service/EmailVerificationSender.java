@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.MailSender;
@@ -19,7 +20,8 @@ import org.springframework.stereotype.Service;
  * @author  Jim Lombardo
  * @version 1.00
  */
-@Service("emailSender")
+@Service("emailVerificationSender")
+@Qualifier("verification")
 public class EmailVerificationSender implements ISimpleMailSender, Serializable {
     private static final long serialVersionUID = 1L;
     private final Logger LOG = LoggerFactory.getLogger(EmailVerificationSender.class);
@@ -39,26 +41,21 @@ public class EmailVerificationSender implements ISimpleMailSender, Serializable 
      * @param user - the candidate member who is the target of the email
      */
     @Override
-    public void sendUserEmailVerification(User user) throws MailException {
+    public void sendEmail(String userEmail, Object data) throws MailException {
         // Create a Base64 encode of the username
-        byte[] encoded = Base64.encode(user.getUsername().getBytes()); 
+        byte[] encoded = Base64.encode(userEmail.getBytes()); 
         String base64Username = new String(encoded);
         
         // Create a thread safe "copy" of the template message and customize it
+        // See Spring config in applicationContext.xml
         SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
-        msg.setTo(user.getUsername());
-        
-        // Pre-configured in applicationContext.xml
-//        msg.setSubject("Bit Bay Registration - One More Step Required");
-        //@TODO create account
-//        msg.setFrom("bitbay.webmaster@gmail.com"); 
-        
-        //@TODO create servlet and test link
+        msg.setTo(userEmail);
+
         msg.setText("Thank you for registering with bitBay(tm), the unique "
                 + "auction site that benefits WCTC's IT student club. This email is "
                 + "being sent to you to verify your intent to join bitBay. "
                 + "To complete the registration process for user email [" 
-                + user.getUsername() + "], please click on the link below."
+                + userEmail + "], please click on the link below."
                 + "\n\nCAUTION: if you did not register with bitBay, somebody "
                 + "else is trying use your email to scam the system. Please "
                 + "do not click on the link below unless you intend to confirm "
@@ -70,7 +67,7 @@ public class EmailVerificationSender implements ISimpleMailSender, Serializable 
             mailSender.send(msg);
         } catch(NullPointerException npe) {
             throw new MailSendException(
-                    "Email send error because no 'To' address provided");
+                    "Email send error from EmailVerificationSender");
         }
     }
     

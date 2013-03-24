@@ -15,6 +15,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
@@ -55,6 +57,9 @@ public class RegistrationBean implements Serializable {
     private String phone;
     private String firstName;
     private String lastName;
+    @Autowired
+    @Qualifier("verification")
+    private ISimpleMailSender emailService;
 
     public RegistrationBean() {
         // DO NOT initialize ApplicationContext here. Spring creates
@@ -159,11 +164,11 @@ public class RegistrationBean implements Serializable {
 
         // Now send the verification email using Spring's help
         // @see http://static.springsource.org/spring/docs/3.1.x/spring-framework-reference/html/mail.html#mail-introduction
-        ISimpleMailSender emailSender =
-                (ISimpleMailSender) ctx.getBean("emailSender");
+//        ISimpleMailSender emailSender =
+//                (ISimpleMailSender) ctx.getBean("emailSender");
 
         try {
-            emailSender.sendUserEmailVerification(user);
+            getEmailService().sendEmail(user.getUsername(), null);
         } catch (MailException ex) {
             context.addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
@@ -347,6 +352,14 @@ public class RegistrationBean implements Serializable {
         abbrevMap.put("WEST VIRGINIA", "WV");
         abbrevMap.put("WISCONSIN", "WI");
         abbrevMap.put("WYOMING", "WY");
+    }
+
+    public ISimpleMailSender getEmailService() {
+        return emailService;
+    }
+
+    public void setEmailService(ISimpleMailSender emailService) {
+        this.emailService = emailService;
     }
     
     

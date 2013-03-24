@@ -15,13 +15,17 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface IAuctionItemService {
     
+    Bid findHighestBidForItem(Integer itemId);
+    
+    List<AuctionItem> findByEndDatesToday();
+    
     void saveBid(Bid bid);
     
     AuctionItem findById(Integer id);
     
     void updateMembersRecentSearch(String userId, String searchPhrase);
 
-    BigDecimal findHighestBidForItem(Integer itemId);
+    BigDecimal findHighestBidAmtForItem(Integer itemId);
     
     Number findBidCountForItem(Integer itemId);
     

@@ -20,7 +20,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.push.PushContext;
 import org.primefaces.push.PushContextFactory;
@@ -59,7 +58,7 @@ public class HomeNavBean implements Serializable {
     public HomeNavBean() {
     }
     
-    public void placeBid() {
+    public synchronized void placeBid(ActionEvent event) {
         
         ctx = FacesContextUtils.getWebApplicationContext(
                 FacesContext.getCurrentInstance());          
@@ -79,7 +78,7 @@ public class HomeNavBean implements Serializable {
         auctionSrv.saveBid(bid);
         NumberFormat nf = NumberFormat.getCurrencyInstance();
         BigDecimal highestBid = 
-                auctionSrv.findHighestBidForItem(selectedAuctionItemDto.getItemId());
+                auctionSrv.findHighestBidAmtForItem(selectedAuctionItemDto.getItemId());
         double hBid = highestBid == null ? 0 : highestBid.doubleValue();
         selectedAuctionItemDto.setHighBid(nf.format(hBid));
         BigDecimal v1 = new BigDecimal(""+hBid);
@@ -94,9 +93,17 @@ public class HomeNavBean implements Serializable {
         auctionItemsFound.set(index, selectedAuctionItemDto);
        
         // Disabled until Primefaces Push can be fixed to work on Glassfish
-//        PushContext pushContext = 
-//                PushContextFactory.getDefault().getPushContext();
-//        pushContext.push("/newbid", "push message");
+        PushContext pushContext = 
+                PushContextFactory.getDefault().getPushContext();
+        
+        // format data as json
+        StringBuffer sb = new StringBuffer();
+        sb.append(selectedAuctionItemDto.getHighBid()).append(",");
+        sb.append(selectedAuctionItemDto.getBidCount()).append(",");
+        sb.append(selectedAuctionItemDto.getItemId());
+        
+        // now push it to all connected clients
+        pushContext.push("/newbid", sb.toString());
         
 //       return "/faces/member/itemDetails.xhtml?faces-redirect=true";
     }
@@ -129,7 +136,7 @@ public class HomeNavBean implements Serializable {
      */
     public String doItemSearch() {
         
-        // No UserDetails instsance if anonymous
+        // No UserDetails instance if anonymous
         String username = SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal().toString();
 
@@ -158,8 +165,7 @@ public class HomeNavBean implements Serializable {
                     		context.getViewRoot().getLocale());
         String contextRoot = bundle.getString("server.context.root");
         try {
-            extContext.redirect("/" 
-                    + contextRoot + "/j_spring_security_logout");
+            extContext.redirect(contextRoot + "/j_spring_security_logout");
         } catch (IOException ex) {
             LOG.debug(HomeNavBean.class.getName() + ": " + ex.getMessage());
         }
@@ -254,7 +260,7 @@ public class HomeNavBean implements Serializable {
         Integer itemId = selectedAuctionItemDto.getItemId();
         NumberFormat nf = NumberFormat.getCurrencyInstance();
         BigDecimal highestBid = 
-                    auctionSrv.findHighestBidForItem(itemId);
+                    auctionSrv.findHighestBidAmtForItem(itemId);
         double bid = highestBid == null ? 0 : highestBid.doubleValue();
         selectedAuctionItemDto.setHighBid(nf.format(bid));
         BigDecimal v1 = new BigDecimal(""+bid);
@@ -324,7 +330,7 @@ public class HomeNavBean implements Serializable {
             dto.setThumbnail(ai.getImage1().substring(0, ai.getImage1().length()-4) + "-thumb.jpg");
             dto.setEndDate(ai.getEndDate());
             BigDecimal highestBid = 
-                    auctionSrv.findHighestBidForItem(ai.getItemId());
+                    auctionSrv.findHighestBidAmtForItem(ai.getItemId());
             double bid = highestBid == null ? 0 : highestBid.doubleValue();
             BigDecimal v1 = new BigDecimal(""+bid);
             BigDecimal v2 = new BigDecimal(".10");

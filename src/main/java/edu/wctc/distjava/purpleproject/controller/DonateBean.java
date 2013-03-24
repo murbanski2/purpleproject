@@ -17,6 +17,7 @@ import java.security.Principal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -55,6 +56,7 @@ public class DonateBean implements Serializable {
     private String image5Url;
     private String sellerId;
     private String selectedCategory;
+    private int fileCount;
 
     public DonateBean() {
         initDates();
@@ -66,10 +68,11 @@ public class DonateBean implements Serializable {
     }
 
     public String saveItem() {
+        // Spring context
         ctx = FacesContextUtils.getWebApplicationContext(
-                FacesContext.getCurrentInstance());    
-                // Needed for JSF Messages
-        FacesContext context = FacesContext.getCurrentInstance();
+                FacesContext.getCurrentInstance());   
+        
+        // Give JSF access to HttpServletRequest
         ExternalContext extCtx = FacesContext.getCurrentInstance()
                 .getExternalContext();
         
@@ -96,31 +99,52 @@ public class DonateBean implements Serializable {
         
         IUserService userSrv = (IUserService) ctx.getBean("userService");
         User user = userSrv.findByUsername(username);
-        item.setSellerId(user);
+        item.setSellerId(user.getUsername());
         
         IAuctionItemService auctionSrv = (IAuctionItemService) ctx.getBean("auctionItemService");
         try {
             auctionSrv.save(item);
-            context.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Auction Item Donated Successfully", "Auction Item Donated Successfully"));    
+            FacesUtils.addSuccessMessage("Auction Item Donated Successfully. Thank You!");   
             
         } catch(DataAccessException dae) {
             LOG.error("Auction item could not be saved due to: " + dae.getMessage());
-            context.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Data Storage Error", "Sorry, the auction item could not be saved."));
+            FacesUtils.addErrorMessage("Could not save auction item due to: " 
+                    + dae.getMessage());
         }
         
         this.resetProperties();
         return "index";
     }
+    
+    
+    private String renameFile(FileUploadEvent event) {
+        // For security we want to change the file name
+        String fileName = event.getFile().getFileName();
+        String fileExt = fileName.substring(fileName.length()-4);
+        fileName = UUID.randomUUID().toString().replaceAll("-", "");
+        fileName += fileExt;
+        return fileName;
+    }
 
     public void handleFileUpload(FileUploadEvent event) {
-        String filePathInDb = "/imgvault/" + event.getFile().getFileName();
-        String absoluteFilePath = "/auction/imgvault/"
-                + event.getFile().getFileName();
+        final String DB_ROOT = "/imgvault/";
+        final String OS_ROOT ="/auction/imgvault/";
+        
+        String fileName = renameFile(event);
+        
+        String filePathInDb = DB_ROOT + fileName;
+        String absoluteFilePath = OS_ROOT + fileName;
+        
         File outFile = new File(absoluteFilePath);
+        
+        // In the unlike event that the filename already exists, recreate...
+        while(outFile.exists()) {
+            fileName = renameFile(event);
+            filePathInDb = DB_ROOT + fileName;
+            absoluteFilePath = OS_ROOT + fileName;
+            outFile = new File(absoluteFilePath);
+        }
+        
         LOG.debug("*** handling File Upload: " + outFile.getPath());
         
         if(image1Url == null) {
@@ -134,8 +158,14 @@ public class DonateBean implements Serializable {
         } else if(image5Url == null) {
             image5Url = filePathInDb;
         }
+        fileCount++;
 
         try {
+            // In Primefaces 3.5+ this won't be necessary
+            if(fileCount > 5) {
+                FacesUtils.addErrorMessage("You've exceeded the 5 file limit!");
+                return;
+            }
             
             FileOutputStream fileOutputStream = new FileOutputStream(outFile);
 
@@ -155,30 +185,36 @@ public class DonateBean implements Serializable {
             fileOutputStream.close();
             inputStream.close();
             
+            /*
+             * We use the ThumbnailGenerator for two purposes:
+             * (1) It resizes and recompresses the original image, which
+             * saves space on disk but also adds safety because any hackers who
+             * try to imbed non-image stuff into the file will be twarted 
+             * because the resize won't work on a non-image file.
+             * (2) To create an actual thumbnail
+             */
             ThumbnailGenerator th = new ThumbnailGenerator();
             String errMsg = 
                     th.createThumbnail(absoluteFilePath, absoluteFilePath, 640);            
             
-//            String errMsg = "";
+            // Create thumbnail from first image only, on first upload only
             if(image2Url == null && image3Url == null 
                && image4Url == null && image5Url == null) {
                 
-//                ThumbnailGenerator th = new ThumbnailGenerator();
                 errMsg = th.createThumbnail(absoluteFilePath, 
                     absoluteFilePath.substring(0, 
                         absoluteFilePath.length()-4) + "-thumb.jpg", 200);
             }
 
-            FacesMessage msg = new FacesMessage("Upload Success", 
-                    event.getFile().getFileName() + " is uploaded.");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            FacesUtils.addSuccessMessage(event.getFile().getFileName() 
+                    + " was uploaded.");
 
         } catch (IOException e) {
             LOG.error(e.getMessage());
 
-            FacesMessage error = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "The files were not uploaded!", "");
-            FacesContext.getCurrentInstance().addMessage(null, error);
+            FacesUtils.addErrorMessage(
+                    "Your file could not be uploaded because "
+                    + e.getMessage());
         }
     }
 
@@ -287,5 +323,7 @@ public class DonateBean implements Serializable {
         image4Url = null;
         image5Url = null;
         selectedCategory = null;
+        fileCount = 0;
     }
+
 }

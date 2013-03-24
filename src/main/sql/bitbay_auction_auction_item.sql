@@ -46,7 +46,7 @@ CREATE TABLE `auction_item` (
   KEY `fk_seller_id` (`seller_id`),
   CONSTRAINT `fk_cat_id` FOREIGN KEY (`cat_id`) REFERENCES `category` (`cat_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_seller_id` FOREIGN KEY (`seller_id`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -55,7 +55,7 @@ CREATE TABLE `auction_item` (
 
 LOCK TABLES `auction_item` WRITE;
 /*!40000 ALTER TABLE `auction_item` DISABLE KEYS */;
-INSERT INTO `auction_item` VALUES (1,2,'admin@isp.com','My Favorite Logos','Fav logos are cool','http://localhost:8080/bitbay/imgvault/guitar.jpg','','','','','2012-11-15 12:30:30','2012-11-22 18:11:33',NULL,NULL,NULL,NULL),(2,3,'admin@isp.com','Test Title','Test description','http://localhost:8080/bitbay/imgvault/fender_amp.jpg',NULL,NULL,NULL,NULL,'2012-11-15 11:45:12','2012-11-22 13:23:44',NULL,NULL,NULL,NULL),(7,2,'admin@isp.com','Cool photos','now is the time<br/>','http://localhost:8080/bitbay/imgvault/pic13.jpg',NULL,NULL,NULL,NULL,'2012-11-18 13:37:00','2012-11-25 00:00:00',NULL,NULL,NULL,NULL),(8,21,'member@isp.com','Wisconsin Golf Course on Beautiful Wooded Land','<img src=\"http://localhost:8080/bitbay/imgvault/IMG_0631.jpg\" height=\"425\" width=\"573\"/><br/><br/>Enjoy this beautiful golf course on a wooded lot overlooking Lake Michigan in Wisconsin\'s upper peninsula. You love the views.<br/><br/><img src=\"http://localhost:8080/bitbay/imgvault/IMG_0631.jpg\" height=\"399\" width=\"537\"/><br/>','http://localhost:8080/bitbay/imgvault/IMG_0631.jpg','http://localhost:8080/bitbay/imgvault/IMG_0626.jpg','http://localhost:8080/bitbay/imgvault/IMG_0629.jpg','http://localhost:8080/bitbay/imgvault/IMG_0633.jpg',NULL,'2012-11-18 21:15:00','2012-11-25 21:15:00',NULL,NULL,NULL,NULL);
+INSERT INTO `auction_item` VALUES (1,2,'admin@isp.com','My Favorite Logos','Fav logos are cool','/imgvault/guitar.jpg','','','','','2013-03-01 12:30:30','2013-03-15 10:35:33',NULL,NULL,NULL,NULL),(2,3,'admin@isp.com','Test Title','Test description','/imgvault/fender_amp.jpg',NULL,NULL,NULL,NULL,'2013-03-02 11:45:12','2013-03-16 13:23:44',NULL,NULL,NULL,NULL),(7,2,'admin@isp.com','Cool photos','now is the time<br/>','/imgvault/pic13.jpg',NULL,NULL,NULL,NULL,'2013-03-02 13:37:00','2013-03-16 00:00:00',NULL,NULL,NULL,NULL),(8,21,'member@isp.com','Wisconsin Golf Course on Beautiful Wooded Land','Enjoy this beautiful golf course on a wooded lot overlooking Lake Michigan in Wisconsin\'s upper peninsula. You love the views.','/imgvault/IMG_0631.jpg','/imgvault/IMG_0626.jpg','/imgvault/IMG_0629.jpg','http://localhost:8080/bitbay/imgvault/IMG_0633.jpg',NULL,'2013-03-03 21:15:00','2013-03-17 14:30:00',NULL,NULL,NULL,NULL),(9,29,'admin@isp.com','xxxxxxx','zxcxzczxcxc','/imgvault/pic6.jpg',NULL,NULL,NULL,NULL,'2013-03-04 11:18:00','2013-03-18 18:18:00',NULL,NULL,NULL,NULL),(10,24,'jlombardo@wi.rr.com','Blade 400 3D Helicopter','Used Blade 400 is in great condition except for a bend main shaft which is easy to replace. Comes with 3 extra batteries.<br/>','/imgvault/Blade_400_action1.jpg','/imgvault/Blade_400_components_500pics.jpg',NULL,NULL,NULL,'2013-02-08 09:32:00','2013-03-05 07:32:00','jlombardo@wi.rr.com',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `auction_item` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -68,4 +68,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-11-19  4:19:46
+-- Dump completed on 2013-03-05 15:55:03

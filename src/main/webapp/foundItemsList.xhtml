@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -52,6 +53,27 @@
             }
         </style>
 
+        <script type="text/javascript">
+            function handleMessage(data) {
+                var dataChunks = data.split(",");
+                var highBid = dataChunks[0];
+                var bidCount = dataChunks[1];
+                var sBidCount = bidCount + " bids)";
+                var itemId = dataChunks[2];
+                
+                $('.ui-datatable-data').children().each(function(index, element) {
+                    var row = element.getAttribute('data-rk');
+                    if(row == itemId) {
+                        var e1 = document.getElementById('search_form\:itemsFoundDt\:' + index + '\:highBid');
+                        e1.innerHTML = highBid;
+                        var e2 = document.getElementById('search_form\:itemsFoundDt\:' + index + '\:bidCount');
+                        e2.innerHTML = sBidCount;
+                    }
+                 });
+                
+            }
+        </script>
+
     </h:head>
 
     <h:body>  
@@ -82,11 +104,10 @@
             </p:layoutUnit>
 
             <p:layoutUnit id="centerPanel" position="center">         
+                <p:socket onMessage="handleMessage" channel="/newbid" />
                 <h:form id="search_form">
-                    <p:poll listener="#{homeNavBean.findItems(request.userPrincipal.name)}" 
-                            update="itemsFoundDt" interval="2" />
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                    <p:panelGrid cellpadding="4" style="width:100%; margin:4 auto;">
+                    <p:panelGrid style="width:100%; margin:4 auto;">
                        <sec:isAnonymous>
                             <p:row>
                                 <p:column colspan="2" style="text-align: center;">
@@ -150,8 +171,8 @@
                                         <f:facet name="header">
                                             <h:outputText value="High Bid" />
                                         </f:facet>
-                                        <h:outputText value="#{item.highBid}" style="font-size: 1.25em; font-weight: bold;"/><br/>
-                                        <h:outputText value="#{item.bidCount} bids" />
+                                        <h:outputText id="highBid" value="#{item.highBid}" style="font-size: 1.25em; font-weight: bold;"/><br/>
+                                        <h:outputText id="bidCount" value="#{item.bidCount} bids" />
                                     </p:column>
 
                                 </p:dataTable>

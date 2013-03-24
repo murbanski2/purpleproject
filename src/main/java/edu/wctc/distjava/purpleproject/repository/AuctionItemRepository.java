@@ -2,6 +2,7 @@ package edu.wctc.distjava.purpleproject.repository;
 
 import edu.wctc.distjava.purpleproject.domain.AuctionItem;
 import edu.wctc.distjava.purpleproject.domain.Category;
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +20,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface AuctionItemRepository extends JpaRepository<AuctionItem, Integer> {
     
     List<AuctionItem> findByCatId(Category catId);
+    
+    @Query("select i from AuctionItem i where i.endDate >= ?1 and i.endDate < ?2 order by i.endDate")
+    List<AuctionItem> findByEndDatesToday(Date today, Date tomorrow);
 }

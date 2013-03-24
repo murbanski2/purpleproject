@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -13,7 +14,7 @@
         <h:outputStylesheet name="cssLayout.css" library="css" />
         <link rel="SHORTCUT ICON" href="/#{msg['server.context.root']}/favicon.ico"/>
 
-        <title>BIT Bay Administrator</title>
+        <title>bitBay Administrator Home</title>
 
         <style type="text/css">
             .ui-widget {
@@ -69,14 +70,51 @@
             </p:layoutUnit>
 
             <p:layoutUnit id="centerPanel" position="center">         
-                <h:form id="home_form">
+                <h:form id="admin_form">
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                    <p:panelGrid cellpadding="4" style="width: 100%; margin:4 auto;">
-                        
+                    <p:panelGrid style="width: 100%; margin:4 auto;">
                         <p:row>
-                            <p:column>
-                                <h2>Welcome back administrator!</h2>
-                                
+                            <p:column colspan="2">
+                                <h2>Welcome Back Administrator</h2>
+                                <p>From this page you can perform numerous administrative tasks and run reports. 
+                                    It's important to setup and stick to a regular set of tasks to be performed 
+                                    daily, weekly or monthly as needed.
+                                </p>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:outputLabel for="searchTxt" value="Search for" style="font-size: larger;" />
+                                <p:spacer width="10px" />
+                                <p:inputText id="searchTxt" value="#{homeNavBean.searchPhrase}" size="35" style="font-size: larger;"/>
+                                <p:watermark for="searchTxt" value="my search terms" />
+                                <p:spacer width="8px" />                                
+                                <p:selectOneMenu value="#{homeNavBean.selectedCategory}" style="font-size: larger;position: relative;top: 9px;">
+                                    <f:selectItem itemLabel="Select Category..." itemValue="" />
+                                    <f:selectItems value="#{appBean.categories}" />
+                                </p:selectOneMenu>
+                                <p:spacer width="10px" />                                 
+                                <p:commandButton id="searchBtn" value="Go" action="#{homeNavBean.doItemSearch}" ajax="false" style="postion: relative;top: -2px;" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="vertical-align: top;">
+                                <div id="searchDiv">
+                                    <h3>Maintenance Activities</h3>
+                                    <p><p:commandLink value="Manage Member Accounts" action="manageMembers"/></p>
+                                    <p>Manage Auction Items</p>
+                                    <p>Send Maintenance Notice</p>
+                                    <p>Purge Images (Inactive)</p>
+                                </div>
+                            </p:column>
+                            <p:column style="vertical-align: top;">
+                                <div id="infoDiv">
+                                    <h3>Reports</h3>
+                                    <p>Auction Items Expiring</p>
+                                    <p>Revenue By Period</p>
+                                    <p>Most Popular Items (Active)</p>
+                                    <p>Most Popular Items (All Time)</p>
+                                </div>
                             </p:column>
                         </p:row>
                     </p:panelGrid>

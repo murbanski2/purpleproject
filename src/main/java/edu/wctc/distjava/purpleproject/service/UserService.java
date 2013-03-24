@@ -1,8 +1,12 @@
 package edu.wctc.distjava.purpleproject.service;
 
+import edu.wctc.distjava.purpleproject.domain.Authority;
 import edu.wctc.distjava.purpleproject.domain.User;
+import edu.wctc.distjava.purpleproject.repository.AuthorityRepository;
 import edu.wctc.distjava.purpleproject.repository.UserRepository;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.slf4j.Logger;
@@ -36,6 +40,9 @@ public class UserService implements IUserService, Serializable {
     @Autowired
     private UserRepository userRepo;
     
+    @Autowired
+    private AuthorityRepository authRepo;
+    
     public UserService() {
     }
     
@@ -55,6 +62,21 @@ public class UserService implements IUserService, Serializable {
     @Override
     public User findByUsername(String username) {
         return userRepo.findOne(username);
+    }
+    
+    @Override
+    public List<User> findByEnabled(boolean enabled) {
+        return userRepo.findByEnabled(enabled);
+    }
+    
+    @Override
+    public List<User> findUsersByAuthority(String authority) {
+        List<Authority> authorities = authRepo.findByAuthority(authority);
+        List<User> users = new ArrayList<User>();
+        for(Authority a : authorities) {
+            users.add(a.getUsername());
+        }
+        return users;
     }
 
     @Override
