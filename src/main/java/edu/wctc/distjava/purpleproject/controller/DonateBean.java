@@ -18,7 +18,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -41,7 +40,6 @@ public class DonateBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private final Logger LOG = LoggerFactory.getLogger(DonateBean.class);
-    private static final int BUFFER_SIZE = 6124; // bytes
     private static final int ONE_WEEK = 7; // days
     private transient ApplicationContext ctx; // used to get Spring beans    
     
@@ -127,6 +125,7 @@ public class DonateBean implements Serializable {
     }
 
     public void handleFileUpload(FileUploadEvent event) {
+        final int BUFFER_SIZE = 6124; // bytes
         final String DB_ROOT = "/imgvault/";
         final String OS_ROOT ="/auction/imgvault/";
         
@@ -161,24 +160,25 @@ public class DonateBean implements Serializable {
         fileCount++;
 
         try {
+            // Limit the count of files uploaded.
             // In Primefaces 3.5+ this won't be necessary
             if(fileCount > 5) {
                 FacesUtils.addErrorMessage("You've exceeded the 5 file limit!");
                 return;
-            }
+            }          
             
+            // Now write the file using the new file name
             FileOutputStream fileOutputStream = new FileOutputStream(outFile);
-
             byte[] buffer = new byte[BUFFER_SIZE];
 
-            int bulk;
+            int bytesRead;
             InputStream inputStream = event.getFile().getInputstream();
             while (true) {
-                bulk = inputStream.read(buffer);
-                if (bulk < 0) {
+                bytesRead = inputStream.read(buffer);
+                if (bytesRead < 0) {
                     break;
                 }
-                fileOutputStream.write(buffer, 0, bulk);
+                fileOutputStream.write(buffer, 0, bytesRead);
                 fileOutputStream.flush();
             }
 
@@ -187,10 +187,9 @@ public class DonateBean implements Serializable {
             
             /*
              * We use the ThumbnailGenerator for two purposes:
-             * (1) It resizes and recompresses the original image, which
+             * (1) It recreates and resizes the original image, which
              * saves space on disk but also adds safety because any hackers who
-             * try to imbed non-image stuff into the file will be twarted 
-             * because the resize won't work on a non-image file.
+             * try to imbed non-image stuff into the file will be twarted.
              * (2) To create an actual thumbnail
              */
             ThumbnailGenerator th = new ThumbnailGenerator();

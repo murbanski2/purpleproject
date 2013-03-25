@@ -152,10 +152,6 @@ public class HomeNavBean implements Serializable {
         
         return "/foundItemsList";
     }
-    
-    public String showPopularByType(String key) {
-        return null;
-    }
 
     public void logout(ActionEvent e) {
         FacesContext context = FacesContext.getCurrentInstance();
