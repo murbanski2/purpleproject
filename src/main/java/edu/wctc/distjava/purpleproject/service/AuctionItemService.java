@@ -294,6 +294,7 @@ public class AuctionItemService implements IAuctionItemService {
         return query.getResultList();
     }
 
+    @Override
     public List<AuctionItem> findAll() {
         return itemRepo.findAll();
     }
