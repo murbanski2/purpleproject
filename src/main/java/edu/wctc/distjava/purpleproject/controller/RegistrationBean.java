@@ -23,6 +23,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.mail.MailException;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.web.jsf.FacesContextUtils;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 /**
  * This Spring-managed JSF/CDI bean handles the member registration process from
@@ -43,7 +44,9 @@ import org.springframework.web.jsf.FacesContextUtils;
 public class RegistrationBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private final Logger LOG = LoggerFactory.getLogger(RegistrationBean.class);
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
+    private transient final Logger LOG = LoggerFactory.getLogger(RegistrationBean.class);
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
     private transient ApplicationContext ctx; // used to get Spring beans
     private String userName;
     private String password;

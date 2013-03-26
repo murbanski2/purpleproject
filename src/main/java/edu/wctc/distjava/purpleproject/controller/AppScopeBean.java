@@ -54,11 +54,7 @@ public class AppScopeBean implements Serializable {
             initCategories();
         }
         
-        // Don't return mutable object, clone it instead!
-        String[] catClone = new String[categories.length];
-        System.arraycopy(categories, 0, catClone, 0, categories.length);
-        
-        return catClone;
+        return categories;
     }
 
     public void initCategories() throws BeansException {
@@ -136,10 +132,7 @@ public class AppScopeBean implements Serializable {
      * @return current data/time
      */
     public Date getStartupDate() {
-        // Don't return mutable object, clone it instead!
-        Calendar c = Calendar.getInstance();
-        c.setTime(startupDate);
-        return c.getTime();
+        return startupDate;
     }    
     
     

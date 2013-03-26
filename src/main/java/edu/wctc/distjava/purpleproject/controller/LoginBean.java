@@ -12,6 +12,7 @@ import javax.servlet.ServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 /**
  *
@@ -21,7 +22,8 @@ import org.springframework.context.annotation.Scope;
 @Scope("request")
 public class LoginBean implements Serializable {
     private static final long serialVersionUID = 1L;
-    private final Logger LOG = LoggerFactory.getLogger(LoginBean.class);
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
+    private transient final Logger LOG = LoggerFactory.getLogger(LoginBean.class);
 
     private String userName = "";
     private String password = "";
