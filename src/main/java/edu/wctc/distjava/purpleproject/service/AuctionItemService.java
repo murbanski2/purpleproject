@@ -73,7 +73,7 @@ public class AuctionItemService implements IAuctionItemService {
             PopularItemDto dto = new PopularItemDto(
                         itemId, (Long)aItem[1],
                         item.getTitle(), item.getStartDate(), 
-                        item.getEndDate(), item.getSellerId().getUsername()
+                        item.getEndDate(), item.getSellerId().getUserName()
                     );
             if(!forAllTime && now.before(item.getEndDate())) {
                 items.add(dto);

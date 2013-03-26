@@ -46,7 +46,7 @@ public class EmailAuctionWinner implements ISimpleMailSender, Serializable {
         // Override applicationContext.xml
         msg.setSubject("bitBay Auction Winning Bid Notice");
         // Also let the donator know
-        msg.setCc(item.getSellerId().getUsername());
+        msg.setCc(item.getSellerId().getUserName());
         
         // set the messsage
         msg.setText("Congratulations, you had the winning bid for bitBay "

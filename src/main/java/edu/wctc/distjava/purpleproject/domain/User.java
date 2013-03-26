@@ -48,7 +48,7 @@ public class User implements Serializable {
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "username")
-    private String username;
+    private String userName;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 150)
@@ -93,21 +93,21 @@ public class User implements Serializable {
     }
 
     public User(String username) {
-        this.username = username;
+        this.userName = username;
     }
 
     public User(String username, String password, boolean enabled) {
-        this.username = username;
+        this.userName = username;
         this.password = password;
         this.enabled = enabled;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -202,7 +202,7 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (username != null ? username.hashCode() : 0);
+        hash += (userName != null ? userName.hashCode() : 0);
         return hash;
     }
 
@@ -213,7 +213,7 @@ public class User implements Serializable {
             return false;
         }
         User other = (User) object;
-        if ((this.username == null && other.username != null) || (this.username != null && !this.username.equals(other.username))) {
+        if ((this.userName == null && other.userName != null) || (this.userName != null && !this.userName.equals(other.userName))) {
             return false;
         }
         return true;
@@ -230,7 +230,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "model.exceptions.User[ username=" + username + " ]";
+        return "model.exceptions.User[ username=" + userName + " ]";
     }
 
 }

@@ -45,7 +45,7 @@ public class RegistrationBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private final Logger LOG = LoggerFactory.getLogger(RegistrationBean.class);
     private transient ApplicationContext ctx; // used to get Spring beans
-    private String username;
+    private String userName;
     private String password;
     private String hash;
     private String address1;
@@ -82,7 +82,7 @@ public class RegistrationBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
 
         // Determine if user already exists
-        User curUser = userSrv.findByUsername(username);
+        User curUser = userSrv.findByUsername(userName);
         if (curUser != null) {
             context.addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
@@ -93,7 +93,7 @@ public class RegistrationBean implements Serializable {
 
         // Prepare salted hash for password here, so as not to
         // overtax the doRegistration method below
-        hash = encodeSha512(password, username);
+        hash = encodeSha512(password, userName);
         return "registrationAgreement";
     }
 
@@ -128,7 +128,7 @@ public class RegistrationBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
 
         User user = new User();
-        user.setUsername(username);
+        user.setUserName(userName);
         user.setPassword(hash);
         user.setEnabled(false); // don't want enabled until email verified!
         user.setAddress1(address1);
@@ -168,7 +168,7 @@ public class RegistrationBean implements Serializable {
 //                (ISimpleMailSender) ctx.getBean("emailSender");
 
         try {
-            getEmailService().sendEmail(user.getUsername(), null);
+            getEmailService().sendEmail(user.getUserName(), null);
         } catch (MailException ex) {
             context.addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
@@ -198,15 +198,15 @@ public class RegistrationBean implements Serializable {
     /**
      * @return username (email address)
      */
-    public String getUsername() {
-        return this.username;
+    public String getUserName() {
+        return this.userName;
     }
 
     /**
      * @param username (email address)
      */
-    public void setUsername(final String username) {
-        this.username = username;
+    public void setUserName(final String userName) {
+        this.userName = userName;
     }
 
     /**

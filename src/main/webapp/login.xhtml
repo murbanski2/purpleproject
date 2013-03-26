@@ -83,7 +83,7 @@
                             <p:watermark for="j_username" value="username@isp.com"/>                            
                             <p:panelGrid columns="3">
                                 <h:outputLabel value="Email" for="j_username" />
-                                <p:inputText id="j_username" value="#{loginBean.username}" 
+                                <p:inputText id="j_username" value="#{loginBean.userName}" 
                                              required="true" label="Email" requiredMessage="Email is required"
                                              validatorMessage="Please use a valid email address">
                                     <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />

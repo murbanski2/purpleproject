@@ -19,6 +19,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.jsf.FacesContextUtils;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 /**
  *
@@ -28,7 +29,9 @@ import org.springframework.web.jsf.FacesContextUtils;
 @Scope("session")
 public class AdminBean implements Serializable {
     private static final long serialVersionUID = 1L;
-    private final Logger LOG = LoggerFactory.getLogger(AdminBean.class);
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
+    private transient final Logger LOG = LoggerFactory.getLogger(AdminBean.class);
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
     private transient ApplicationContext ctx; // used to get Spring beans 
     private String userName;
     private String selectedType;

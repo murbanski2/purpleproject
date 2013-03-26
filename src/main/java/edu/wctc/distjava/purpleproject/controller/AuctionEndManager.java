@@ -89,8 +89,7 @@ public class AuctionEndManager {
 
         // Now create a programmable countdown timer for each item
         for (AuctionItem item : expiringItems) {
-            Timer timer = timerService
-                    .createSingleActionTimer(item.getEndDate(),
+            timerService.createSingleActionTimer(item.getEndDate(),
                     new TimerConfig(item, false));
         }
     }

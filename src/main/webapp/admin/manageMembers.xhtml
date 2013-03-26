@@ -99,7 +99,7 @@
                             <p:column>
                                 <p:dataTable id="itemsFoundDt" var="member" value="#{adminBean.membersFound}"
                                              selectionMode="single" selection="#{adminBean.selectedMember}" 
-                                             editable="true" rowKey="#{member.username}">
+                                             editable="true" rowKey="#{member.userName}">
                                     
                                     <p:ajax event="rowEdit" listener="#{adminBean.handleMemberUpdate}" update=":adminMembers_form:growl" />
 
@@ -107,7 +107,7 @@
                                         <f:facet name="header">
                                             <h:outputText value="User Name"/>
                                         </f:facet>
-                                        <h:outputText value="#{member.username}"/>
+                                        <h:outputText value="#{member.userName}"/>
                                     </p:column>
                                     <p:column style="width:10%; text-align: right;">
                                         <f:facet name="header">
