@@ -1,6 +1,5 @@
 package edu.wctc.distjava.purpleproject.service;
 
-import edu.wctc.distjava.purpleproject.domain.User;
 import java.io.Serializable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +11,7 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 /**
  * This Spring-managed bean is configured in applicationContext.xml and does
@@ -24,7 +24,8 @@ import org.springframework.stereotype.Service;
 @Qualifier("verification")
 public class EmailVerificationSender implements ISimpleMailSender, Serializable {
     private static final long serialVersionUID = 1L;
-    private final Logger LOG = LoggerFactory.getLogger(EmailVerificationSender.class);
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
+    private transient final Logger LOG = LoggerFactory.getLogger(EmailVerificationSender.class);
     
     @Autowired
     private MailSender mailSender;

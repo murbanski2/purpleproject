@@ -12,6 +12,7 @@ import org.springframework.mail.MailSendException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 /**
  * This Spring-managed bean is configured in applicationContext.xml and does
@@ -24,7 +25,8 @@ import org.springframework.stereotype.Service;
 @Qualifier("winner")
 public class EmailAuctionWinner implements ISimpleMailSender, Serializable {
     private static final long serialVersionUID = 1L;
-    private final Logger LOG = LoggerFactory.getLogger(EmailAuctionWinner.class);
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
+    private transient final Logger LOG = LoggerFactory.getLogger(EmailAuctionWinner.class);
     
     @Autowired
     private MailSender mailSender;

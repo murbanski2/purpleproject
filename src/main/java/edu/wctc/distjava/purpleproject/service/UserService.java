@@ -12,11 +12,10 @@ import javax.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 /**
  * This class is a Spring-managed, transactional service class that 
@@ -32,7 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly=true)
 public class UserService implements IUserService, Serializable {
     private static final long serialVersionUID = 1L;
-    private final Logger LOG = LoggerFactory.getLogger(UserService.class);
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
+    private transient final Logger LOG = LoggerFactory.getLogger(UserService.class);
     
     @PersistenceContext
     private EntityManager em;

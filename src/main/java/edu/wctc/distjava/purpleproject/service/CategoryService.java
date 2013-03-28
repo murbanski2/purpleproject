@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 /**
  * This class is a Spring-managed, transactional service class that 
@@ -24,7 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly=true)
 public class CategoryService implements ICategoryService {
     private static final long serialVersionUID = 1L;
-    private final Logger LOG = LoggerFactory.getLogger(CategoryService.class);
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
+    private transient final Logger LOG = LoggerFactory.getLogger(CategoryService.class);
     
     @Autowired
     private CategoryRepository catRepo;
