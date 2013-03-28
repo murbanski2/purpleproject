@@ -24,6 +24,7 @@ import org.springframework.mail.MailException;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.web.jsf.FacesContextUtils;
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+import edu.wctc.distjava.purpleproject.util.FacesUtils;
 
 /**
  * This Spring-managed JSF/CDI bean handles the member registration process from
@@ -81,15 +82,11 @@ public class RegistrationBean implements Serializable {
 
         // Retrieve Spring bean
         IUserService userSrv = (IUserService) ctx.getBean("userService");
-        // Needed for JSF Messages
-        FacesContext context = FacesContext.getCurrentInstance();
 
         // Determine if user already exists
         User curUser = userSrv.findByUsername(userName);
         if (curUser != null) {
-            context.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "User Already Exists", "Sorry, that user email is already in use."));
+            FacesUtils.addErrorMessage("Sorry, that user email is already in use.");
 
             return "registrationForm"; // go back to form to try again
         }
