@@ -12,6 +12,7 @@ import javax.servlet.ServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 /**
  *
@@ -21,9 +22,10 @@ import org.springframework.context.annotation.Scope;
 @Scope("request")
 public class LoginBean implements Serializable {
     private static final long serialVersionUID = 1L;
-    private final Logger LOG = LoggerFactory.getLogger(LoginBean.class);
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
+    private transient final Logger LOG = LoggerFactory.getLogger(LoginBean.class);
 
-    private String username = "";
+    private String userName = "";
     private String password = "";
     
     public LoginBean() {
@@ -38,7 +40,7 @@ public class LoginBean implements Serializable {
         ExternalContext context = FacesContext.getCurrentInstance()
                 .getExternalContext();
         RequestDispatcher dispatcher = ((ServletRequest) context.getRequest())
-                .getRequestDispatcher("/j_spring_security_check?j_username=" + username
+                .getRequestDispatcher("/j_spring_security_check?j_username=" + userName
                                 + "&j_password=" + password);
         dispatcher.forward((ServletRequest) context.getRequest(),
                 (ServletResponse) context.getResponse());
@@ -51,15 +53,15 @@ public class LoginBean implements Serializable {
     /**
      * @return
      */
-    public String getUsername() {
-        return this.username;
+    public String getUserName() {
+        return this.userName;
     }
 
     /**
      * @param username
      */
-    public void setUsername(final String username) {
-        this.username = username;
+    public void setUserName(final String userName) {
+        this.userName = userName;
     }
 
     /**

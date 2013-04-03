@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-    @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
+    @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.userName = :username"),
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByEnabled", query = "SELECT u FROM User u WHERE u.enabled = :enabled"),
     @NamedQuery(name = "User.findByAddress1", query = "SELECT u FROM User u WHERE u.address1 = :address1"),
@@ -48,7 +48,7 @@ public class User implements Serializable {
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "username")
-    private String username;
+    private String userName;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 150)
@@ -83,7 +83,7 @@ public class User implements Serializable {
     @Size(max = 45)
     @Column(name = "last_name")
     private String lastName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "username", fetch=FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "username", fetch=FetchType.EAGER, orphanRemoval=true)
     private Collection<Authority> authoritiesCollection;
     @Column(name = "date_verified")
     @Temporal(TemporalType.TIMESTAMP)
@@ -93,21 +93,21 @@ public class User implements Serializable {
     }
 
     public User(String username) {
-        this.username = username;
+        this.userName = username;
     }
 
     public User(String username, String password, boolean enabled) {
-        this.username = username;
+        this.userName = username;
         this.password = password;
         this.enabled = enabled;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -202,18 +202,18 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (username != null ? username.hashCode() : 0);
+        hash += (userName != null ? userName.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        // Caution - this method won't work in the case the id fields are not set
         if (!(object instanceof User)) {
             return false;
         }
         User other = (User) object;
-        if ((this.username == null && other.username != null) || (this.username != null && !this.username.equals(other.username))) {
+        if ((this.userName == null && other.userName != null) || (this.userName != null && !this.userName.equals(other.userName))) {
             return false;
         }
         return true;
@@ -230,7 +230,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "model.exceptions.User[ username=" + username + " ]";
+        return "model.exceptions.User[ username=" + userName + " ]";
     }
 
 }

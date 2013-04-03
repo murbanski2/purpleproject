@@ -4,9 +4,6 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-      xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:cc="http://java.sun.com/jsf/composite"
       xmlns:p="http://primefaces.org/ui"
       xmlns:sec="http://www.springframework.org/security/facelets/tags">
 
@@ -31,12 +28,12 @@
             }
 
             .ui-panel {
-                border:0px;
+                border: 0px;
             }
 
             .ui-layout-north {
-                z-index:20 !important;
-                overflow:visible;
+                z-index: 20 !important;
+                overflow: visible;
             }
 
             .ui-layout-north .ui-layout-unit-content {
@@ -44,12 +41,12 @@
             }
 
             .ui-layout-west {
-                z-index:20 !important;
-                overflow:visible;
+                z-index: 20 !important;
+                overflow: visible;
             }
 
             .ui-layout-west .ui-layout-unit-content {
-                overflow:visible;
+                overflow: visible;
             }
         </style>
 
@@ -63,7 +60,7 @@
                 
                 $('.ui-datatable-data').children().each(function(index, element) {
                     var row = element.getAttribute('data-rk');
-                    if(row == itemId) {
+                    if(row === itemId) {
                         var e1 = document.getElementById('search_form\:itemsFoundDt\:' + index + '\:highBid');
                         e1.innerHTML = highBid;
                         var e2 = document.getElementById('search_form\:itemsFoundDt\:' + index + '\:bidCount');
@@ -107,7 +104,7 @@
                 <p:socket onMessage="handleMessage" channel="/newbid" />
                 <h:form id="search_form">
                     <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
-                    <p:panelGrid style="width:100%; margin:4 auto;">
+                    <p:panelGrid style="width:100%; margin: 4px auto;">
                        <sec:isAnonymous>
                             <p:row>
                                 <p:column colspan="2" style="text-align: center;">
@@ -137,7 +134,7 @@
                                     <f:selectItems value="#{appBean.categories}" />
                                 </p:selectOneMenu>
                                 <p:spacer width="10px" />                                 
-                                <p:commandButton id="searchBtn" value="Go" action="#{homeNavBean.doItemSearch}" style="postion: relative;top: -2px;" ajax="false" />
+                                <p:commandButton id="searchBtn" value="Go" action="#{homeNavBean.doItemSearch}" style="position: relative;top: -2px;" ajax="false" />
                             </p:column>
                         </p:row>
                         <p:row>

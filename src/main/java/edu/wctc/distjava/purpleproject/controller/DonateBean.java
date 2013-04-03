@@ -29,6 +29,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.jsf.FacesContextUtils;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+import java.util.logging.Level;
 
 /**
  *
@@ -39,8 +41,10 @@ import org.springframework.web.jsf.FacesContextUtils;
 public class DonateBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private final Logger LOG = LoggerFactory.getLogger(DonateBean.class);
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
+    private transient final Logger LOG = LoggerFactory.getLogger(DonateBean.class);
     private static final int ONE_WEEK = 7; // days
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
     private transient ApplicationContext ctx; // used to get Spring beans    
     
     private String title = "";
@@ -159,6 +163,8 @@ public class DonateBean implements Serializable {
         }
         fileCount++;
 
+        FileOutputStream fileOutputStream = null;
+        InputStream inputStream = null;
         try {
             // Limit the count of files uploaded.
             // In Primefaces 3.5+ this won't be necessary
@@ -168,11 +174,11 @@ public class DonateBean implements Serializable {
             }          
             
             // Now write the file using the new file name
-            FileOutputStream fileOutputStream = new FileOutputStream(outFile);
+            fileOutputStream = new FileOutputStream(outFile);
             byte[] buffer = new byte[BUFFER_SIZE];
 
             int bytesRead;
-            InputStream inputStream = event.getFile().getInputstream();
+            inputStream = event.getFile().getInputstream();
             while (true) {
                 bytesRead = inputStream.read(buffer);
                 if (bytesRead < 0) {
@@ -205,10 +211,30 @@ public class DonateBean implements Serializable {
                         absoluteFilePath.length()-4) + "-thumb.jpg", 200);
             }
 
+            if(errMsg.length() == 0) {
             FacesUtils.addSuccessMessage(event.getFile().getFileName() 
                     + " was uploaded.");
+            } else {
+                FacesUtils.addErrorMessage("Sorry, the file "
+                        + event.getFile().getFileName() 
+                        + " could not be uploaded because "
+                        + errMsg);
+            }
 
         } catch (IOException e) {
+            try {
+                if(fileOutputStream != null) {
+                    fileOutputStream.close();
+                }
+                if(inputStream != null) {
+                    inputStream.close();
+                }
+            } catch (IOException ex) {
+                FacesUtils.addErrorMessage(
+                    "Your file could not be uploaded because "
+                    + e.getMessage());
+            }
+
             LOG.error(e.getMessage());
 
             FacesUtils.addErrorMessage(

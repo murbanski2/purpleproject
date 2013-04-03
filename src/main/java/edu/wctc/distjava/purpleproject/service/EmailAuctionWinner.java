@@ -12,6 +12,7 @@ import org.springframework.mail.MailSendException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 /**
  * This Spring-managed bean is configured in applicationContext.xml and does
@@ -24,7 +25,8 @@ import org.springframework.stereotype.Service;
 @Qualifier("winner")
 public class EmailAuctionWinner implements ISimpleMailSender, Serializable {
     private static final long serialVersionUID = 1L;
-    private final Logger LOG = LoggerFactory.getLogger(EmailAuctionWinner.class);
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
+    private transient final Logger LOG = LoggerFactory.getLogger(EmailAuctionWinner.class);
     
     @Autowired
     private MailSender mailSender;
@@ -46,7 +48,7 @@ public class EmailAuctionWinner implements ISimpleMailSender, Serializable {
         // Override applicationContext.xml
         msg.setSubject("bitBay Auction Winning Bid Notice");
         // Also let the donator know
-        msg.setCc(item.getSellerId().getUsername());
+        msg.setCc(item.getSellerId().getUserName());
         
         // set the messsage
         msg.setText("Congratulations, you had the winning bid for bitBay "

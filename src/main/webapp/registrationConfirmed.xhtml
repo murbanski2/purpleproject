@@ -4,9 +4,6 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-      xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:cc="http://java.sun.com/jsf/composite"
       xmlns:p="http://primefaces.org/ui">
 
     <f:view contentType="text/html">
@@ -77,7 +74,7 @@
                     <h:form prependId="false" style="margin:90px 90px 90px 90px;">
                         <h2>Thanks for Registering! Just One More Step to Go...</h2>
                         <h:outputText value="Thanks for registering with bitBay&trade;. A verification
-                           email has been sent to #{registrationBean.username}
+                           email has been sent to #{registrationBean.userName}
                            and you will need to click on the embedded link in that email to 
                            finalize the registration process. We're looking 
                            forward to working with you! PLease be on the 

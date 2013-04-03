@@ -32,6 +32,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.jsf.FacesContextUtils;
 import org.springframework.web.util.WebUtils;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+import edu.wctc.distjava.purpleproject.util.FacesUtils;
 
 /**
  * The is a Spring-managed JSF bean and the main entry point for the
@@ -44,8 +46,10 @@ import org.springframework.web.util.WebUtils;
 @Scope("session")
 public class HomeNavBean implements Serializable {
     private static final long serialVersionUID = 6L;
-    private final Logger LOG = LoggerFactory.getLogger(HomeNavBean.class);
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
+    private transient final Logger LOG = LoggerFactory.getLogger(HomeNavBean.class);
     private static final int MAX_RECORDS = 200;
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
     private transient ApplicationContext ctx; // used to get Spring beans    
     
     private String noImpMsg = "Not yet Implemented";
@@ -61,8 +65,7 @@ public class HomeNavBean implements Serializable {
     public synchronized void placeBid(ActionEvent event) {
         
         ctx = FacesContextUtils.getWebApplicationContext(
-                FacesContext.getCurrentInstance());          
-        FacesContext context = FacesContext.getCurrentInstance();
+                FacesContext.getCurrentInstance());
         
         Bid bid = new Bid();
         bid.setItemId(selectedAuctionItemDto.getItemId());
@@ -172,10 +175,7 @@ public class HomeNavBean implements Serializable {
     }
 
     public void handleNotImplemented(ActionEvent actionEvent) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, 
-                new FacesMessage(FacesMessage.SEVERITY_WARN,
-                this.noImpMsg, "Coming soon..."));
+        FacesUtils.addSuccessMessage("Not yet implemented, coming soon...");
     }
     
     public void killRregistrationBean(ActionEvent e) {
@@ -233,12 +233,15 @@ public class HomeNavBean implements Serializable {
             UserDetails userDetails = (UserDetails)SecurityContextHolder
                     .getContext().getAuthentication().getPrincipal(); 
             String username = userDetails.getUsername();
-            FacesContext context = FacesContext.getCurrentInstance();
+
             IAuctionItemService auctionSrv = 
                         (IAuctionItemService) ctx.getBean("auctionItemService");          
             try {
                 recentSearches = auctionSrv.findRecentSearchesByUser(username);
             } catch(DataAccessException dae) { 
+                FacesUtils.addErrorMessage(
+                        "Recent member search query failed due to: " 
+                        + dae.getMessage());
                 LOG.error("Recent member search query failed due to: " 
                         + dae.getMessage());
             }        
@@ -249,7 +252,7 @@ public class HomeNavBean implements Serializable {
     public void updateItemById() {
         ctx = FacesContextUtils.getWebApplicationContext(
                 FacesContext.getCurrentInstance());          
-        FacesContext context = FacesContext.getCurrentInstance();
+
         IAuctionItemService auctionSrv = 
                     (IAuctionItemService) ctx.getBean("auctionItemService");  
         
@@ -270,10 +273,9 @@ public class HomeNavBean implements Serializable {
     public void findItems(String userId) {
         ctx = FacesContextUtils.getWebApplicationContext(
                 FacesContext.getCurrentInstance());          
-        FacesContext context = FacesContext.getCurrentInstance();
         IAuctionItemService auctionSrv = 
                     (IAuctionItemService) ctx.getBean("auctionItemService");          
-        List<AuctionItem> rawData = null;
+        List<AuctionItem> rawData = new ArrayList<AuctionItem>();
         
         try {
             if((searchPhrase != null && selectedCategory != null) &&
@@ -300,13 +302,15 @@ public class HomeNavBean implements Serializable {
             }
         } catch(DataAccessException dae) {
             LOG.error("Data Access Exception: " + dae.getMessage());
-            dae.printStackTrace();
-            context.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Search Error", "Sorry, the search failed. Please report to the webmaster."));
+            FacesUtils.addErrorMessage(
+                    "Sorry, the search failed due to: " 
+                    + dae.getMessage() + ". Please report to the webmaster.");
+
         } catch(Exception e) {
-            LOG.error("Misc. HomeNavBean findItems exception:");
-            e.printStackTrace();
+            LOG.error("Misc. HomeNavBean findItems exception:" 
+                    + e.getMessage());
+            FacesUtils.addErrorMessage("Misc. HomeNavBean findItems exception:" 
+                    + e.getMessage());
         }
         
         auctionItemsFound = new ArrayList<AuctionItemDto>(rawData.size());
@@ -344,7 +348,6 @@ public class HomeNavBean implements Serializable {
     }
 
     public void setSelectedAuctionItemDto(AuctionItemDto selectedAuctionItemDto) {
-        LOG.debug("*** Selected Auction Item: " + selectedAuctionItemDto);
         this.selectedAuctionItemDto = selectedAuctionItemDto;
     }
 

@@ -14,12 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface IUserService {
 
-    @Modifying  
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    void delelteAuthorityById(Integer id);
+    
     User saveAndFlush(User entity);
 
-    @Modifying   
-    @Transactional(readOnly = false, rollbackFor = Exception.class)
     User save(User entity);
     
     User findByUsername(String username);

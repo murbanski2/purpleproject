@@ -69,11 +69,11 @@ public class AuctionItemService implements IAuctionItemService {
         for(int i=0; i < recCount; i++) {
             Object[] aItem = bidsByItemId.get(i);
             Integer itemId = (Integer)aItem[0];
-            AuctionItem item = itemRepo.findOne(new Integer(itemId));
+            AuctionItem item = itemRepo.findOne(itemId);
             PopularItemDto dto = new PopularItemDto(
                         itemId, (Long)aItem[1],
                         item.getTitle(), item.getStartDate(), 
-                        item.getEndDate(), item.getSellerId().getUsername()
+                        item.getEndDate(), item.getSellerId().getUserName()
                     );
             if(!forAllTime && now.before(item.getEndDate())) {
                 items.add(dto);
@@ -168,6 +168,7 @@ public class AuctionItemService implements IAuctionItemService {
     }
     
     /**
+     * TODO: needs testing since revising to StringBuffer
      * Finds auction items by category and search phrase where the end date
      * of the auction item + 7 days > the current date. This makes sure that
      * the auction item displays for one week after the auction has ended. 
@@ -183,16 +184,18 @@ public class AuctionItemService implements IAuctionItemService {
     @Override
     public List<AuctionItem> findByCategoryAndSearchPhrase(String category, String phrase, int recCount) {
         String[] words = phrase.trim().split(" ");
-        String sql = "SELECT ai.* FROM auction_item ai, category c WHERE "
-                + "(ai.cat_id = c.cat_id) AND (c.category = ?1) AND (";
-        String sql2 = "";
+        StringBuffer sql = new StringBuffer("SELECT ai.* FROM auction_item ai, category c WHERE ");
+                sql.append("(ai.cat_id = c.cat_id) AND (c.category = ?1) AND (");
+        StringBuffer sql2 = new StringBuffer("");
         for (String s : words) {
-            sql2 += "ai.title LIKE '%" + s + "%' OR ";
+            sql2.append("ai.title LIKE '%");
+            sql2.append(s).append("%' OR ");
         }
-        sql2 = sql2.substring(0, sql2.length() - 4);
-        sql += sql2 + ") AND (ai.end_date + interval 7 day) > now() "
-                + "order by ai.start_date DESC";
-        Query query = em.createNativeQuery(sql,
+        sql2 = new StringBuffer(sql2.toString().substring(0, sql2.length() - 4));
+        sql.append(sql2.toString());
+        sql.append(") AND (ai.end_date + interval 7 day) > now() ");
+        sql.append("order by ai.start_date DESC");
+        Query query = em.createNativeQuery(sql.toString(),
                 edu.wctc.distjava.purpleproject.domain.AuctionItem.class);
         query.setParameter(1, category);
         query.setMaxResults(recCount);
@@ -294,6 +297,7 @@ public class AuctionItemService implements IAuctionItemService {
         return query.getResultList();
     }
 
+    @Override
     public List<AuctionItem> findAll() {
         return itemRepo.findAll();
     }

@@ -32,6 +32,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  * @version 1.00
  */
 public class RegistrationVerifier extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
     /**
      * Processes requests for both HTTP

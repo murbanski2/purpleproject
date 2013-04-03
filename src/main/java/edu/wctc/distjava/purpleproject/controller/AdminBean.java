@@ -19,6 +19,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.jsf.FacesContextUtils;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+import edu.wctc.distjava.purpleproject.domain.Authority;
+import java.util.Collection;
+import org.springframework.dao.RecoverableDataAccessException;
 
 /**
  *
@@ -28,7 +32,9 @@ import org.springframework.web.jsf.FacesContextUtils;
 @Scope("session")
 public class AdminBean implements Serializable {
     private static final long serialVersionUID = 1L;
-    private final Logger LOG = LoggerFactory.getLogger(AdminBean.class);
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
+    private transient final Logger LOG = LoggerFactory.getLogger(AdminBean.class);
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
     private transient ApplicationContext ctx; // used to get Spring beans 
     private String userName;
     private String selectedType;
@@ -41,6 +47,7 @@ public class AdminBean implements Serializable {
     private List<String> popularTypes;
     private List<AuctionItem> itemsFound;
     private List<PopularItemDto> popularItemsFound;
+    private Integer selectedRoleId;
     
     public AdminBean() {
         memberTypes = new ArrayList<String>();
@@ -110,10 +117,28 @@ public class AdminBean implements Serializable {
     
     public void handleMemberUpdate(RowEditEvent event) {
         User member = (User) event.getObject(); 
+        Authority aDelete = null;
+        
+        // Deal with role deletion if necessary
+        if(selectedRoleId != null && selectedRoleId > 0) {
+            Collection<Authority> auths = member.getAuthoritiesCollection();
+            for(Authority a : auths) {
+                if(a.getAuthoritiesId().equals(this.selectedRoleId)) {
+                    aDelete = a;
+                    break;
+                }
+            }
+            if(aDelete !=null) {
+                auths.remove(aDelete);
+            }
+            member.setAuthoritiesCollection(auths);
+        }
+        
         IUserService userSrv = 
                     (IUserService) ctx.getBean("userService");
         try {
-            userSrv.save(member);
+            User user = userSrv.saveAndFlush(member);
+            selectedRoleId = null; // reset for next operation
             FacesUtils.addSuccessMessage("Member info updated.");
         } catch(DataAccessException dae) {
             FacesUtils
@@ -211,5 +236,14 @@ public class AdminBean implements Serializable {
         this.popularItemsFound = popularItemsFound;
     }
 
+    public Integer getSelectedRoleId() {
+        return selectedRoleId;
+    }
+
+    public void setSelectedRoleId(Integer selectedRoleId) {
+        this.selectedRoleId = selectedRoleId;
+    }
+
+    
     
 }

@@ -4,9 +4,6 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-      xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:cc="http://java.sun.com/jsf/composite"
       xmlns:p="http://primefaces.org/ui">
 
     <f:view contentType="text/html">
@@ -122,7 +119,7 @@
                                 <p:message for="zip"/>
 
                                 <h:outputLabel value="Email" for="email" />
-                                <p:inputText id="email" value="#{registrationBean.username}" size="40" 
+                                <p:inputText id="email" value="#{registrationBean.userName}" size="40" 
                                              required="true" label="Email" requiredMessage="Email is required"
                                              validatorMessage="Please use a valid email address">
                                     <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
@@ -136,7 +133,7 @@
 
                                 <h:outputText value=""/>
                                 <p:panelGrid columns="2">
-                                    <p:commandButton action="#{registrationBean.doAgreement()}" value="Register" ajax="false"/>
+                                    <p:commandButton action="#{registrationBean.doAgreement()}" value="Register" ajax="true" update="growl"/>
                                     <p:commandButton action="index" actionListener="#{homeNavBean.killRregistrationBean}" immediate="true" value="Cancel" ajax="false"/>
                                 </p:panelGrid>
                             </p:panelGrid>

@@ -18,6 +18,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.jsf.FacesContextUtils;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 /**
  * The Spring-managed bean is used to access global application information.
@@ -29,8 +30,9 @@ import org.springframework.web.jsf.FacesContextUtils;
 @Scope("singleton")
 public class AppScopeBean implements Serializable {
     private static final long serialVersionUID = 1L;
-    private final Logger LOG = LoggerFactory.getLogger(AppScopeBean.class);
-    
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
+    private transient final Logger LOG = LoggerFactory.getLogger(AppScopeBean.class);
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
     private transient ApplicationContext ctx; // used to get Spring beans
     private Date startupDate = new Date();
     private String[] categories;
