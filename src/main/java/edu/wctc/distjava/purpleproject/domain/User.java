@@ -83,7 +83,7 @@ public class User implements Serializable {
     @Size(max = 45)
     @Column(name = "last_name")
     private String lastName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "username", fetch=FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "username", fetch=FetchType.EAGER, orphanRemoval=true)
     private Collection<Authority> authoritiesCollection;
     @Column(name = "date_verified")
     @Temporal(TemporalType.TIMESTAMP)

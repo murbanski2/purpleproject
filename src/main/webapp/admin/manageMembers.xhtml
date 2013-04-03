@@ -50,7 +50,7 @@
     </h:head>
 
     <h:body>  
-        <p:growl id="growl" sticky="false" life="7500" showDetail="true" />
+        <p:growl id="growl" sticky="false" life="8500" showDetail="true" />
         <p:layout id="homeLayout" fullPage="true">
             <p:layoutUnit position="north" size="25">
                 <div align="left">
@@ -103,7 +103,7 @@
                                     
                                     <p:ajax event="rowEdit" listener="#{adminBean.handleMemberUpdate}" update=":adminMembers_form:growl" />
 
-                                    <p:column style="width:25%; text-align: left;">
+                                    <p:column style="width:20%; text-align: left;">
                                         <f:facet name="header">
                                             <h:outputText value="User Name"/>
                                         </f:facet>
@@ -117,7 +117,7 @@
                                             <f:convertDateTime pattern="M/d/yyyy"/>
                                         </h:outputText>
                                     </p:column>
-                                    <p:column style="width:20%; text-align: left;">
+                                    <p:column style="width:15%; text-align: left;">
                                         <f:facet name="header">
                                             <h:outputText value="City" />
                                         </f:facet>
@@ -129,11 +129,28 @@
                                         </f:facet>
                                         <h:outputText value="#{member.state}"/>
                                     </p:column>
-                                    <p:column style="width:15%; text-align: left;">
+                                    <p:column style="width:10%; text-align: left;">
                                         <f:facet name="header">
                                             <h:outputText value="Phone" />
                                         </f:facet>
                                         <h:outputText value="#{member.phone}"/>
+                                    </p:column>
+                                    <p:column headerText="Roles" style="width:15%; text-align: center;">
+                                        <p:cellEditor>
+                                            <f:facet name="output">
+                                                <p:selectOneMenu>
+                                                    <f:selectItems value="#{member.authoritiesCollection}" var="role"
+                                                                   itemLabel="#{role.authority}" itemValue="#{role.authoritiesId}"/>
+                                                </p:selectOneMenu>
+                                            </f:facet>
+                                            <f:facet name="input">
+                                                <p:selectOneMenu value="#{adminBean.selectedRoleId}">
+                                                    <f:selectItem itemLabel="Select Role to Delete" noSelectionOption="true" />
+                                                    <f:selectItems value="#{member.authoritiesCollection}" var="role"
+                                                                   itemLabel="#{role.authority}" itemValue="#{role.authoritiesId}"/>
+                                                </p:selectOneMenu>
+                                            </f:facet>
+                                        </p:cellEditor>
                                     </p:column>
                                     <p:column headerText="Enabled" style="width:10%; text-align: center;">
                                         <p:cellEditor>

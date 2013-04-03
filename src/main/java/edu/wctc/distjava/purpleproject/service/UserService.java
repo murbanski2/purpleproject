@@ -16,6 +16,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * This class is a Spring-managed, transactional service class that 
@@ -49,14 +51,23 @@ public class UserService implements IUserService, Serializable {
     @Modifying   
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
+    public void delelteAuthorityById(Integer id) {
+        authRepo.delete(id);
+        authRepo.flush();
+    }
+    
+    @Modifying   
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    @Override
     public User saveAndFlush(User entity) {
         return userRepo.saveAndFlush(entity);
     }
+    
     @Modifying   
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public User save(User entity) {
-        return userRepo.save(entity);
+        return userRepo.saveAndFlush(entity);
     }
     
     @Override
