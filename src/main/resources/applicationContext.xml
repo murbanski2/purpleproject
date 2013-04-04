@@ -70,6 +70,7 @@
         <sec:form-login 
             login-processing-url="/j_spring_security_check"
             login-page="/faces/login.xhtml" 
+            authentication-success-handler-ref="myAuthenticationHandler"
             authentication-failure-url="/faces/accessDenied.xhtml"/>
             
         <sec:logout logout-url="/j_spring_security_logout" 
@@ -93,7 +94,9 @@
             -->
         </sec:authentication-provider>
     </sec:authentication-manager>
-
+    
+    <bean id="myAuthenticationHandler" class="edu.wctc.distjava.purpleproject.util.MyAuthenticationHandler" />
+    
     <bean id="encoderBean" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
         <constructor-arg value="512" />
         <property name="iterations" value="1024"/>
