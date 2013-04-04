@@ -2,6 +2,7 @@ package edu.wctc.distjava.purpleproject.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 /**
  *
@@ -19,6 +20,7 @@ public class PopularItemDto implements Serializable {
     public PopularItemDto() {
     }
 
+    @SuppressWarnings
     public PopularItemDto(Integer itemId, Long bidCount, String title, Date startDate, Date endDate, String seller) {
         this.itemId = itemId;
         this.bidCount = bidCount;
@@ -52,18 +54,22 @@ public class PopularItemDto implements Serializable {
         this.title = title;
     }
 
+    @SuppressWarnings
     public Date getStartDate() {
         return startDate;
     }
 
+    @SuppressWarnings
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
+    @SuppressWarnings
     public Date getEndDate() {
         return endDate;
     }
 
+    @SuppressWarnings
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
@@ -83,6 +89,7 @@ public class PopularItemDto implements Serializable {
         return hash;
     }
 
+    @SuppressWarnings
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

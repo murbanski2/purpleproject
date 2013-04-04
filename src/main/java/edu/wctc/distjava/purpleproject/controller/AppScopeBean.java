@@ -54,6 +54,7 @@ public class AppScopeBean implements Serializable {
         createChardModel();
     }
     
+    @SuppressWarnings
     public String[] getCategories() {
         if(categories == null) {
             initCategories();
@@ -136,6 +137,7 @@ public class AppScopeBean implements Serializable {
      * 
      * @return current data/time
      */
+    @SuppressWarnings
     public Date getStartupDate() {
         return startupDate;
     }    

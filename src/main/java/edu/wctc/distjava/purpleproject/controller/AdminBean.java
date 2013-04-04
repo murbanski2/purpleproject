@@ -135,6 +135,7 @@ public class AdminBean implements Serializable {
         }
     }
 
+    @SuppressWarnings
     public void handleMemberUpdate(RowEditEvent event) {
         UserTypeDecorator userDecorator = (UserTypeDecorator) event.getObject();
 

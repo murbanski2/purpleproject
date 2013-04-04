@@ -23,6 +23,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 /**
  *
@@ -173,18 +174,21 @@ public class AuctionItem implements Serializable {
         this.image5 = image5;
     }
 
+    @SuppressWarnings
     public Date getStartDate() {
         return startDate;
     }
 
+    @SuppressWarnings
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
+    @SuppressWarnings
     public Date getEndDate() {
         return endDate;
     }
-
+    @SuppressWarnings
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
@@ -205,10 +209,12 @@ public class AuctionItem implements Serializable {
         this.payment = payment;
     }
 
+    @SuppressWarnings
     public Date getPayDate() {
         return payDate;
     }
 
+    @SuppressWarnings
     public void setPayDate(Date payDate) {
         this.payDate = payDate;
     }

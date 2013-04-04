@@ -12,6 +12,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 /**
  *
@@ -86,6 +87,7 @@ public class MemberSearch implements Serializable {
         return hash;
     }
 
+    @SuppressWarnings
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

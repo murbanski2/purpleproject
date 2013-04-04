@@ -263,18 +263,22 @@ public class DonateBean implements Serializable {
         this.description = description;
     }
 
+    @SuppressWarnings
     public Date getStartDate() {
         return startDate;
     }
 
+    @SuppressWarnings
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
+    @SuppressWarnings
     public Date getEndDate() {
         return endDate;
     }
 
+    @SuppressWarnings
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }

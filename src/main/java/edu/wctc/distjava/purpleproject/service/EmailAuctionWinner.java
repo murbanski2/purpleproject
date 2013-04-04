@@ -34,7 +34,7 @@ public class EmailAuctionWinner implements ISimpleMailSender, Serializable {
     private transient final Logger LOG = LoggerFactory.getLogger(EmailAuctionWinner.class);
     
     @Autowired
-    private MailSender mailSender;
+    private transient MailSender mailSender;
     @Autowired
     private SimpleMailMessage templateMessage;
     @Autowired

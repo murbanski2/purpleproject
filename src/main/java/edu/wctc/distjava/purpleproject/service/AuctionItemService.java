@@ -268,16 +268,16 @@ public class AuctionItemService implements IAuctionItemService {
     @Override
     public List<AuctionItem> findBySearchPhrase(String phrase, int recCount) {
         String[] words = phrase.trim().split(" ");
-        String sql = "SELECT * FROM auction_item ai WHERE (";
-        String sql2 = "";
+        StringBuffer sql = new StringBuffer("SELECT * FROM auction_item ai WHERE (");
+        StringBuffer sql2 = new StringBuffer();
         for (String s : words) {
-            sql2 += "ai.title LIKE '%" + s + "%' OR ";
+            sql2.append("ai.title LIKE '%" + s + "%' OR ");
         }
-        sql2 = sql2.substring(0, sql2.length() - 4);
-        sql += sql2;
-        sql += ") AND (ai.end_date + interval 7 day) > now() "
-                + "order by ai.start_date DESC";
-        Query query = em.createNativeQuery(sql,
+        sql2 = new StringBuffer(sql2.substring(0, sql2.length() - 4));
+        sql.append(sql2);
+        sql.append(") AND (ai.end_date + interval 7 day) > now() ")
+                .append("order by ai.start_date DESC");
+        Query query = em.createNativeQuery(sql.toString(),
                 edu.wctc.distjava.purpleproject.domain.AuctionItem.class);
         query.setMaxResults(recCount);
         return query.getResultList();
