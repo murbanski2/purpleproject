@@ -145,7 +145,7 @@ public class RegistrationBean implements Serializable {
         auth.setAuthority("ROLE_MEMBER");
         auths.add(auth);
         user.setAuthoritiesCollection(auths);
-        auth.setUsername(user);
+        auth.setUsername(user.getUserName());
 
         try {
             user = userSrv.save(user);

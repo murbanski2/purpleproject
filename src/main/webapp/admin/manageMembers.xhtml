@@ -50,7 +50,7 @@
     </h:head>
 
     <h:body>  
-        <p:growl id="growl" sticky="false" life="8500" showDetail="true" />
+        <p:growl id="growl" sticky="true" life="7000" showDetail="false" />
         <p:layout id="homeLayout" fullPage="true">
             <p:layoutUnit position="north" size="25">
                 <div align="left">
@@ -69,7 +69,6 @@
 
             <p:layoutUnit id="centerPanel" position="center">         
                 <h:form id="adminMembers_form">
-                    <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
                     <p:panelGrid style="width: 100%; margin:4 auto;">
                         <p:row>
                             <p:column>
@@ -84,7 +83,7 @@
                             <p:column>
                                 <p:outputLabel for="searchTxt" value="Search for" style="font-size: larger;" />
                                 <p:spacer width="10px" />
-                                <p:inputText id="searchTxt" value="#{adminBean.userName}" size="35" style="font-size: larger;"/>
+                                <p:inputText id="searchTxt" value="#{adminBean.userNameForSearch}" size="35" style="font-size: larger;"/>
                                 <p:watermark for="searchTxt" value="user name (email)" />
                                 <p:spacer width="8px" />                                
                                 <p:selectOneMenu value="#{adminBean.selectedType}" style="font-size: larger;position: relative;top: 9px;">
@@ -97,23 +96,23 @@
                         </p:row>
                         <p:row>
                             <p:column>
-                                <p:dataTable id="itemsFoundDt" var="member" value="#{adminBean.membersFound}"
+                                <p:dataTable id="itemsFoundDt" var="memberDecorator" value="#{adminBean.membersFound}"
                                              selectionMode="single" selection="#{adminBean.selectedMember}" 
-                                             editable="true" rowKey="#{member.userName}">
+                                             editable="true" rowKey="#{memberDecorator.userName}">
                                     
-                                    <p:ajax event="rowEdit" listener="#{adminBean.handleMemberUpdate}" update=":adminMembers_form:growl" />
+                                    <p:ajax event="rowEdit" listener="#{adminBean.handleMemberUpdate}" update=":growl" />
 
-                                    <p:column style="width:20%; text-align: left;">
+                                    <p:column style="width:25%; text-align: left;">
                                         <f:facet name="header">
                                             <h:outputText value="User Name"/>
                                         </f:facet>
-                                        <h:outputText value="#{member.userName}"/>
+                                        <h:outputText value="#{memberDecorator.userName}"/>
                                     </p:column>
                                     <p:column style="width:10%; text-align: right;">
                                         <f:facet name="header">
                                             <h:outputText value="Member Since" />
                                         </f:facet>
-                                        <h:outputText value="#{member.dateVerified}">
+                                        <h:outputText value="#{memberDecorator.user.dateVerified}">
                                             <f:convertDateTime pattern="M/d/yyyy"/>
                                         </h:outputText>
                                     </p:column>
@@ -121,44 +120,37 @@
                                         <f:facet name="header">
                                             <h:outputText value="City" />
                                         </f:facet>
-                                        <h:outputText value="#{member.city}"/>
+                                        <h:outputText value="#{memberDecorator.user.city}"/>
                                     </p:column>
                                     <p:column style="width:10%; text-align: left;">
                                         <f:facet name="header">
                                             <h:outputText value="State" />
                                         </f:facet>
-                                        <h:outputText value="#{member.state}"/>
+                                        <h:outputText value="#{memberDecorator.user.state}"/>
                                     </p:column>
                                     <p:column style="width:10%; text-align: left;">
                                         <f:facet name="header">
                                             <h:outputText value="Phone" />
                                         </f:facet>
-                                        <h:outputText value="#{member.phone}"/>
+                                        <h:outputText value="#{memberDecorator.user.phone}"/>
                                     </p:column>
-                                    <p:column headerText="Roles" style="width:15%; text-align: center;">
+                                    <p:column headerText="Is Admin" style="width:10%; text-align: center;">
                                         <p:cellEditor>
                                             <f:facet name="output">
-                                                <p:selectOneMenu>
-                                                    <f:selectItems value="#{member.authoritiesCollection}" var="role"
-                                                                   itemLabel="#{role.authority}" itemValue="#{role.authoritiesId}"/>
-                                                </p:selectOneMenu>
+                                                <p:selectBooleanCheckbox value="#{memberDecorator.admin}" />
                                             </f:facet>
                                             <f:facet name="input">
-                                                <p:selectOneMenu value="#{adminBean.selectedRoleId}">
-                                                    <f:selectItem itemLabel="Select Role to Delete" noSelectionOption="true" />
-                                                    <f:selectItems value="#{member.authoritiesCollection}" var="role"
-                                                                   itemLabel="#{role.authority}" itemValue="#{role.authoritiesId}"/>
-                                                </p:selectOneMenu>
+                                                <p:selectBooleanCheckbox  value="#{memberDecorator.admin}" />
                                             </f:facet>
                                         </p:cellEditor>
                                     </p:column>
                                     <p:column headerText="Enabled" style="width:10%; text-align: center;">
                                         <p:cellEditor>
                                             <f:facet name="output">
-                                                <p:selectBooleanCheckbox value="#{member.enabled}"/>
+                                                <p:selectBooleanCheckbox value="#{memberDecorator.user.enabled}"/>
                                             </f:facet>
                                             <f:facet name="input">
-                                                <p:selectBooleanCheckbox value="#{member.enabled}"/>
+                                                <p:selectBooleanCheckbox value="#{memberDecorator.user.enabled}"/>
                                             </f:facet>
                                         </p:cellEditor>
                                     </p:column>

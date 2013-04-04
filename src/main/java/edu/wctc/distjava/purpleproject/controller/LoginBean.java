@@ -13,6 +13,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+import edu.wctc.distjava.purpleproject.util.FacesUtils;
+import java.util.Collection;
+import javax.annotation.Resource;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  *
@@ -27,6 +36,8 @@ public class LoginBean implements Serializable {
 
     private String userName = "";
     private String password = "";
+    @Resource(name = "authenticationManager")
+    private AuthenticationManager am;
     
     public LoginBean() {
     }
@@ -37,6 +48,8 @@ public class LoginBean implements Serializable {
      * @throws ServletException
      */
     public String doLogin() throws IOException, ServletException {
+        String destinationPage = "/faces/login.xhtml";
+        
         ExternalContext context = FacesContext.getCurrentInstance()
                 .getExternalContext();
         RequestDispatcher dispatcher = ((ServletRequest) context.getRequest())
@@ -77,5 +90,13 @@ public class LoginBean implements Serializable {
     public void setPassword(final String password) {
         this.password = password;
     }    
+
+    public AuthenticationManager getAm() {
+        return am;
+    }
+
+    public void setAm(AuthenticationManager am) {
+        this.am = am;
+    }
     
 }

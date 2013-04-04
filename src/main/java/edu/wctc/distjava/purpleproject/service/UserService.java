@@ -1,5 +1,6 @@
 package edu.wctc.distjava.purpleproject.service;
 
+import com.google.common.collect.Lists;
 import edu.wctc.distjava.purpleproject.domain.Authority;
 import edu.wctc.distjava.purpleproject.domain.User;
 import edu.wctc.distjava.purpleproject.repository.AuthorityRepository;
@@ -56,6 +57,10 @@ public class UserService implements IUserService, Serializable {
         authRepo.flush();
     }
     
+    public List<Authority> getAuthorities() {
+        return authRepo.findAll();
+    }
+    
     @Modifying   
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
@@ -82,11 +87,15 @@ public class UserService implements IUserService, Serializable {
     
     @Override
     public List<User> findUsersByAuthority(String authority) {
-        List<Authority> authorities = authRepo.findByAuthority(authority);
-        List<User> users = new ArrayList<User>();
-        for(Authority a : authorities) {
-            users.add(a.getUsername());
+        List<Authority> auths = authRepo.findByAuthority(authority);
+        List<String> userNames = new ArrayList<String>(auths.size());
+        
+        for(Authority a : auths) {
+            userNames.add(a.getUsername());
         }
+        
+        List<User> users = Lists.newArrayList(userRepo.findAll(userNames));
+        
         return users;
     }
 

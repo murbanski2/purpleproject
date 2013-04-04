@@ -40,9 +40,11 @@ public class Authority implements Serializable {
     @Basic(optional = true)
     @Column(name = "authorities_id")
     private Integer authoritiesId;
-    @JoinColumn(name = "username", referencedColumnName = "username")
-    @ManyToOne(optional = false, fetch=FetchType.EAGER)
-    private User username;
+//    @JoinColumn(name = "username", referencedColumnName = "username")
+//    @ManyToOne(optional = false, fetch=FetchType.EAGER)
+//    private User username;
+    @Column(name = "username")
+    private String username;
 
     public Authority() {
     }
@@ -72,11 +74,18 @@ public class Authority implements Serializable {
         this.authoritiesId = authoritiesId;
     }
 
-    public User getUsername() {
+//    public User getUsername() {
+//        return username;
+//    }
+//
+//    public void setUsername(User username) {
+//        this.username = username;
+//    }
+    public String getUsername() {
         return username;
     }
 
-    public void setUsername(User username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
