@@ -6,6 +6,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StopWatch;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 /**
  * This class is an implementation of a Spring <code>Interceptor</code> and
@@ -16,7 +17,13 @@ import org.springframework.util.StopWatch;
  * @version 1.00
  */
 public class PerformanceLoggingInterceptor implements MethodInterceptor {
-    private final Logger LOG = 
+    
+    /*
+     * Note that @SuppressWarnings is only used by a source code analyzer
+     * that I use caled "FindBugs". You don't need this unless you do to.
+     */
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
+    private transient final Logger LOG = 
             LoggerFactory.getLogger(PerformanceLoggingInterceptor.class);
     private static ConcurrentHashMap<String, MethodStats> methodStats =
             new ConcurrentHashMap<String, MethodStats>();

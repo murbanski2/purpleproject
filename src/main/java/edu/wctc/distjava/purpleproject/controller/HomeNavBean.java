@@ -46,6 +46,11 @@ import edu.wctc.distjava.purpleproject.util.FacesUtils;
 @Scope("session")
 public class HomeNavBean implements Serializable {
     private static final long serialVersionUID = 6L;
+
+    /*
+     * Note that @SuppressWarnings is only used by a source code analyzer
+     * that I use caled "FindBugs". You don't need this unless you do to.
+     */
     @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
     private transient final Logger LOG = LoggerFactory.getLogger(HomeNavBean.class);
     private static final int MAX_RECORDS = 200;

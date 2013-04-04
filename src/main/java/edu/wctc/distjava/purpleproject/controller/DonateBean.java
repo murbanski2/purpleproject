@@ -39,8 +39,12 @@ import java.util.logging.Level;
 @Named
 @Scope("session")
 public class DonateBean implements Serializable {
-
     private static final long serialVersionUID = 1L;
+
+    /*
+     * Note that @SuppressWarnings is only used by a source code analyzer
+     * that I use caled "FindBugs". You don't need this unless you do to.
+     */
     @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
     private transient final Logger LOG = LoggerFactory.getLogger(DonateBean.class);
     private static final int ONE_WEEK = 7; // days

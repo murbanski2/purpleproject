@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 import org.springframework.mail.MailSendException;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 /**
  * This EJB is responsible for checking daily whether or not there are any
@@ -39,7 +40,12 @@ import org.springframework.mail.MailSendException;
 @Interceptors(SpringBeanAutowiringInterceptor.class)
 public class AuctionEndManager {
 
-    private final Logger LOG = LoggerFactory.getLogger(AuctionEndManager.class);
+    /*
+     * Note that @SuppressWarnings is only used by a source code analyzer
+     * that I use caled "FindBugs". You don't need this unless you do to.
+     */
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
+    private transient final Logger LOG = LoggerFactory.getLogger(AuctionEndManager.class);
     private List<AuctionItem> expiringItems;
     @Resource
     private TimerService timerService;

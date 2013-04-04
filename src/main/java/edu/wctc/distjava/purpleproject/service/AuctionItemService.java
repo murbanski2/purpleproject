@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 /**
  * This class is a Spring-managed, transactional service class that decouples
@@ -41,7 +42,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class AuctionItemService implements IAuctionItemService {
     private static final long serialVersionUID = 1L;
-    private final Logger LOG = LoggerFactory.getLogger(AuctionItemService.class);
+    
+    /*
+     * Note that @SuppressWarnings is only used by a source code analyzer
+     * that I use caled "FindBugs". You don't need this unless you do to.
+     */
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
+    private transient final Logger LOG = LoggerFactory.getLogger(AuctionItemService.class);
     private final int MAX_SEARCH_REDO = 10;
     
     @PersistenceContext
