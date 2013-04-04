@@ -21,8 +21,10 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.web.jsf.FacesContextUtils;
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 import edu.wctc.distjava.purpleproject.domain.Authority;
+import edu.wctc.distjava.purpleproject.domain.UserTypeDecorator;
 import java.util.Collection;
-import org.springframework.dao.RecoverableDataAccessException;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  *
@@ -31,129 +33,151 @@ import org.springframework.dao.RecoverableDataAccessException;
 @Named
 @Scope("session")
 public class AdminBean implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
     private transient final Logger LOG = LoggerFactory.getLogger(AdminBean.class);
     @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
     private transient ApplicationContext ctx; // used to get Spring beans 
-    private String userName;
+    private String userNameForSearch;
     private String selectedType;
     private List<String> memberTypes;
-    private List<User> membersFound;
-    private User selectedMember;
+    private List<UserTypeDecorator> membersFound;
+    private UserTypeDecorator selectedMember;
     private String expireType;
     private List<String> expireTypes;
     private String popularType;
     private List<String> popularTypes;
     private List<AuctionItem> itemsFound;
     private List<PopularItemDto> popularItemsFound;
-    private Integer selectedRoleId;
-    
+
     public AdminBean() {
         memberTypes = new ArrayList<String>();
         memberTypes.add("Enabled");
         memberTypes.add("Disabled");
         memberTypes.add("Administrator");
-        
+
         expireTypes = new ArrayList<String>();
         expireTypes.add("Today");
         expireTypes.add("This Week");
         expireTypes.add("This Month");
-        
+
         popularTypes = new ArrayList<String>();
         popularTypes.add("Curently Active");
         popularTypes.add("All Time");
-        
+
         ctx = FacesContextUtils.getWebApplicationContext(
-                FacesContext.getCurrentInstance()); 
+                FacesContext.getCurrentInstance());
+
     }
-    
+
     public void doItemByPopularitySearch(ActionEvent event) {
         final boolean ACTIVE = false;
         final boolean ALL_TIME = true;
-        IAuctionItemService aucSrv = 
-                    (IAuctionItemService) ctx.getBean("auctionItemService");
-        
-        if(popularType.equals("Currently Active")) {
+        IAuctionItemService aucSrv =
+                (IAuctionItemService) ctx.getBean("auctionItemService");
+
+        if (popularType.equals("Currently Active")) {
             popularItemsFound = aucSrv.findByMostPopular(ACTIVE);
         } else {
             popularItemsFound = aucSrv.findByMostPopular(ALL_TIME);
         }
     }
-    
+
     public void doItemByExpireTypeSearch(ActionEvent event) {
-        IAuctionItemService aucSrv = 
-                    (IAuctionItemService) ctx.getBean("auctionItemService");
-        
-        if(expireType.equals("Today")) {
+        IAuctionItemService aucSrv =
+                (IAuctionItemService) ctx.getBean("auctionItemService");
+
+        if (expireType.equals("Today")) {
             itemsFound = aucSrv.findByEndDatesToday();
-        } else if(expireType.equals("This Week")) {
+        } else if (expireType.equals("This Week")) {
             itemsFound = aucSrv.findByEndDatesThisWeek();
         } else {
             itemsFound = aucSrv.findByEndDatesThisMonth();
         }
     }
-    
+
     public void doMemberSearch(ActionEvent event) {
         // We could inject this as a class property, but that would
         // use memory inefficiently. This way we only have a local variable
-        IUserService userSrv = 
-                    (IUserService) ctx.getBean("userService");
-        membersFound = new ArrayList<User>();
-        
-        if(userName != null && userName.length() > 0) {
-            membersFound.add(userSrv.findByUsername(userName));
-            
+        IUserService userSrv =
+                (IUserService) ctx.getBean("userService");
+        List<User> usersFound = null;
+        membersFound = new ArrayList<UserTypeDecorator>();
+
+        if (userNameForSearch != null && userNameForSearch.length() > 0) {
+            User member = userSrv.findByUsername(userNameForSearch);
+            UserTypeDecorator user = new UserTypeDecorator(member);
+            membersFound.add(user);
+
         } else {
-            if(selectedType.equals("Enabled")) {
-                membersFound = userSrv.findByEnabled(true);
-            } else if(selectedType.equals("Disabled")) {
-                membersFound = userSrv.findByEnabled(false);
-            } else {
-                membersFound = userSrv.findUsersByAuthority("ROLE_ADMIN");
+            if (selectedType.equals("Enabled")) {
+                usersFound = userSrv.findByEnabled(true);
+                copyToMembersFound(usersFound);
+                
+            } else if (selectedType.equals("Disabled")) {
+                usersFound = userSrv.findByEnabled(false);
+                copyToMembersFound(usersFound);
+                
+           } else {
+                usersFound = userSrv.findUsersByAuthority("ROLE_ADMIN");
+                copyToMembersFound(usersFound);
             }
         }
     }
     
-    public void handleMemberUpdate(RowEditEvent event) {
-        User member = (User) event.getObject(); 
-        Authority aDelete = null;
-        
-        // Deal with role deletion if necessary
-        if(selectedRoleId != null && selectedRoleId > 0) {
-            Collection<Authority> auths = member.getAuthoritiesCollection();
-            for(Authority a : auths) {
-                if(a.getAuthoritiesId().equals(this.selectedRoleId)) {
-                    aDelete = a;
-                    break;
-                }
-            }
-            if(aDelete !=null) {
-                auths.remove(aDelete);
-            }
-            member.setAuthoritiesCollection(auths);
+    private void copyToMembersFound(List<User> usersFound) {
+        for(User u : usersFound) {
+            membersFound.add(new UserTypeDecorator(u));
         }
-        
-        IUserService userSrv = 
-                    (IUserService) ctx.getBean("userService");
+    }
+
+    public void handleMemberUpdate(RowEditEvent event) {
+        UserTypeDecorator userDecorator = (UserTypeDecorator) event.getObject();
+
+        removeOrAddAdminAuthority(userDecorator);
+
+        IUserService userSrv =
+                (IUserService) ctx.getBean("userService");
         try {
-            User user = userSrv.saveAndFlush(member);
-            selectedRoleId = null; // reset for next operation
+            User user = userSrv.saveAndFlush(userDecorator.getUser());
             FacesUtils.addSuccessMessage("Member info updated.");
-        } catch(DataAccessException dae) {
+        } catch (DataAccessException dae) {
             FacesUtils
                     .addErrorMessage(
-                    "Sorry, the member info could not be updated due to: " 
+                    "Sorry, the member info could not be updated due to: "
                     + dae.getMessage());
         }
     }
 
-    public String getUserName() {
-        return userName;
-    }
+    private void removeOrAddAdminAuthority(UserTypeDecorator userDecorator) {
+        User member = userDecorator.getUser();
+        Collection<Authority> auths = member.getAuthoritiesCollection();
+        boolean wasAdmin = false;
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+        for (Authority a : auths) {
+            if (a.getAuthority().equals("ROLE_ADMIN")) {
+                wasAdmin = true;
+                break;
+            }
+        }
+
+        if (userDecorator.isAdmin() && !wasAdmin) {
+            // add admin role
+            Authority adminAuth = new Authority();
+            adminAuth.setAuthority("ROLE_ADMIN");
+            adminAuth.setUsername(member.getUserName());
+            auths.add(adminAuth);
+
+        } else if (!userDecorator.isAdmin() && wasAdmin) {
+            // remove admin role
+            for (Authority a : auths) {
+                if (a.getAuthority().equals("ROLE_ADMIN")) {
+                    auths.remove(a);
+                    break;
+                }
+            }
+        }
     }
 
     public String getSelectedType() {
@@ -164,6 +188,14 @@ public class AdminBean implements Serializable {
         this.selectedType = selectedType;
     }
 
+    public String getUserNameForSearch() {
+        return userNameForSearch;
+    }
+
+    public void setUserNameForSearch(String userNameForSearch) {
+        this.userNameForSearch = userNameForSearch;
+    }
+
     public List<String> getMemberTypes() {
         return memberTypes;
     }
@@ -172,20 +204,20 @@ public class AdminBean implements Serializable {
         this.memberTypes = memberTypes;
     }
 
-    public List<User> getMembersFound() {
-        return membersFound;
-    }
-
-    public void setMembersFound(List<User> membersFound) {
-        this.membersFound = membersFound;
-    }
-
-    public User getSelectedMember() {
+    public UserTypeDecorator getSelectedMember() {
         return selectedMember;
     }
 
-    public void setSelectedMember(User selectedMember) {
+    public void setSelectedMember(UserTypeDecorator selectedMember) {
         this.selectedMember = selectedMember;
+    }
+
+    public List<UserTypeDecorator> getMembersFound() {
+        return membersFound;
+    }
+
+    public void setMembersFound(List<UserTypeDecorator> membersFound) {
+        this.membersFound = membersFound;
     }
 
     public String getExpireType() {
@@ -236,14 +268,4 @@ public class AdminBean implements Serializable {
         this.popularItemsFound = popularItemsFound;
     }
 
-    public Integer getSelectedRoleId() {
-        return selectedRoleId;
-    }
-
-    public void setSelectedRoleId(Integer selectedRoleId) {
-        this.selectedRoleId = selectedRoleId;
-    }
-
-    
-    
 }

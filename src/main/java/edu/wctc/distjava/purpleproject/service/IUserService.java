@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface IUserService {
 
+    List<Authority> getAuthorities();
+    
     void delelteAuthorityById(Integer id);
     
     User saveAndFlush(User entity);
