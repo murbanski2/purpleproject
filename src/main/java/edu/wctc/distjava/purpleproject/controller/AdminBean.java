@@ -23,8 +23,6 @@ import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 import edu.wctc.distjava.purpleproject.domain.Authority;
 import edu.wctc.distjava.purpleproject.domain.UserTypeDecorator;
 import java.util.Collection;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  *
@@ -35,6 +33,11 @@ import java.util.TreeSet;
 public class AdminBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    /*
+     * Note that @SuppressWarnings is only used by a source code analyzer
+     * that I use caled "FindBugs". You don't need this unless you do to.
+     */
     @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
     private transient final Logger LOG = LoggerFactory.getLogger(AdminBean.class);
     @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
@@ -132,6 +135,7 @@ public class AdminBean implements Serializable {
         }
     }
 
+    @SuppressWarnings
     public void handleMemberUpdate(RowEditEvent event) {
         UserTypeDecorator userDecorator = (UserTypeDecorator) event.getObject();
 

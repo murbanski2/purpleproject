@@ -30,6 +30,11 @@ import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 @Scope("singleton")
 public class AppScopeBean implements Serializable {
     private static final long serialVersionUID = 1L;
+    
+    /*
+     * Note that @SuppressWarnings is only used by a source code analyzer
+     * that I use caled "FindBugs". You don't need this unless you do to.
+     */
     @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
     private transient final Logger LOG = LoggerFactory.getLogger(AppScopeBean.class);
     @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
@@ -49,6 +54,7 @@ public class AppScopeBean implements Serializable {
         createChardModel();
     }
     
+    @SuppressWarnings
     public String[] getCategories() {
         if(categories == null) {
             initCategories();
@@ -131,6 +137,7 @@ public class AppScopeBean implements Serializable {
      * 
      * @return current data/time
      */
+    @SuppressWarnings
     public Date getStartupDate() {
         return startupDate;
     }    

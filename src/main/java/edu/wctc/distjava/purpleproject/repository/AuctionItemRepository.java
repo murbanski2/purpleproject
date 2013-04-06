@@ -2,6 +2,7 @@ package edu.wctc.distjava.purpleproject.repository;
 
 import edu.wctc.distjava.purpleproject.domain.AuctionItem;
 import edu.wctc.distjava.purpleproject.domain.Category;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,7 +18,7 @@ import org.springframework.data.jpa.repository.Query;
  * @version     1.01
  * @see         <a href='http://static.springsource.org/spring-data/data-jpa/docs/current/reference/html/#jpa.query-methods'>Spring-Data-Jpa Reference</a>
  */
-public interface AuctionItemRepository extends JpaRepository<AuctionItem, Integer> {
+public interface AuctionItemRepository extends JpaRepository<AuctionItem, Integer>, Serializable {
     
     List<AuctionItem> findByCatId(Category catId);
     

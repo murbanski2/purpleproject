@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 /**
  *
@@ -219,10 +220,12 @@ public class User implements Serializable {
         return true;
     }
 
+    @SuppressWarnings
     public Date getDateVerified() {
         return dateVerified;
     }
 
+    @SuppressWarnings
     public void setDateVerified(Date dateVerified) {
         this.dateVerified = dateVerified;
     }

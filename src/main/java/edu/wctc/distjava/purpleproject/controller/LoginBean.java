@@ -31,13 +31,20 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @Scope("request")
 public class LoginBean implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    /*
+     * Note that @SuppressWarnings is only used by a source code analyzer
+     * that I use caled "FindBugs". You don't need this unless you do to.
+     */
     @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
     private transient final Logger LOG = LoggerFactory.getLogger(LoginBean.class);
 
     private String userName = "";
     private String password = "";
+    
+    @SuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
     @Resource(name = "authenticationManager")
-    private AuthenticationManager am;
+    private transient AuthenticationManager am;
     
     public LoginBean() {
     }
@@ -66,6 +73,7 @@ public class LoginBean implements Serializable {
     /**
      * @return
      */
+    @SuppressWarnings
     public String getUserName() {
         return this.userName;
     }
@@ -73,6 +81,7 @@ public class LoginBean implements Serializable {
     /**
      * @param username
      */
+    @SuppressWarnings
     public void setUserName(final String userName) {
         this.userName = userName;
     }

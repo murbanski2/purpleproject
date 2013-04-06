@@ -81,6 +81,7 @@ public class Authority implements Serializable {
 //    public void setUsername(User username) {
 //        this.username = username;
 //    }
+    
     public String getUsername() {
         return username;
     }

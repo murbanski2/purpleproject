@@ -1,12 +1,14 @@
 package edu.wctc.distjava.purpleproject.domain;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
  *
  * @author jlombardo
  */
-public class UserTypeDecorator {
+public class UserTypeDecorator implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String userName;
     private User user;
     private boolean admin;

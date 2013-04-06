@@ -1,12 +1,14 @@
 package edu.wctc.distjava.purpleproject.domain;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
+import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 
 /**
  * This is a Data Transfer Object (DTO) used to represent data from
@@ -45,6 +47,11 @@ public class AuctionItemDto implements Serializable {
         PeriodFormatterBuilder bldr = new PeriodFormatterBuilder();
 
         // Display format varies by length of time to go
+        if(endDate == null) {
+            Calendar cEndDate = Calendar.getInstance();
+            cEndDate.add(Calendar.DATE, 7);
+            endDate = cEndDate.getTime();
+        }
         if(endDate.before(today.toDate())) {
             return "Ended";
         } else if(period.getDays() > 1) {
@@ -67,6 +74,7 @@ public class AuctionItemDto implements Serializable {
         return hash;
     }
 
+    @SuppressWarnings
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -98,10 +106,12 @@ public class AuctionItemDto implements Serializable {
         this.title = title;
     }
 
+    @SuppressWarnings
     public Date getEndDate() {
         return endDate;
     }
 
+    @SuppressWarnings
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
