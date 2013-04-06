@@ -25,6 +25,13 @@
           http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
 ">
     
+    <!-- use this to set a properties file location and provide access
+         to key=value pairs via Spring EL expressions (see dataSource below).
+         There are two reasons for doing this: 1) certain details can be configured
+         outside of the application .war, such as port numbers; and 2) sensitive 
+         information, such as a password, can be hidden from the developer of the app -->
+    <context:property-placeholder location="file:/auction/bitbay.properties"/>
+    
     <!-- Scans within the base package of the application for @Components to configure as beans -->
     <context:component-scan base-package="edu.wctc.distjava.purpleproject">
         <context:exclude-filter type="regex" expression="edu\.wctc\.distjava\.purpleproject\.repository.*" />
@@ -50,7 +57,7 @@
         <!-- On Glassfish, dev ports are 8080 and 8181, whereas on
         production its 80 and 443 -->
         <sec:port-mappings>
-            <sec:port-mapping http="8080" https="8181"/>
+            <sec:port-mapping http="${http.port}" https="${https.port}"/>
         </sec:port-mappings>
 
         <sec:intercept-url 
@@ -104,7 +111,7 @@
     
     
     <!-- Server managed connection pool accessed via JNDI -->
-    <jee:jndi-lookup id="dataSource" jndi-name="java:app/jdbc/bitbay_auction"/>
+    <jee:jndi-lookup id="dataSource" jndi-name="${jndi.db.resource.name}"/>
         
     <!-- Prefer jndi access to server-managed connection pool (see above)
          Database connection properties defined in jdbc.config.properties file
@@ -149,8 +156,8 @@
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="smtp.gmail.com"/>
-        <property name="username" value="bitbay.auction@gmail.com"/>
-        <property name="password" value="work very h@rd"/>
+        <property name="username" value="${mail.username}"/>
+        <property name="password" value="${mail.password}"/>
         <property name="port" value="587"/>
         <property name="javaMailProperties">
             <props>
@@ -168,7 +175,7 @@
     <!-- this is a template message that we can pre-load with default state -->
     <bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
         <!-- if using Gmail, the from must be the address of the account holder -->
-        <property name="from" value="bitbay.auction@gmail.com"/>
+        <property name="from" value="${mail.username}"/>
         <property name="subject" value="Bit Bay Registration - One More Step Required"/>
     </bean>
 
