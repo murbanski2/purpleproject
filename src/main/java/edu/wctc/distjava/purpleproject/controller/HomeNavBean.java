@@ -360,6 +360,16 @@ public class HomeNavBean implements Serializable {
     }
 
     public AuctionItemDto getSelectedAuctionItemDto() {
+        /*
+         * When the page is first displayed, before any bids have been
+         * placed by this user, the placedBid is at zero. We never want to
+         * see this unless no bids have ever been placed. Instead we want
+         * to see the minimum bid allowed, which is the high bid + .10
+         */
+        if(selectedAuctionItemDto != null && selectedAuctionItemDto.getPlacedBid() == 0) {
+            selectedAuctionItemDto
+                    .setPlacedBid(selectedAuctionItemDto.getMinBid());
+        }
         return selectedAuctionItemDto;
     }
 
