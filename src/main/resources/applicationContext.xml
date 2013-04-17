@@ -26,10 +26,10 @@
 ">
     
     <!-- use this to set a properties file location and provide access
-         to key=value pairs via Spring EL expressions (see dataSource below).
-         There are two reasons for doing this: 1) certain details can be configured
-         outside of the application .war, such as port numbers; and 2) sensitive 
-         information, such as a password, can be hidden from the developer of the app -->
+    to key=value pairs via Spring EL expressions (see dataSource below).
+    There are two reasons for doing this: 1) certain details can be configured
+    outside of the application .war, such as port numbers; and 2) sensitive 
+    information, such as a password, can be hidden from the developer of the app -->
     <context:property-placeholder location="file:/auction/bitbay.properties"/>
     
     <!-- Scans within the base package of the application for @Components to configure as beans -->
@@ -112,18 +112,6 @@
     
     <!-- Server managed connection pool accessed via JNDI -->
     <jee:jndi-lookup id="dataSource" jndi-name="${jndi.db.resource.name}"/>
-        
-    <!-- Prefer jndi access to server-managed connection pool (see above)
-         Database connection properties defined in jdbc.config.properties file
-         (see above) and accessed via Spring EL. Note that the users and authorities
-         table schema are dictated by Spring (see Spring documentation)   
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-      <property name="driverClassName" value="${jdbc.driver.class}" />
-      <property name="url" value="${jdbc.url}" />
-      <property name="username" value="${jdbc.username}" />
-      <property name="password" value="${jdbc.password}" />
-    </bean>
-    -->
     
     <bean id="entityManagerFactory"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -178,5 +166,17 @@
         <property name="from" value="${mail.username}"/>
         <property name="subject" value="Bit Bay Registration - One More Step Required"/>
     </bean>
-
+    
+    <!-- Add support for Spring-managed, JSF ViewScope, which is not built
+    in to Spring. See the custom scope class in the "util" package -->
+    <bean
+        class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+        <property name="scopes">
+            <map>
+                <entry key="view">
+                    <bean class="edu.wctc.distjava.purpleproject.util.ViewScope" />
+                </entry>
+            </map>
+        </property>
+    </bean>
 </beans>

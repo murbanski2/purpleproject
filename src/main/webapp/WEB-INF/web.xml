@@ -42,7 +42,10 @@
         <servlet-class>org.primefaces.push.PushServlet</servlet-class>
         <init-param>
             <param-name>org.atmosphere.cpr.broadcasterCacheClass</param-name>
+            <param-value>org.atmosphere.cache.EventCacheBroadcasterCache</param-value>
+            <!-- reserved for Atmosphere v1.1.0-RC1
             <param-value>org.atmosphere.cache.UUIDBroadcasterCache</param-value>
+            -->
         </init-param>
         <init-param>
             <param-name>org.atmosphere.cpr.broadcastFilterClasses</param-name>
@@ -50,7 +53,10 @@
         </init-param>
         <init-param>
             <param-name>org.atmosphere.cpr.AtmosphereInterceptor</param-name>
+            <param-value>org.atmosphere.client.MessageLengthInterceptor</param-value>
+            <!-- reserved for Atmosphere v1.1.0-RC1
             <param-value>org.atmosphere.client.TrackMessageSizeInterceptor</param-value> 
+            -->
         </init-param>
         <init-param>
             <param-name>org.atmosphere.useNative</param-name>
