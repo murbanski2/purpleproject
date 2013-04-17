@@ -14,7 +14,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.faces.application.ConfigurableNavigationHandler;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -37,15 +36,21 @@ import edu.wctc.distjava.purpleproject.util.FacesUtils;
 
 /**
  * The is a Spring-managed JSF bean and the main entry point for the
- * middleware application.
+ * auction application. Most of the normal operations of the auction site
+ * are handled here. Specialized features, such as registering new users,
+ * running adinistrative tasks, etc., are handled by other JSF beans.
+ * <P>
+ * In the future, if this class gets too large, new features will be created
+ * in new beans as needed. Or, existing features may be moved to a new bean
+ * to keep this class relatively small. Remember KISS!
  * 
  * @author     Jim Lombardo
- * @version    1.07
+ * @version    1.08
  */
 @Named("homeNavBean")
 @Scope("session")
 public class HomeNavBean implements Serializable {
-    private static final long serialVersionUID = 6L;
+    private static final long serialVersionUID = 7L;
 
     /*
      * Note that @SuppressWarnings is only used by a source code analyzer
@@ -67,7 +72,7 @@ public class HomeNavBean implements Serializable {
     public HomeNavBean() {
     }
     
-    public synchronized void placeBid(ActionEvent event) {
+    public void placeBid(ActionEvent event) {
         
         ctx = FacesContextUtils.getWebApplicationContext(
                 FacesContext.getCurrentInstance());
@@ -100,19 +105,25 @@ public class HomeNavBean implements Serializable {
         int index = auctionItemsFound.indexOf(selectedAuctionItemDto);
         auctionItemsFound.set(index, selectedAuctionItemDto);
        
-        // Disabled until Primefaces Push can be fixed to work on Glassfish
+        // Start preparing data to push to all clients...
+        
+        // Get the Primefaces PushContext
         PushContext pushContext = 
                 PushContextFactory.getDefault().getPushContext();
         
-        // format data as json
+        // format data (here I am using comma-delimited data)
         StringBuffer sb = new StringBuffer();
         sb.append(selectedAuctionItemDto.getHighBid()).append(",");
         sb.append(selectedAuctionItemDto.getBidCount()).append(",");
         sb.append(selectedAuctionItemDto.getItemId());
         
-        // now push it to all connected clients
+        // Now push it to all connected clients as a single String.
+        // You will need a JavaScript function on the client side to
+        // receive and interpret this String. The first parameter below
+        // is the name of the message being received.
         pushContext.push("/newbid", sb.toString());
         
+        // This is no longer being used but is left for future reference
 //       return "/faces/member/itemDetails.xhtml?faces-redirect=true";
     }
     

@@ -19,6 +19,7 @@ import org.springframework.beans.factory.config.Scope;
  */
 public class ViewScope implements Scope {
 
+    @Override
     public Object get(String name, ObjectFactory<?> objectFactory) {
         if (FacesContext.getCurrentInstance().getViewRoot() != null) {
             Map<String, Object> viewMap = FacesContext.getCurrentInstance().getViewRoot().getViewMap();
@@ -34,6 +35,7 @@ public class ViewScope implements Scope {
         }
     }
 
+    @Override
     public Object remove(String name) {
         if (FacesContext.getCurrentInstance().getViewRoot() != null) {
             return FacesContext.getCurrentInstance().getViewRoot().getViewMap().remove(name);
@@ -42,14 +44,17 @@ public class ViewScope implements Scope {
         }
     }
 
+    @Override
     public void registerDestructionCallback(String name, Runnable callback) {
         // Do nothing
     }
 
+    @Override
     public Object resolveContextualObject(String key) {
         return null;
     }
 
+    @Override
     public String getConversationId() {
         return null;
     }
