@@ -30,7 +30,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.jsf.FacesContextUtils;
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
-import java.util.logging.Level;
+import edu.wctc.distjava.purpleproject.domain.PopularItemDto;
+import java.util.Arrays;
+import javax.faces.event.ActionEvent;
 
 /**
  *
@@ -63,15 +65,45 @@ public class DonateBean implements Serializable {
     private String sellerId;
     private String selectedCategory;
     private int fileCount;
+    private String selectedEditType;
+    private List<String> findItemTypes;
+    // re-purpose this for edit item search results page
+    private List<AuctionItem> editItemsFound;
+    private String searchPhrase;
 
     public DonateBean() {
         initDates();
+        findItemTypes = 
+            Arrays.asList(
+                "Last 7 Days", "Last 30 Days", "Last 60 Days", "Last 90 Days");
     }
     
     public String cancelDonation() {
         this.resetProperties();
         return "index";
     }
+    
+
+    public void doItemSearchForEdit(ActionEvent event) {
+        ctx = FacesContextUtils.getWebApplicationContext(
+                FacesContext.getCurrentInstance());
+        IAuctionItemService aucSrv =
+                (IAuctionItemService) ctx.getBean("auctionItemService");
+
+        if (selectedEditType.equals("Last 7 Days")) {
+            editItemsFound = 
+                    aucSrv.findItemsToEdit(searchPhrase, "Last 7 Days");
+        } else if(selectedEditType.equals("Last 30 Days")) {
+            editItemsFound = 
+                    aucSrv.findItemsToEdit(searchPhrase, "Last 30 Days");
+        } else if(selectedEditType.equals("Last 60 Days")) {
+            editItemsFound = 
+                    aucSrv.findItemsToEdit(searchPhrase, "Last 60 Days");
+        } else {
+            editItemsFound = 
+                    aucSrv.findItemsToEdit(searchPhrase, "Last 90 Days");
+        }
+    }    
 
     public String saveItem() {
         // Spring context
@@ -357,6 +389,38 @@ public class DonateBean implements Serializable {
         image5Url = null;
         selectedCategory = null;
         fileCount = 0;
+    }
+
+    public List<String> getFindItemTypes() {
+        return findItemTypes;
+    }
+
+    public void setFindItemTypes(List<String> findItemTypes) {
+        this.findItemTypes = findItemTypes;
+    }
+
+    public String getSelectedEditType() {
+        return selectedEditType;
+    }
+
+    public void setSelectedEditType(String selectedEditType) {
+        this.selectedEditType = selectedEditType;
+    }
+
+    public List<AuctionItem> getEditItemsFound() {
+        return editItemsFound;
+    }
+
+    public void setEditItemsFound(List<AuctionItem> editItemsFound) {
+        this.editItemsFound = editItemsFound;
+    }
+
+    public String getSearchPhrase() {
+        return searchPhrase;
+    }
+
+    public void setSearchPhrase(String searchPhrase) {
+        this.searchPhrase = searchPhrase;
     }
 
 }

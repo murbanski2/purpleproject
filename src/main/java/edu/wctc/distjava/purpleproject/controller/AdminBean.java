@@ -20,8 +20,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.jsf.FacesContextUtils;
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+import edu.wctc.distjava.purpleproject.domain.AuctionItemDto;
 import edu.wctc.distjava.purpleproject.domain.Authority;
 import edu.wctc.distjava.purpleproject.domain.UserTypeDecorator;
+import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -54,20 +56,10 @@ public class AdminBean implements Serializable {
     private List<AuctionItem> itemsFound;
     private List<PopularItemDto> popularItemsFound;
 
-    public AdminBean() {
-        memberTypes = new ArrayList<String>();
-        memberTypes.add("Enabled");
-        memberTypes.add("Disabled");
-        memberTypes.add("Administrator");
-
-        expireTypes = new ArrayList<String>();
-        expireTypes.add("Today");
-        expireTypes.add("This Week");
-        expireTypes.add("This Month");
-
-        popularTypes = new ArrayList<String>();
-        popularTypes.add("Curently Active");
-        popularTypes.add("All Time");
+    public AdminBean() {;
+        memberTypes = Arrays.asList("Enabled", "Disabled", "Administrator");
+        expireTypes = Arrays.asList("Today", "This Week", "This Month");
+        popularTypes = Arrays.asList("Currently Active", "All Time");
 
         ctx = FacesContextUtils.getWebApplicationContext(
                 FacesContext.getCurrentInstance());
@@ -271,5 +263,6 @@ public class AdminBean implements Serializable {
     public void setPopularItemsFound(List<PopularItemDto> popularItemsFound) {
         this.popularItemsFound = popularItemsFound;
     }
+
 
 }

@@ -33,6 +33,26 @@ public class AuctionItemDto implements Serializable {
     private String image3Url;
     private String image4Url;
     private String image5Url;
+    
+    public String getTimeRemainingSeconds() {
+        DateTime today = DateTime.now();
+        DateTime autctionEnd = new DateTime(endDate);
+
+        Period period = new Period(today, autctionEnd, PeriodType.dayTime());
+
+        // Display format varies by length of time to go
+        if(endDate == null) {
+            Calendar cEndDate = Calendar.getInstance();
+            cEndDate.add(Calendar.DATE, 7);
+            endDate = cEndDate.getTime();
+        }
+        if(endDate.before(today.toDate())) {
+            return "-1";
+        } else {
+            return ""+period.toStandardSeconds().getSeconds();
+        }
+    }    
+    
     /**
      * Use JodaTime to calculate remaining time before auction ends
      * 

@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author jlombardo
  */
 public interface IAuctionItemService extends Serializable {
+    List<AuctionItem> findItemsToEdit(String phrase, String type);
+    
     List<PopularItemDto> findByMostPopular(boolean isActive);
     
     Bid findHighestBidForItem(Integer itemId);

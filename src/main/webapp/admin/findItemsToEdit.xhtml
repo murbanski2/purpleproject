@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <h:outputStylesheet name="default.css" library="css" />
+        <h:outputStylesheet name="cssLayout.css" library="css" />
+        <link rel="SHORTCUT ICON" href="/#{msg['server.context.root']}/favicon.ico"/>
+
+        <title>bitBay Administrator :: Manage Auction Items</title>
+
+        <style type="text/css">
+            .ui-widget {
+                font-size: 100%;
+            }
+
+            .ui-datatable-scrollable-header2 {
+                height: 10px;
+            }
+
+
+            .ui-panel {
+                border:0px;
+            }
+
+            .ui-layout-north {
+                z-index:20 !important;
+                overflow:visible;
+            }
+
+            .ui-layout-north .ui-layout-unit-content {
+                overflow:visible;
+            }
+
+            .ui-layout-west {
+                z-index:20 !important;
+                overflow:visible;
+            }
+
+            .ui-layout-west .ui-layout-unit-content {
+                overflow:visible;
+            }
+
+        </style>
+
+    </h:head>
+
+    <h:body>  
+        <p:growl id="growl" sticky="false" life="7500" showDetail="true" />
+        <p:layout id="homeLayout" fullPage="true">
+            <p:layoutUnit position="north" size="25">
+                <div align="left">
+                    <p:breadCrumb>
+                        <p:menuitem value="Categories" url="#" />
+                        <p:menuitem value="bitBay Home" url="/faces/index.xhtml" />
+                        <p:menuitem value="bitBay Administration" url="/faces/admin/index.xhtml" />
+                        <p:menuitem value="Manage Auciton Items" url="#" />
+                    </p:breadCrumb>
+                </div>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="west" resizable="false" size="#{msg['nav.bar.width']}" style="z-index:3000;">
+                <ui:include src="/navBar.xhtml" />
+            </p:layoutUnit>
+
+            <p:layoutUnit id="centerPanel" position="center">         
+                <h:form id="adminMembers_form">
+                    <p:growl id="growl" sticky="false" life="3000" showDetail="true" />
+                    <p:panelGrid style="width: 100%; margin:4 auto;">
+                        <p:row>
+                            <p:column>
+                                <h2>Manage Auction Items :: Search</h2>
+                                <p>Use the search form to select a range of popular auction items to view. 
+                                    Note that only the top third of records found with the highest bid counts 
+                                    will be displayed. Some browsers do not handle the submit button on the 
+                                    first click (Chrome does!, Firefox doesn't!). You may have to click the Go button twice.
+                                </p>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="searchTxt" value="Search for Auction Items" style="font-size: larger;" />
+                                <p:spacer width="10px" />
+                                <p:selectOneMenu id="searchTxt" value="#{donateBean.selectedEditType}" style="font-size: larger;position: relative;top: 9px;">
+                                    <f:selectItem itemLabel="Select Items ..." itemValue="" />
+                                    <f:selectItems value="#{donateBean.findItemTypes}" />
+                                </p:selectOneMenu>
+                                <p:spacer width="10px" />                                 
+                                <p:commandButton id="searchBtn" value="Go" process="@form"
+                                                 actionListener="#{donateBean.doItemSearchForEdit}" 
+                                                 update="itemsFoundDt" style="position: relative;top: -2px;" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:dataTable id="itemsFoundDt" var="item" value="#{donateBean.editItemsFound}">
+                                    <f:facet name="header">
+                                        <h:outputText value="Found Items" style="font-size: larger;"/>
+                                    </f:facet>
+                                    <p:column style="width:44%; text-align: left;">
+                                        <f:facet name="header">
+                                            <h:outputText value="Title" />
+                                        </f:facet>
+                                        <h:outputText value="#{item.title}"/>
+                                    </p:column>
+                                    <p:column style="width:20%; text-align: left;">
+                                        <f:facet name="header">
+                                            <h:outputText value="Donor" />
+                                        </f:facet>
+                                        <h:outputText value="#{item.sellerId.userName}"/>
+                                    </p:column>
+                                    <p:column style="width:10%; text-align: right;">
+                                        <f:facet name="header">
+                                            <h:outputText value="Start Date" />
+                                        </f:facet>
+                                        <h:outputText value="#{item.startDate}">
+                                            <f:convertDateTime pattern="M/d/yyyy"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column style="width:10%; text-align: right;">
+                                        <f:facet name="header">
+                                            <h:outputText value="End Date" />
+                                        </f:facet>
+                                        <h:outputText value="#{item.endDate}">
+                                            <f:convertDateTime pattern="M/d/yyyy"/>
+                                        </h:outputText>
+                                    </p:column>
+
+                                </p:dataTable>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" size="50">
+                <ui:include src="/footer.xhtml" />
+            </p:layoutUnit>
+
+        </p:layout>
+    </h:body>
+
+</html>
